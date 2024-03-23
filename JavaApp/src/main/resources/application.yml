@@ -1,0 +1,7 @@
+spring:
+  data:
+    mongo:
+      uri: mongodb+srv://baothai:22042004bao@baothai.ydxrxzq.mongodb.net/?retryWrites=true&w=majority&appName=Baothai
+      database: HospitalApp
+
+  
