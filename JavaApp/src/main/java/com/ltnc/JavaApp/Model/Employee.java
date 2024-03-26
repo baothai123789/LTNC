@@ -8,7 +8,7 @@ public abstract class Employee extends Person {
    protected Certificate certificate;
    protected LocalDate workFrom;
    protected String position;
-
+   protected Double salary;
     public Employee() {
     }
 
@@ -41,4 +41,7 @@ public abstract class Employee extends Person {
         this.position = position;
     }
 
+    public Double getSalary() { return this.salary; }
+
+    public void setSalary(Double salary) { this.salary = salary; }
 }
