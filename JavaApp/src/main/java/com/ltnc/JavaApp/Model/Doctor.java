@@ -1,20 +1,20 @@
-package com.ltnc.JavaApp.Database.Model;
+package com.ltnc.JavaApp.Model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 
-@Document(collation = "Benhnhan")
+@Document(collation = "Doctor")
 
-public class Benhnhan {
+public class Doctor {
  @Id
   public String id;
 
   public String firstName;
   public String lastName;
 
-  public Benhnhan() {}
+  public Doctor() {}
 
-  public Benhnhan(String id,String firstName, String lastName) {
+  public Doctor(String id,String firstName, String lastName) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
