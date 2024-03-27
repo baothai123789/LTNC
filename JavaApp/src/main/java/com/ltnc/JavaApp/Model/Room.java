@@ -57,14 +57,7 @@ public class Room {
         this.patientList = patientList;
     }
 
-    public void addPatient(Patient patient) {
-        if (patientList.size() < capacity) {
-            patientList.add(patient);
-            System.out.println("Patient " + patient.getName() + " added to the room.");
-        } else {
-            System.out.println("Room is full. Cannot add more patients.");
-        }
-    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
