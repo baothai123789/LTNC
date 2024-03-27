@@ -1,10 +1,11 @@
 package com.ltnc.JavaApp.Model;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.time.LocalDate;
 
 
 public abstract class Employee extends Person {
-   protected String role;
+    protected String role;
    protected Certificate certificate;
    protected LocalDate workFrom;
    protected String position;
