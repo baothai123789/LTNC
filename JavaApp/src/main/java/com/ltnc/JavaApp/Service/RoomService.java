@@ -2,6 +2,7 @@ package com.ltnc.JavaApp.Service;
 
 import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.Model.Person;
+import com.ltnc.JavaApp.Model.PharmacyManager;
 import com.ltnc.JavaApp.Model.Room;
 import com.ltnc.JavaApp.Repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,6 @@ public class RoomService implements IInfomationService{
     @Autowired
     public RoomService(RoomRepository roomRepository) {
         this.roomRepository = roomRepository;
-    }
-
-    @Override
-    public Optional<Person> getData(String id) {
-        return Optional.empty();
     }
 
 
@@ -52,5 +48,13 @@ public class RoomService implements IInfomationService{
 
     public Room getRoomById(String roomId) {
         return roomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room not found"));
+    }
+    public void printIDRoom(){
+        System.out.println(roomRepository.toString());
+    }
+
+    @Override
+    public Optional<Person> getData(String id) {
+        return Optional.empty();
     }
 }
