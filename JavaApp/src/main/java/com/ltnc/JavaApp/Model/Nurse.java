@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "Nurse")
 public class Nurse extends Employee {
     @Id
-    private String Id;
+    private String id;
 
     public Nurse() {
         this.role = "Nurse";
@@ -14,11 +14,11 @@ public class Nurse extends Employee {
 
     @Override
     public String getId() {
-        return Id;
+        return id;
     }
 
     @Override
     public void setId(String id) {
-        Id = id;
+        this.id = id;
     }
 }

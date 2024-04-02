@@ -3,6 +3,9 @@ package com.ltnc.JavaApp.Service;
 import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.Employee;
 import com.ltnc.JavaApp.Repository.DoctorRepository;
+
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +14,7 @@ public class DoctorCreateUserService implements IEmployeeCreateUserService {
     @Autowired
     private DoctorRepository repository;
     public String createUser(Employee newemployee){
+        newemployee.setId(UUID.randomUUID().toString());
         try {
             repository.save((Doctor) newemployee);
         }
