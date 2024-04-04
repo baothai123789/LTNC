@@ -16,6 +16,7 @@ public class Certificate {
         return time;
     }
 
+
     public void setTime(String time) {
         this.time = LocalDate.parse(time);
     }
@@ -36,7 +37,10 @@ public class Certificate {
         this.department = department;
     }
 
-    public Certificate(String department, String major, LocalDate time) {
+    public Certificate(String department, String major, String time) {
+        this.department = department;
+        this.major = major;
+        this.time = LocalDate.parse(time);
     }
 
 }

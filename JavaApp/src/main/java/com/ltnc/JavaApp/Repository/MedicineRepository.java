@@ -1,9 +1,8 @@
 package com.ltnc.JavaApp.Repository;
 
-import com.ltnc.JavaApp.Model.Nurse;
 import org.springframework.data.mongodb.repository.MongoRepository;
-
 import org.springframework.stereotype.Component;
+
 @Component
-public interface NurseRepository extends MongoRepository<Nurse,String> {
+public interface MedicineRepository extends MongoRepository<MedicineRepository,String>{
 }

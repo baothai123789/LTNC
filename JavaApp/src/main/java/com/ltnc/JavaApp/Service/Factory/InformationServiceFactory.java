@@ -18,7 +18,7 @@ public class InformationServiceFactory {
             User.patient,"PatientInformationService",User.doctor,"DoctorInformationService"));
     public Optional<IInfomationService> getInfomationService(String type){
         return services.stream().filter(service->service.getClass()
-                .getSimpleName().equalsIgnoreCase(serviceType.get(User.valueOf(type))))
+                .getSimpleName().equalsIgnoreCase(serviceType.get(User.valueOf(type.toLowerCase()))))
                 .findFirst();
     }
 
