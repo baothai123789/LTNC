@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "Patient")
-public class Patient extends Person {
+public class Patient extends Person  implements MedicalDetailGetter{
     @Id
     private String id;
     private List<MedicalRecord> medicalrecord=new ArrayList<>();

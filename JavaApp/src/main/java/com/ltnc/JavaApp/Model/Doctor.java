@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "Doctor")
-public class Doctor extends Employee {
+public class Doctor extends Employee implements MedicalDetailGetter {
     @Id
     private String id;
     private String major;
@@ -18,14 +18,16 @@ public class Doctor extends Employee {
 
     public Doctor() {
     }
-    public Doctor(String id){
-        this.role="doctor";
-    }
-
     public String getId() {
         return this.id;
     }
-
+    @Override
+    public void setRole(String role){
+        this.role="doctor";
+    }
+    public String getRole(){
+        return "doctor";
+    }
     public void setId(String id) {
         this.id = id;
     }
@@ -37,18 +39,10 @@ public class Doctor extends Employee {
     public void setMajor(String major) {
         this.major = major;
     }
-    @Override
-    public void setRole(String role){
-    }
-
     public List<MedicalDetail> getMedicalDetails() {
         return medicalDetails;
     }
     public void addMedicalDetail(MedicalDetail newdetail){
         this.medicalDetails.add(newdetail);
-    }
-
-    public String getRole(){
-        return "doctor";
     }
 }

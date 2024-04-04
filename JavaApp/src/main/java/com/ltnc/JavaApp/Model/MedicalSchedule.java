@@ -2,13 +2,15 @@ package com.ltnc.JavaApp.Model;
 
 import java.time.LocalDate;
 
+
+
 public class MedicalSchedule {
     private LocalDate time;
     private String detail;
     private boolean done;
 
-    public MedicalSchedule(String time,String detail,boolean done) {
-        this.time = LocalDate.parse(time);
+    public MedicalSchedule(LocalDate time,String detail,boolean done) {
+        this.time = time;
         this.detail=detail;
         this.done=done;
     }
@@ -20,7 +22,6 @@ public class MedicalSchedule {
     public void setDone(boolean done) {
         this.done = done;
     }
-
     public String getDetail() {
         return detail;
     }
@@ -42,7 +43,7 @@ public class MedicalSchedule {
                 '}';
     }
 
-    public void setTime(String time) {
-        this.time = LocalDate.parse(time);
+    public void setTime(LocalDate time) {
+        this.time = time;
     }
 }

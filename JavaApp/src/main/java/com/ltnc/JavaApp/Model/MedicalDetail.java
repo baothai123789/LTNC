@@ -1,5 +1,7 @@
 package com.ltnc.JavaApp.Model;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
@@ -15,7 +17,7 @@ public class MedicalDetail {
     private String PatientState;
     private boolean inProgress;
     private Prescription prescription;
-    private MedicalSchedule medicalSchedule;
+    private List<MedicalSchedule> medicalSchedules;
 
     public MedicalDetail() {
     }
@@ -71,14 +73,14 @@ public class MedicalDetail {
         this.prescription = prescription;
     }
 
-    public MedicalSchedule getMedicalSchedule() {
-        return medicalSchedule;
+    public List<MedicalSchedule> getMedicalSchedules() {
+        return medicalSchedules;
     }
 
-    public void setMedicalSchedule(MedicalSchedule medicalSchedule) {
-        this.medicalSchedule = medicalSchedule;
+    public void setMedicalSchedules(List<MedicalSchedule> medicalSchedule) {
+        this.medicalSchedules = medicalSchedule;
     }
-
+    
     @Override
     public String toString() {
         return "MedicalDetail{" +
@@ -88,7 +90,7 @@ public class MedicalDetail {
                 ", PatientState='" + PatientState + '\'' +
                 ", inProgress=" + inProgress +
                 ", prescription=" + prescription +
-                ", medicalSchedule=" + medicalSchedule +
+                ", medicalSchedule=" + medicalSchedules +
                 '}';
     }
 }

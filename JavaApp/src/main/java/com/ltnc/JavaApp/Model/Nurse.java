@@ -9,7 +9,14 @@ public class Nurse extends Employee {
     private String id;
 
     public Nurse() {
-        this.role = "Nurse";
+        this.role = "nurse";
+    }
+    @Override
+    public void setRole(String role){
+        this.role = "nurse";
+    }
+    public String getRole(){
+        return "nurse";
     }
 
     @Override

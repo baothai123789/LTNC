@@ -44,10 +44,6 @@ public abstract class Employee extends Person {
         return this.workFrom;
     }
 
-    public void setWorkFrom(String workFrom) {
-        this.workFrom = LocalDate.parse(workFrom);
-    }
-
     public String getPosition() {
         return this.position;
     }
