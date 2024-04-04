@@ -5,10 +5,12 @@ import com.ltnc.JavaApp.Model.MedicalDetail;
 import com.ltnc.JavaApp.Model.MedicalSchedule;
 import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.Model.Prescription;
+import com.ltnc.JavaApp.Model.Schedule;
 import com.ltnc.JavaApp.RequestModel.CreateMedicalDetailModel;
 import com.ltnc.JavaApp.RequestModel.MedicalDetailInfo;
 import com.ltnc.JavaApp.Service.CreateMedicalDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.config.UUidRepresentationPropertyEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import com.ltnc.JavaApp.Service.ICreateMedicalDetailService;
 import com.ltnc.JavaApp.Service.IEditMedicalDetailService;
 import com.ltnc.JavaApp.Service.IGetMedicalDetailService;
 import com.ltnc.JavaApp.Service.IInfomationService;
+import com.ltnc.JavaApp.Service.ScheduleService;
 import com.ltnc.JavaApp.Service.Factory.InformationServiceFactory;
 
 import java.util.ArrayList;
@@ -23,6 +26,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
+
 import com.ltnc.JavaApp.MyApp;
 @RestController
 @RequestMapping("/medicaldetail")
@@ -33,6 +38,8 @@ public class MedicalDetailController {
     private IEditMedicalDetailService editservice;
     @Autowired
     private InformationServiceFactory informationServiceFactory;
+    @Autowired
+    ScheduleService scheduleService;
 
     @Autowired
     IGetMedicalDetailService getMedicalDetailService;
@@ -45,6 +52,14 @@ public class MedicalDetailController {
         MedicalDetail detail = createMedicalDetailModel.getDetail();
         MedicalDetailInfo info = createMedicalDetailModel.getInfo();
         String message=createservice.createMedicalDetail(detail,info.getPatientId(),info.getDoctorId());
+        if(message.equalsIgnoreCase("success"))
+        {
+            detail.getMedicalSchedules().stream().forEach(
+                schedule->scheduleService.addSchedule(
+                    new Schedule(UUID.randomUUID().toString(),schedule.getTime().toLocalDate(),schedule.getTime().getHour(),
+                    info.getPatientId(),info.getDoctorId(),"Tai kham"))
+            );
+        }
         return new ResponseEntity<>(new HashMap<>(Map.of("message",message)),message.equalsIgnoreCase("success")?
                 HttpStatus.OK:HttpStatus.NOT_ACCEPTABLE);
     }
