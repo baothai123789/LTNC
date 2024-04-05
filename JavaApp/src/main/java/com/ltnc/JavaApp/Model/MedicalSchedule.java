@@ -1,20 +1,24 @@
 package com.ltnc.JavaApp.Model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
 
-public class MedicalSchedule {
+
+public class MedicalSchedule{
+
     private LocalDateTime time;
     private String detail;
     private boolean done;
 
-    public MedicalSchedule(LocalDateTime time,String detail,boolean done) {
-        this.time = time;
-        this.detail=detail;
-        this.done=done;
-    }
+
+    public MedicalSchedule(){}
 
     public boolean isDone() {
         return done;
@@ -45,6 +49,7 @@ public class MedicalSchedule {
     }
 
     public void setTime(LocalDateTime time) {
+
         this.time = time;
     }
 }

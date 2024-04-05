@@ -2,33 +2,28 @@ package com.ltnc.JavaApp.Controller;
 
 import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.MedicalDetail;
-import com.ltnc.JavaApp.Model.MedicalSchedule;
 import com.ltnc.JavaApp.Model.Patient;
-import com.ltnc.JavaApp.Model.Prescription;
 import com.ltnc.JavaApp.Model.Schedule;
-import com.ltnc.JavaApp.RequestModel.CreateMedicalDetailModel;
-import com.ltnc.JavaApp.RequestModel.MedicalDetailInfo;
-import com.ltnc.JavaApp.Service.CreateMedicalDetailService;
+import com.ltnc.JavaApp.MyApp;
+import com.ltnc.JavaApp.RequestModel.MedicalDetail.CreateMedicalDetailModel;
+import com.ltnc.JavaApp.RequestModel.MedicalDetail.MedicalDetailInfo;
+import com.ltnc.JavaApp.Service.InformationService.Interface.IInfomationService;
+import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.ICreateMedicalDetailService;
+import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IEditMedicalDetailService;
+import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IGetMedicalDetailService;
+import com.ltnc.JavaApp.Service.ScheduleService.Interface.IAddScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.config.UUidRepresentationPropertyEditor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.ltnc.JavaApp.Service.ICreateMedicalDetailService;
-import com.ltnc.JavaApp.Service.IEditMedicalDetailService;
-import com.ltnc.JavaApp.Service.IGetMedicalDetailService;
-import com.ltnc.JavaApp.Service.IInfomationService;
-import com.ltnc.JavaApp.Service.ScheduleService;
-import com.ltnc.JavaApp.Service.Factory.InformationServiceFactory;
+import com.ltnc.JavaApp.Service.InformationService.Factory.InformationServiceFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
-import com.ltnc.JavaApp.MyApp;
 @RestController
 @RequestMapping("/medicaldetail")
 public class MedicalDetailController {
@@ -39,7 +34,7 @@ public class MedicalDetailController {
     @Autowired
     private InformationServiceFactory informationServiceFactory;
     @Autowired
-    ScheduleService scheduleService;
+    IAddScheduleService addScheduleService;
 
     @Autowired
     IGetMedicalDetailService getMedicalDetailService;
@@ -54,8 +49,8 @@ public class MedicalDetailController {
         String message=createservice.createMedicalDetail(detail,info.getPatientId(),info.getDoctorId());
         if(message.equalsIgnoreCase("success"))
         {
-            detail.getMedicalSchedules().stream().forEach(
-                schedule->scheduleService.addSchedule(
+            detail.getMedicalSchedules().forEach(
+                schedule->addScheduleService.addSchedule(
                     new Schedule(UUID.randomUUID().toString(),schedule.getTime().toLocalDate(),schedule.getTime().getHour(),
                     info.getPatientId(),info.getDoctorId(),"Tai kham"))
             );

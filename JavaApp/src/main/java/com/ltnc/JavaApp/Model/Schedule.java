@@ -6,6 +6,7 @@ import java.util.Date;
 import org.springframework.cglib.core.Local;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document("Schedule")
@@ -15,7 +16,9 @@ public class Schedule {
     @Indexed
     private LocalDate date;
     private Integer time;
+    @DBRef
     private String patientd;
+    @DBRef
     private String doctorid;
     private String detail;
     public Schedule(String id, LocalDate date, Integer time, String patient, String doctor, String detail) {
