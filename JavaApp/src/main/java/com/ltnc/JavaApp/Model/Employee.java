@@ -1,15 +1,22 @@
 package com.ltnc.JavaApp.Model;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import java.time.LocalDate;
 
-
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,include = JsonTypeInfo.As.PROPERTY,property = "role")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Doctor.class, name = "doctor"),
+        @JsonSubTypes.Type(value = Nurse.class, name = "nurse")
+})
 public abstract class Employee extends Person {
     protected String role;
-   protected Certificate certificate;
-   protected LocalDate workFrom;
-   protected String position;
-   protected Double salary;
+    protected Certificate certificate;
+    protected LocalDate workFrom;
+    protected String position;
+
     public Employee() {
     }
 
@@ -30,8 +37,8 @@ public abstract class Employee extends Person {
         return this.workFrom;
     }
 
-    public void setWorkFrom(LocalDate workFrom) {
-        this.workFrom = workFrom;
+    public void setWorkFrom(String workFrom) {
+        this.workFrom = LocalDate.parse(workFrom);
     }
 
     public String getPosition() {
@@ -42,7 +49,4 @@ public abstract class Employee extends Person {
         this.position = position;
     }
 
-    public Double getSalary() { return this.salary; }
-
-    public void setSalary(Double salary) { this.salary = salary; }
 }

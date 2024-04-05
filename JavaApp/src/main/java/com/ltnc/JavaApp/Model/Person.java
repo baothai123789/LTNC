@@ -11,6 +11,10 @@ public abstract class Person {
     public Person() {
     }
 
+    public abstract String getId();
+
+    public abstract void setId(String id);
+
     public String getName() {
         return this.name;
     }

@@ -10,5 +10,7 @@ public class FinancialEmployee extends FunctionalEmployee {
 
     public FinancialEmployee() {
         this.role = "FinancialEmployee";
+        this.part = "Financial";
     }
+
 }

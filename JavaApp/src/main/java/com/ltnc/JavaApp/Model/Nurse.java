@@ -12,4 +12,14 @@ public class Nurse extends Employee {
         this.role = "Nurse";
     }
 
+    @Override
+    public String getId() {
+        return null;
+    }
+
+    @Override
+    public void setId(String id) {
+
+    }
+
 }
