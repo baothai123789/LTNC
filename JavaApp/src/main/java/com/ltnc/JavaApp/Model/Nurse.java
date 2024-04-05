@@ -1,8 +1,14 @@
 package com.ltnc.JavaApp.Model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+@EqualsAndHashCode(callSuper = true)
+@Data
+@AllArgsConstructor
 @Document(collection = "Nurse")
 public class Nurse extends Employee {
     @Id
@@ -12,20 +18,12 @@ public class Nurse extends Employee {
         this.role = "nurse";
     }
     @Override
-    public void setRole(String role){
-        this.role = "nurse";
-    }
     public String getRole(){
         return "nurse";
     }
-
-    @Override
-    public String getId() {
-        return id;
-    }
-
     @Override
     public void setId(String id) {
         this.id = id;
     }
+    public String getId(){return id;}
 }

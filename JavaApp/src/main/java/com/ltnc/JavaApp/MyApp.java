@@ -14,8 +14,6 @@ import java.util.Arrays;
 
 
 @SpringBootApplication
-
-
 public class MyApp {
 
     public static final Logger LOGGER = LogManager.getLogger(MyApp.class);

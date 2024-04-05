@@ -2,37 +2,33 @@ package com.ltnc.JavaApp.Model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.MedicalDetailModel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "Patient")
-public class Patient extends Person  implements MedicalDetailGetter{
+public class Patient extends Person  implements MedicalDetailModel {
     @Id
     private String id;
     private List<MedicalRecord> medicalrecord=new ArrayList<>();
 
     @DBRef
     List<MedicalDetail> medicalDetails=new ArrayList<>();
-    public Patient() {}
-    public Patient(String id){}
 
-    public String getId() {
-        return this.id;
+    @Override
+    public void addMedicalDetail(MedicalDetail medicalDetail) {
+        this.medicalDetails.add(medicalDetail);
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public List<MedicalRecord> getMedicalrecord() {
-        return this.medicalrecord;
-    }
-
+    @Override
     public List<MedicalDetail> getMedicalDetails() {
         return medicalDetails;
-    }
-    public void addMedicalDetail(MedicalDetail newdetail){
-        this.medicalDetails.add(newdetail);
     }
 }

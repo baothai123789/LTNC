@@ -47,14 +47,6 @@ public class MedicalDetailController {
         MedicalDetail detail = createMedicalDetailModel.getDetail();
         MedicalDetailInfo info = createMedicalDetailModel.getInfo();
         String message=createservice.createMedicalDetail(detail,info.getPatientId(),info.getDoctorId());
-        if(message.equalsIgnoreCase("success"))
-        {
-            detail.getMedicalSchedules().forEach(
-                schedule->addScheduleService.addSchedule(
-                    new Schedule(UUID.randomUUID().toString(),schedule.getTime().toLocalDate(),schedule.getTime().getHour(),
-                    info.getPatientId(),info.getDoctorId(),"Tai kham"))
-            );
-        }
         return new ResponseEntity<>(new HashMap<>(Map.of("message",message)),message.equalsIgnoreCase("success")?
                 HttpStatus.OK:HttpStatus.NOT_ACCEPTABLE);
     }

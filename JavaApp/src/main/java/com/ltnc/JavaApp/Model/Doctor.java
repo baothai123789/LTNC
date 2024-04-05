@@ -1,48 +1,39 @@
 package com.ltnc.JavaApp.Model;
 
+import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.MedicalDetailModel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
-
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "Doctor")
-public class Doctor extends Employee implements MedicalDetailGetter {
+public class Doctor extends Employee implements MedicalDetailModel {
     @Id
     private String id;
     private String major;
     @DBRef
     private List<MedicalDetail> medicalDetails=new ArrayList<>();
-
-    public Doctor() {
-    }
-    public String getId() {
-        return this.id;
+    @Override
+    public String getId() {return id;}
+    @Override
+    public void setId(String id) {this.id = id;}
+    @Override
+    public String getRole() {return "doctor";}
+    @Override
+    public void addMedicalDetail(MedicalDetail medicalDetail) {
+        this.medicalDetails.add(medicalDetail);
     }
     @Override
-    public void setRole(String role){
-        this.role="doctor";
-    }
-    public String getRole(){
-        return "doctor";
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getMajor() {
-        return this.major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major;
-    }
     public List<MedicalDetail> getMedicalDetails() {
-        return medicalDetails;
-    }
-    public void addMedicalDetail(MedicalDetail newdetail){
-        this.medicalDetails.add(newdetail);
+        return this.medicalDetails;
     }
 }

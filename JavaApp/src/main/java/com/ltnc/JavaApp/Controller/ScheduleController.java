@@ -2,6 +2,7 @@ package com.ltnc.JavaApp.Controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.ltnc.JavaApp.Model.Schedule;
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.IGetDoctorScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
