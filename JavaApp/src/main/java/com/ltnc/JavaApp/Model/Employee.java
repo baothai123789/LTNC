@@ -24,6 +24,13 @@ public abstract class Employee extends Person {
         return this.role;
     }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setWorkFrom(LocalDate workFrom) {
+        this.workFrom = workFrom;
+    }
 
     public Certificate getCertificate() {
         return this.certificate;
@@ -35,10 +42,6 @@ public abstract class Employee extends Person {
 
     public LocalDate getWorkFrom() {
         return this.workFrom;
-    }
-
-    public void setWorkFrom(String workFrom) {
-        this.workFrom = LocalDate.parse(workFrom);
     }
 
     public String getPosition() {
