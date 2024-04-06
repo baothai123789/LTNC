@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.repository.Query;
 import com.ltnc.JavaApp.Model.Schedule;
 
 public interface ScheduleRepository extends MongoRepository<Schedule,String> {
-    @Query("{'$and':[{'date':{$eq:?0}},{'doctor':?1}]}")
-    List<Schedule> findbyDateandDoctor(LocalDate date,String doctorid);
+
+    @Query("{'$and':[{'date': '?0'},{'_id':'?1'}]}")
+    List<Schedule> findbyDateandId(LocalDate date,String id);
 }

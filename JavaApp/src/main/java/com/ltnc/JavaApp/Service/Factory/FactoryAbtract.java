@@ -11,10 +11,10 @@ import org.springframework.stereotype.Component;
 public abstract class  FactoryAbtract<T> {
     @Autowired
     List<T> services;
-    protected EnumMap<Employee, String> serviceType;
+    protected EnumMap<User, String> serviceType;
     public Optional<T> getService(String type){
         return services.stream().filter(service->service.getClass()
-                        .getSimpleName().equalsIgnoreCase(serviceType.get(Employee.valueOf(type))))
+                        .getSimpleName().equalsIgnoreCase(serviceType.get(User.valueOf(type))))
                         .findFirst();
     }
 

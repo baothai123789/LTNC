@@ -19,4 +19,5 @@ public abstract class Person {
     public abstract String getId();
 
     public abstract void setId(String id);
+    public abstract String getRole();
 }

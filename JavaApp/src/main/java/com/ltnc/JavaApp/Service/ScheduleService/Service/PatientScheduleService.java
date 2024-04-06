@@ -6,59 +6,45 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
-import com.ltnc.JavaApp.Model.Doctor;
-import com.ltnc.JavaApp.MyApp;
-import com.ltnc.JavaApp.Repository.DoctorRepository;
-import com.ltnc.JavaApp.Service.ScheduleService.Interface.IAddScheduleService;
-import com.ltnc.JavaApp.Service.ScheduleService.Interface.IFindDoctorbyMajorService;
-import com.ltnc.JavaApp.Service.ScheduleService.Interface.IGetDoctorScheduleService;
+import com.ltnc.JavaApp.Service.ScheduleService.DTO.PatientScheduleDTO;
+import com.ltnc.JavaApp.Service.ScheduleService.Factory.ScheduleManageServiceFactory;
+
+import com.ltnc.JavaApp.Service.ScheduleService.Interface.IPatientScheduleService;
+import com.ltnc.JavaApp.Service.ScheduleService.Interface.IScheduleManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.ltnc.JavaApp.Model.Schedule;
-import com.ltnc.JavaApp.Repository.ScheduleRepository;
 @Component
-public class PatientScheduleService implements IFindDoctorbyMajorService, IGetDoctorScheduleService, IAddScheduleService {
+public class PatientScheduleService implements IPatientScheduleService {
     @Autowired
-    ScheduleRepository repository;
-    @Autowired
-    DoctorRepository doctorRepository;
+    ScheduleManageServiceFactory scheduleManageServiceFactory;
 
-    private List<Schedule> getDoctorSchedulebyDate(String doctorid,LocalDate date){
-        return repository.findbyDateandDoctor(date, doctorid);
-    }
-    @Override
-    public String addSchedule(Schedule newSchedule){
-        newSchedule.setId(UUID.randomUUID().toString());
-        try{
-            repository.save(newSchedule);
-        }
-        catch (Exception e){
-            MyApp.LOGGER.info(e.getMessage());
-            return "fail";
-        }
-        return "success";
-    }
-    @Override
-    public List<Integer> getDoctorSchedule(String doctorid,LocalDate date){
-        List<Schedule> schedules = getDoctorSchedulebyDate(doctorid,date);
-        Boolean[] time = new Boolean[24];
-        Arrays.fill(time,true);
-        for(int i=0;i<8;++i){
-            time[i]=false;
-        }
-        for(int i = 16; i<24;i++){
-            time[i]=false;
-        }
-        for(Schedule schedule:schedules){
-            time[schedule.getTime()]=false;
-        }
-        return IntStream.range(1,24).boxed().filter(i->Arrays.asList(time).get(i)).toList();
+    private List<Integer> getDoctorSchedule(List<Schedule> schedules) {
 
+            Boolean[] time=new Boolean[24];
+            Arrays.fill(time,true);
+            for(Schedule schedule:schedules) {
+                int startTime = schedule.getStartTime()-1;
+                int endTime = schedule.getEndTime();
+                while (startTime<endTime) {
+                    time[startTime] = false;
+                    startTime++;
+                }
+            }
+            return IntStream.range(8,17).boxed().filter(i->time[i-1]&&(i<11|i>13)).toList();
     }
 
     @Override
-    public List<Doctor> findDoctor(String major) {
-        return doctorRepository.findByMajor(major);
+    public PatientScheduleDTO patientSchedule(LocalDate date, String doctorId,String patientId) throws NullPointerException {
+        IScheduleManageService doctorSchedule = scheduleManageServiceFactory.getService("doctor").get();
+        IScheduleManageService patientSchedule = scheduleManageServiceFactory.getService("patient").get();
+        List<Integer> doctorTime = getDoctorSchedule(doctorSchedule.getSchedulesbyDate(doctorId,date));
+        if(doctorTime.isEmpty()) return null;
+        Schedule newschedule = new Schedule(UUID.randomUUID().toString(),date,doctorTime.get(0),doctorTime.get(0)+1,"kham benh");
+        doctorSchedule.addSchedule(newschedule,doctorId);
+        patientSchedule.addSchedule(newschedule,patientId);
+        return new PatientScheduleDTO(newschedule.getId(), newschedule.getStartTime(),date,doctorId);
     }
 }
+

@@ -19,7 +19,6 @@ import java.time.LocalDate;
         @JsonSubTypes.Type(value = Nurse.class, name = "nurse")
 })
 public abstract class Employee extends Person {
-   protected String role;
    protected Certificate certificate;
    protected LocalDate workFrom;
    protected String position;

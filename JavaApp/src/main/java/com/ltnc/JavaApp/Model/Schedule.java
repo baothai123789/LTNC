@@ -16,10 +16,7 @@ public class Schedule {
     private String id;
     @Indexed
     private LocalDate date;
-    private Integer time;
-    @DBRef
-    private Patient patient;
-    @DBRef
-    private Doctor doctor;
+    private Integer startTime;
+    private Integer endTime;
     private String detail;
 }

@@ -3,15 +3,12 @@ package com.ltnc.JavaApp.Controller;
 import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.MedicalDetail;
 import com.ltnc.JavaApp.Model.Patient;
-import com.ltnc.JavaApp.Model.Schedule;
-import com.ltnc.JavaApp.MyApp;
 import com.ltnc.JavaApp.RequestModel.MedicalDetail.CreateMedicalDetailModel;
 import com.ltnc.JavaApp.RequestModel.MedicalDetail.MedicalDetailInfo;
 import com.ltnc.JavaApp.Service.InformationService.Interface.IInfomationService;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.ICreateMedicalDetailService;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IEditMedicalDetailService;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IGetMedicalDetailService;
-import com.ltnc.JavaApp.Service.ScheduleService.Interface.IAddScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/medicaldetail")
@@ -33,8 +29,7 @@ public class MedicalDetailController {
     private IEditMedicalDetailService editservice;
     @Autowired
     private InformationServiceFactory informationServiceFactory;
-    @Autowired
-    IAddScheduleService addScheduleService;
+
 
     @Autowired
     IGetMedicalDetailService getMedicalDetailService;

@@ -1,11 +1,9 @@
 package com.ltnc.JavaApp.Model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+@Getter
 @EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
@@ -14,9 +12,7 @@ public class Nurse extends Employee {
     @Id
     private String id;
 
-    public Nurse() {
-        this.role = "nurse";
-    }
+    public Nurse() {}
     @Override
     public String getRole(){
         return "nurse";
@@ -25,5 +21,4 @@ public class Nurse extends Employee {
     public void setId(String id) {
         this.id = id;
     }
-    public String getId(){return id;}
 }

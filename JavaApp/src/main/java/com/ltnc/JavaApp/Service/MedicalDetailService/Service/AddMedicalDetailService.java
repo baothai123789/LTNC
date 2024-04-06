@@ -3,20 +3,17 @@ package com.ltnc.JavaApp.Service.MedicalDetailService.Service;
 import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.MedicalDetail;
 import com.ltnc.JavaApp.Model.Patient;
-import com.ltnc.JavaApp.MyApp;
 import com.ltnc.JavaApp.Repository.DoctorRepository;
 import com.ltnc.JavaApp.Repository.PatientRepository;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IAddMedicalDetailService;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.MedicalDetailModel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
-import java.security.KeyPair;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Component
 public class AddMedicalDetailService implements IAddMedicalDetailService {
