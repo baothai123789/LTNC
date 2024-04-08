@@ -9,7 +9,6 @@ public class Nurse extends Employee {
     private String Id;
 
     public Nurse() {
-        this.role = "Nurse";
     }
 
     @Override
@@ -20,6 +19,11 @@ public class Nurse extends Employee {
     @Override
     public void setId(String id) {
 
+    }
+
+    @Override
+    public String getRole() {
+        return "";
     }
 
 }

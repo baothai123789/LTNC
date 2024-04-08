@@ -20,6 +20,11 @@ public class FunctionalEmployee extends  Employee{
 
     }
 
+    @Override
+    public String getRole() {
+        return "";
+    }
+
     public String getPart() {
         return part;
     }

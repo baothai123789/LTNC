@@ -1,31 +1,63 @@
 package com.ltnc.JavaApp.Model;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.MedicalDetailModel;
+import com.ltnc.JavaApp.Service.ScheduleService.Interface.ScheduleModel;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "Patient")
-public class Patient extends Person {
+public class Patient extends Person  implements MedicalDetailModel, ScheduleModel {
     @Id
     private String id;
-    private List<MedicalRecord> medicalrecord;
+    private List<MedicalRecord> medicalRecords=new ArrayList<>();
 
-    public Patient() {
+    @DBRef
+    List<MedicalDetail> medicalDetails= new ArrayList<>();
+    @DBRef
+    List<Schedule> schedules= new ArrayList<>();
+
+    @Override
+    public void addMedicalDetail(MedicalDetail medicalDetail) {
+        this.medicalDetails.add(medicalDetail);
+    }
+    @Override
+    public List<MedicalDetail> getMedicalDetails() {
+        return medicalDetails;
+    }
+    @Override
+    public String getRole(){
+        return "patient";
     }
 
-    public String getId() {
-        return this.id;
+    @Override
+    public void addSchedule(Schedule newschedule) {
+        this.schedules.add(newschedule);
     }
 
-    public void setId(String id) {
-        this.id = id;
+    @Override
+    public List<Schedule> getSchedules() {
+        return this.schedules;
     }
 
-    public List<MedicalRecord> getMedicalrecord() {
-        return this.medicalrecord;
-    }
-
-    public void setMedicalrecord(List<MedicalRecord> medicalrecord) {
-        this.medicalrecord = medicalrecord;
+    @Override
+    public void removeSchedule(String scheduleId) {
+        int i = 0;
+        for(Schedule schedule:schedules){
+            if(schedule.getId().equals(scheduleId)){
+                this.schedules.remove(i);
+                break;
+            }
+            i++;
+        }
     }
 }
