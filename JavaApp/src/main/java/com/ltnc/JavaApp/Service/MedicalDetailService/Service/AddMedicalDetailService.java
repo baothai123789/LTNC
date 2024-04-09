@@ -1,5 +1,7 @@
 package com.ltnc.JavaApp.Service.MedicalDetailService.Service;
 
+import java.util.List;
+import java.util.ArrayList;
 import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.MedicalDetail;
 import com.ltnc.JavaApp.Model.Patient;
@@ -10,18 +12,13 @@ import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.MedicalDetailMode
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-
 @Component
 public class AddMedicalDetailService implements IAddMedicalDetailService {
     @Autowired
     DoctorRepository doctorRepository;
     @Autowired
     PatientRepository patientRepository;
-    private void addDetail(MedicalDetailModel medicalDetailModel,MedicalDetail medicalDetail) {
+    private void addDetail(MedicalDetailModel medicalDetailModel, MedicalDetail medicalDetail) {
         medicalDetailModel.addMedicalDetail(medicalDetail);
     }
     @Override

@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface IPatientScheduleService {
     public PatientScheduleDTO patientSchedule(LocalDate date,String doctorid,String patientid) throws NullPointerException;
+
 }

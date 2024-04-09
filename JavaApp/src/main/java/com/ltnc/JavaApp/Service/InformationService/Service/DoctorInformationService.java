@@ -3,12 +3,12 @@ import com.ltnc.JavaApp.MyApp;
 import java.util.Optional;
 
 
+import com.ltnc.JavaApp.Repository.DoctorRepository;
 import com.ltnc.JavaApp.Service.InformationService.Interface.IInfomationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
 import com.ltnc.JavaApp.Model.Person;
-import com.ltnc.JavaApp.Repository.DoctorRepository;
 import org.springframework.stereotype.Component;
 
 @Component

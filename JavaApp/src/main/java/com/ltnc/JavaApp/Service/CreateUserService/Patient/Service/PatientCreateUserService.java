@@ -9,8 +9,9 @@ import java.util.UUID;
 import com.ltnc.JavaApp.Service.CreateUserService.Patient.Interface.IPatientCreateUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class PatientCreateUserService implements IPatientCreateUserService {
     @Autowired
     private PatientRepository repository;

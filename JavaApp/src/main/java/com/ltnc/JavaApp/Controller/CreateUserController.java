@@ -8,10 +8,7 @@ import com.ltnc.JavaApp.Service.CreateUserService.Patient.Service.PatientCreateU
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,9 +30,9 @@ public class CreateUserController {
         response.put("message",message);
         return response;
     }
-    @PostMapping("/employee")
-    ResponseEntity<Map<String,String>> createEmployee(@RequestBody Employee newemployee){
-        Optional<IEmployeeCreateUserService> service = createemployeefactory.getService(newemployee.getRole());
+    @PostMapping("/employee/{type}")
+    ResponseEntity<Map<String,String>> createEmployee(@RequestBody Employee newemployee, @PathVariable String type){
+        Optional<IEmployeeCreateUserService> service = createemployeefactory.getService(type);
         String message;
         if(service.isPresent()){
             message=service.get().createUser(newemployee);

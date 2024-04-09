@@ -6,19 +6,24 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
+import com.ltnc.JavaApp.Model.Doctor;
+import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.PatientScheduleDTO;
-import com.ltnc.JavaApp.Service.ScheduleService.Factory.ScheduleManageServiceFactory;
 
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.IPatientScheduleService;
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.IScheduleManageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import com.ltnc.JavaApp.Model.Schedule;
-@Component
+import org.springframework.stereotype.Service;
+
+import javax.print.Doc;
+
+@Service
 public class PatientScheduleService implements IPatientScheduleService {
     @Autowired
-    ScheduleManageServiceFactory scheduleManageServiceFactory;
+    ScheduleMangeService scheduleMangeService;
+
 
     private List<Integer> getDoctorSchedule(List<Schedule> schedules) {
 
@@ -37,13 +42,12 @@ public class PatientScheduleService implements IPatientScheduleService {
 
     @Override
     public PatientScheduleDTO patientSchedule(LocalDate date, String doctorId,String patientId) throws NullPointerException {
-        IScheduleManageService doctorSchedule = scheduleManageServiceFactory.getService("doctor").get();
-        IScheduleManageService patientSchedule = scheduleManageServiceFactory.getService("patient").get();
-        List<Integer> doctorTime = getDoctorSchedule(doctorSchedule.getSchedulesbyDate(doctorId,date));
+        List<Schedule> doctorSchedule = scheduleMangeService.getSchedulesbyDate(doctorId,date,"doctor");
+        List<Integer> doctorTime = getDoctorSchedule(doctorSchedule);
         if(doctorTime.isEmpty()) return null;
         Schedule newschedule = new Schedule(UUID.randomUUID().toString(),date,doctorTime.get(0),doctorTime.get(0)+1,"kham benh");
-        doctorSchedule.addSchedule(newschedule,doctorId);
-        patientSchedule.addSchedule(newschedule,patientId);
+        scheduleMangeService.addSchedule(newschedule,doctorId,"doctor");
+        scheduleMangeService.addSchedule(newschedule,patientId,"patient");
         return new PatientScheduleDTO(newschedule.getId(), newschedule.getStartTime(),date,doctorId);
     }
 }

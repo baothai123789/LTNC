@@ -1,5 +1,6 @@
 package com.ltnc.JavaApp.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.MedicalDetailModel;
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.ScheduleModel;
 import lombok.AllArgsConstructor;
@@ -7,8 +8,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +25,9 @@ public class Doctor extends Employee implements MedicalDetailModel, ScheduleMode
     private String id;
     private String major;
     @DBRef
-    private List<MedicalDetail> medicalDetails=new ArrayList<>();
+    private List<MedicalDetail> medicalDetails;
     @DBRef
-    private  List<Schedule> schedules=new ArrayList<>();
+    private  List<Schedule> schedules;
     @Override
     public String getId() {return id;}
     @Override
