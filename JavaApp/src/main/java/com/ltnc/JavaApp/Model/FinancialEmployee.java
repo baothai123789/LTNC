@@ -14,6 +14,8 @@ public class FinancialEmployee extends FunctionalEmployee {
     private int salary;
 
     @DBRef
+    private Financial financial;
+    @DBRef
     private List<SchedulePay> schedulePays;
 
     public FinancialEmployee() {
@@ -42,5 +44,13 @@ public class FinancialEmployee extends FunctionalEmployee {
     @Override
     public void setSalary(int salary) {
         this.salary = salary;
+    }
+
+    public List<SchedulePay> getSchedulePays() {
+        return schedulePays;
+    }
+
+    public void setSchedulePays(List<SchedulePay> schedulePays) {
+        this.schedulePays = schedulePays;
     }
 }

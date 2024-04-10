@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Salary {
-    List<Doctor> doctors;
-    List<Nurse> nurses;
+    private List<Doctor> doctors;
+    private List<Nurse> nurses;
 }
