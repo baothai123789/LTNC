@@ -11,13 +11,14 @@ import java.util.List;
 public class PharmacyManager extends FunctionalEmployee{
     @Id
     private String id;
+    private int salary;
     private List<Medicine> medicines;
     private List<MedicalEquipment> medicalEquipments;
     public PharmacyManager() {
         super();
         this.medicines = new ArrayList<>();
         this.medicalEquipments = new ArrayList<>();
-        this.role = "PharmacyManager";
+
         this.part = "Pharmacy";
     }
 
@@ -29,20 +30,13 @@ public class PharmacyManager extends FunctionalEmployee{
         this.id = id;
     }
 
-    public List<Medicine> getMedicines() {
-        return medicines;
+    @Override
+    public int getSalary() {
+        return salary;
     }
 
-    public void setMedicines(List<Medicine> medicines) {
-        this.medicines = medicines;
+    @Override
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
-
-    public List<MedicalEquipment> getMedicalEquipments() {
-        return medicalEquipments;
-    }
-
-    public void setMedicalEquipments(List<MedicalEquipment> medicalEquipments) {
-        this.medicalEquipments = medicalEquipments;
-    }
-
 }

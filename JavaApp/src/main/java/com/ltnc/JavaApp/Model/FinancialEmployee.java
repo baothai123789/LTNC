@@ -11,6 +11,10 @@ import java.util.List;
 public class FinancialEmployee extends FunctionalEmployee {
     @Id
     private String id;
+    private int salary;
+
+    @DBRef
+    private List<SchedulePay> schedulePays;
 
     public FinancialEmployee() {
         this.part = "Financial";
@@ -28,5 +32,15 @@ public class FinancialEmployee extends FunctionalEmployee {
     @Override
     public String getRole(){
         return "FinancialEmployee";
+    }
+
+    @Override
+    public int getSalary() {
+        return salary;
+    }
+
+    @Override
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
 }

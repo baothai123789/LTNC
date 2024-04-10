@@ -32,4 +32,14 @@ public class FunctionalEmployee extends  Employee{
     public void setPart(String part) {
         this.part = part;
     }
+
+    @Override
+    protected void setSalary(int salary) {
+
+    }
+
+    @Override
+    protected int getSalary() {
+        return 0;
+    }
 }
