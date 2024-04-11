@@ -9,7 +9,6 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Prescription {
-    private String id;
     private List<MedicinewithAmount> medicines=new ArrayList<>();
     private String detail;
 }

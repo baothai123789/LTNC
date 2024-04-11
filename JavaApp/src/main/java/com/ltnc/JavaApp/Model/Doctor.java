@@ -25,9 +25,9 @@ public class Doctor extends Employee implements MedicalDetailModel, ScheduleMode
     private String id;
     private String major;
     @DBRef
-    private List<MedicalDetail> medicalDetails;
+    private List<MedicalDetail> medicalDetails=new ArrayList<>();
     @DBRef
-    private  List<Schedule> schedules;
+    private  List<Schedule> schedules=new ArrayList<>();
     @Override
     public String getId() {return id;}
     @Override

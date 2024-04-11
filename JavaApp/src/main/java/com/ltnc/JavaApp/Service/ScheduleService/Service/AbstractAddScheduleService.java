@@ -19,7 +19,6 @@ public abstract class AbstractAddScheduleService<T extends ScheduleModel> implem
     @Override
     public void addSchedule(String modelId, Schedule newSchedule) throws NullPointerException{
         T model = repository.findById(modelId).orElseThrow(NullPointerException::new);
-        newSchedule.setId(UUID.randomUUID().toString());
         model.addSchedule(newSchedule);
         repository.save(model);
         scheduleRepository.save(newSchedule);

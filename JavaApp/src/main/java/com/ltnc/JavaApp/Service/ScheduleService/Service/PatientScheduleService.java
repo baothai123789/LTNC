@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 
 import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.Patient;
+import com.ltnc.JavaApp.MyApp;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.PatientScheduleDTO;
 
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.IPatientScheduleService;
@@ -43,7 +44,9 @@ public class PatientScheduleService implements IPatientScheduleService {
     @Override
     public PatientScheduleDTO patientSchedule(LocalDate date, String doctorId,String patientId) throws NullPointerException {
         List<Schedule> doctorSchedule = scheduleMangeService.getSchedulesbyDate(doctorId,date,"doctor");
+        MyApp.LOGGER.info(doctorSchedule);
         List<Integer> doctorTime = getDoctorSchedule(doctorSchedule);
+        MyApp.LOGGER.info(doctorTime);
         if(doctorTime.isEmpty()) return null;
         Schedule newschedule = new Schedule(UUID.randomUUID().toString(),date,doctorTime.get(0),doctorTime.get(0)+1,"kham benh");
         scheduleMangeService.addSchedule(newschedule,doctorId,"doctor");

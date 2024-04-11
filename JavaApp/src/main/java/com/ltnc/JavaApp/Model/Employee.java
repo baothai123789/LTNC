@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -19,7 +21,7 @@ import java.time.LocalDate;
         @JsonSubTypes.Type(value = Nurse.class, name = "nurse")
 })
 public abstract class Employee extends Person {
-   protected Certificate certificate;
+   protected List<Certificate> certificate;
    protected LocalDate workFrom;
    protected String position;
 }

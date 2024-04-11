@@ -6,8 +6,7 @@ import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.RequestModel.MedicalDetail.CreateMedicalDetailModel;
 import com.ltnc.JavaApp.RequestModel.MedicalDetail.MedicalDetailInfo;
 import com.ltnc.JavaApp.Service.InformationService.Interface.IInfomationService;
-import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.ICreateMedicalDetailService;
-import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IEditMedicalDetailService;
+import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IUpdateMedicalDetailService;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IGetMedicalDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,7 +25,7 @@ public class MedicalDetailController {
     @Autowired
     private ICreateMedicalDetailService createservice;
     @Autowired
-    private IEditMedicalDetailService editservice;
+    private IUpdateMedicalDetailService editservice;
     @Autowired
     private InformationServiceFactory informationServiceFactory;
 

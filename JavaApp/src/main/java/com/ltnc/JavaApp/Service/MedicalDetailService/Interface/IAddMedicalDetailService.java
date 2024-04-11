@@ -8,5 +8,5 @@ import org.springframework.data.util.Pair;
 import java.util.List;
 
 public interface IAddMedicalDetailService {
-    public List<MedicalDetailModel> addMedicalDetail(String doctorId, String patientId, MedicalDetail medicalDetail);
+    public void addMedicalDetail(String doctorId, String patientId, MedicalDetail medicalDetail);
 }
