@@ -25,8 +25,8 @@ public class AddToList {
         Optional<FinancialEmployee> optionalFinancialEmployee = financialEmployeeRepository.findById(financialEmployeeId);
         if (optionalFinancialEmployee.isPresent()) {
             FinancialEmployee financialEmployee = optionalFinancialEmployee.get();
-            financialEmployee.addDoctor(doctor); // Thêm bác sĩ vào danh sách quản lý của FinancialEmployee
-            financialEmployeeRepository.save(financialEmployee); // Lưu lại thông tin FinancialEmployee sau khi thay đổi
+            financialEmployee.addDoctor(doctor);
+            financialEmployeeRepository.save(financialEmployee);
         } else {
             throw new RuntimeException("Financial Employee not found with provided id");
         }
@@ -47,8 +47,8 @@ public class AddToList {
         Optional<FinancialEmployee> optionalFinancialEmployee = financialEmployeeRepository.findById(financialEmployeeId);
         if (optionalFinancialEmployee.isPresent()) {
             FinancialEmployee financialEmployee = optionalFinancialEmployee.get();
-            financialEmployee.addPatient(patient); // Thêm bác sĩ vào danh sách quản lý của FinancialEmployee
-            financialEmployeeRepository.save(financialEmployee); // Lưu lại thông tin FinancialEmployee sau khi thay đổi
+            financialEmployee.addPatient(patient);
+            financialEmployeeRepository.save(financialEmployee);
         }
         else {
             throw new RuntimeException("Financial Employee not found with provided id");
