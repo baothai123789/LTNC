@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ltnc.JavaApp.Model.Employee;
 import com.ltnc.JavaApp.Model.Patient;
-import com.ltnc.JavaApp.Service.EditProfileService.Employee.Interface.IEmployeeEditProfileService;
-import com.ltnc.JavaApp.Service.EditProfileService.Patient.Interface.IPatientEditProfileService;
-import com.ltnc.JavaApp.Service.EditProfileService.Factory.EditprofileServiceFactory;
+import com.ltnc.JavaApp.Service.ProfileService.CreateUserService.EditProfileService.Employee.Interface.IEmployeeEditProfileService;
+import com.ltnc.JavaApp.Service.ProfileService.CreateUserService.EditProfileService.Patient.Interface.IPatientEditProfileService;
+import com.ltnc.JavaApp.Service.ProfileService.CreateUserService.EditProfileService.Factory.EditprofileServiceFactory;
 
 @RestController
 @RequestMapping("/editprofile")

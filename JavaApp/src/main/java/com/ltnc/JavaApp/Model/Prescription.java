@@ -12,3 +12,4 @@ public class Prescription {
     private List<MedicinewithAmount> medicines=new ArrayList<>();
     private String detail;
 }
+

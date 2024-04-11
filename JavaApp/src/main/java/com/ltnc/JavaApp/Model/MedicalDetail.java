@@ -24,5 +24,5 @@ public class MedicalDetail {
     private Prescription prescription;
     private List<MedicalSchedule> medicalSchedules;
 
-
 }
+

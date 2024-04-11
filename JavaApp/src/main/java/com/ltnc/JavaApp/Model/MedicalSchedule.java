@@ -21,3 +21,4 @@ public class MedicalSchedule{
     private String detail;
     private boolean done;
 }
+

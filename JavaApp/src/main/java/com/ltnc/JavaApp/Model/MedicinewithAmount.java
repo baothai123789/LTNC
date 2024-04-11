@@ -11,3 +11,4 @@ public class MedicinewithAmount {
     private String name;
     private Integer amount;
 }
+

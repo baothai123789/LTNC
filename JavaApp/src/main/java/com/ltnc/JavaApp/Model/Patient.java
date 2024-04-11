@@ -26,6 +26,7 @@ public class Patient extends Person  implements MedicalDetailModel, ScheduleMode
     @DBRef
     List<Schedule> schedules= new ArrayList<>();
 
+
     @Override
     public void addMedicalDetail(MedicalDetail medicalDetail) {
         this.medicalDetails.add(medicalDetail);
@@ -59,5 +60,6 @@ public class Patient extends Person  implements MedicalDetailModel, ScheduleMode
             }
             i++;
         }
+
     }
 }

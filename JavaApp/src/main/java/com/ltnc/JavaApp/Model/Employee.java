@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -25,3 +26,4 @@ public abstract class Employee extends Person {
    protected LocalDate workFrom;
    protected String position;
 }
+

@@ -20,3 +20,4 @@ public class Schedule {
     private Integer endTime;
     private String detail;
 }
+
