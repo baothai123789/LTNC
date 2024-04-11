@@ -1,9 +1,15 @@
 package com.ltnc.JavaApp.Model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "medicalEquipments")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MedicalEquipment {
     @Id
     private String id;
@@ -11,14 +17,6 @@ public class MedicalEquipment {
     private boolean isActive;
     private int quantity;
     private String maintenanceHistory;
-
-    public MedicalEquipment(String id, String name, boolean isActive,int quantity, String maintenanceHistory) {
-        this.id = id;
-        this.name = name;
-        this.isActive = isActive;
-        this.quantity = quantity;
-        this.maintenanceHistory = maintenanceHistory;
-    }
 
     public String getId() {
         return id;

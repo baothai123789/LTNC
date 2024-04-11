@@ -1,4 +1,4 @@
-package com.ltnc.JavaApp.Service;
+package com.ltnc.JavaApp.Service.PharmacyService;
 
 import com.ltnc.JavaApp.Model.MedicalEquipment;
 import com.ltnc.JavaApp.Model.Medicine;

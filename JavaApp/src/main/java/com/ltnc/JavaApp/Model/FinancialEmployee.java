@@ -5,22 +5,26 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.List;
+@EqualsAndHashCode(callSuper = true)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "FinancialEmployee")
 public class FinancialEmployee extends FunctionalEmployee {
     @Id
     private String id;
     private int salary;
+    private TotalFund fund;
 
     @DBRef
-    private Financial financial;
+    private List<Doctor> doctors;
+    @DBRef
+    private List<Nurse> nurses;
+    @DBRef
+    private List<Patient> patients;
     @DBRef
     private List<SchedulePay> schedulePays;
-
-    public FinancialEmployee() {
-        this.part = "Financial";
-    }
 
     @Override
     public String getId() {
@@ -52,5 +56,37 @@ public class FinancialEmployee extends FunctionalEmployee {
 
     public void setSchedulePays(List<SchedulePay> schedulePays) {
         this.schedulePays = schedulePays;
+    }
+
+    public long getFund() {
+        return fund.getFund();
+    }
+
+    public void setFund(long fund) {
+        this.fund.setFund(fund);
+    }
+
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+    }
+
+    public List<Nurse> getNurses() {
+        return nurses;
+    }
+
+    public void setNurses(List<Nurse> nurses) {
+        this.nurses = nurses;
+    }
+
+    public List<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
     }
 }

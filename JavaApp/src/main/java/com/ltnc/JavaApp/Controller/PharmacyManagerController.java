@@ -1,7 +1,7 @@
 package com.ltnc.JavaApp.Controller;
 
 import com.ltnc.JavaApp.Model.Medicine;
-import com.ltnc.JavaApp.Service.PharmacyManagerService;
+import com.ltnc.JavaApp.Service.PharmacyService.PharmacyManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
