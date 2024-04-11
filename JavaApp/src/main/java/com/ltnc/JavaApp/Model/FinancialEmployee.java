@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -18,13 +19,13 @@ public class FinancialEmployee extends FunctionalEmployee {
     private TotalFund fund;
 
     @DBRef
-    private List<Doctor> doctors;
+    private List<Doctor> doctors = new ArrayList<>();
     @DBRef
-    private List<Nurse> nurses;
+    private List<Nurse> nurses = new ArrayList<>();
     @DBRef
-    private List<Patient> patients;
+    private List<Patient> patients = new ArrayList<>();
     @DBRef
-    private List<SchedulePay> schedulePays;
+    private List<SchedulePay> schedulePays = new ArrayList<>();
 
     @Override
     public String getId() {
@@ -62,7 +63,7 @@ public class FinancialEmployee extends FunctionalEmployee {
         return fund.getFund();
     }
 
-    public void setFund(long fund) {
+    public void addToFund(long fund) {
         this.fund.setFund(fund);
     }
 
@@ -88,5 +89,29 @@ public class FinancialEmployee extends FunctionalEmployee {
 
     public void setDoctors(List<Doctor> doctors) {
         this.doctors = doctors;
+    }
+
+    public void addDoctor(Doctor doctor) {
+        doctors.add(doctor);
+    }
+
+    public void removeDoctor(Doctor doctor) {
+        doctors.remove(doctor);
+    }
+
+    public void addNurse(Nurse nurse){
+        nurses.add(nurse);
+    }
+
+    public void removeNurse(Nurse nurse){
+        nurses.remove(nurse);
+    }
+
+    public void addPatient(Patient patient){
+        patients.add(patient);
+    }
+
+    public void removePatient(Patient patient){
+        patients.remove(patient);
     }
 }
