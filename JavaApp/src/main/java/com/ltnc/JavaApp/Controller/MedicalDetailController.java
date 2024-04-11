@@ -8,6 +8,8 @@ import com.ltnc.JavaApp.RequestModel.MedicalDetail.MedicalDetailInfo;
 import com.ltnc.JavaApp.Service.InformationService.Interface.IInfomationService;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IUpdateMedicalDetailService;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IGetMedicalDetailService;
+import com.ltnc.JavaApp.Service.MedicalDetailService.Service.MedicalDetailManageService;
+import com.ltnc.JavaApp.Service.ScheduleService.Service.CreateMedicalDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,15 +25,9 @@ import java.util.Map;
 @RequestMapping("/medicaldetail")
 public class MedicalDetailController {
     @Autowired
-    private ICreateMedicalDetailService createservice;
+    CreateMedicalDetailService createMedicalDetailService;
     @Autowired
-    private IUpdateMedicalDetailService editservice;
-    @Autowired
-    private InformationServiceFactory informationServiceFactory;
-
-
-    @Autowired
-    IGetMedicalDetailService getMedicalDetailService;
+    MedicalDetailManageService medicalDetailManageService;
 
     @PostMapping("/create")
     private ResponseEntity<Map<String,String>> createMedicalDetail(
@@ -40,36 +36,50 @@ public class MedicalDetailController {
     {
         MedicalDetail detail = createMedicalDetailModel.getDetail();
         MedicalDetailInfo info = createMedicalDetailModel.getInfo();
-        String message=createservice.createMedicalDetail(detail,info.getPatientId(),info.getDoctorId());
-        return new ResponseEntity<>(new HashMap<>(Map.of("message",message)),message.equalsIgnoreCase("success")?
-                HttpStatus.OK:HttpStatus.NOT_ACCEPTABLE);
+        try{
+            this.createMedicalDetailService.createMedicalDetail(detail,info.getDoctorId(),info.getPatientId());
+        }
+        catch(NullPointerException e){
+            return new ResponseEntity<>(new HashMap<>(Map.of("message",e.getMessage())),HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new HashMap<>(Map.of("message","Medical detail created!")),HttpStatus.CREATED);
     }
     @PutMapping("/edit/{id}")
     private ResponseEntity<Map<String,String>> editMedicalDetail(
         @PathVariable("id") String id,
-        @RequestBody MedicalDetail newdetail 
+        @RequestBody MedicalDetail newDetail
     ){
-        String message = editservice.editMedicalDetail(id, newdetail); 
-        return new ResponseEntity<>(new HashMap<>(Map.of("message",message)),message.equalsIgnoreCase("success")?
-                HttpStatus.OK:HttpStatus.NOT_ACCEPTABLE);
+        try{
+            this.medicalDetailManageService.updateMedicalDetail(newDetail,id);
+        }
+        catch(NullPointerException e){
+            return new ResponseEntity<>(new HashMap<>(Map.of("message",e.getMessage())),HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new HashMap<>(Map.of("message","Medical detail updated!")),HttpStatus.OK);
     }
     @GetMapping("/doctor/medicaldetails/{id}")
-    private ResponseEntity<List<MedicalDetail>> getDoctorMedicalDetail(@PathVariable("id") String doctorid){
-        IInfomationService infomationService = informationServiceFactory.getInfomationService("doctor").get();
-        Doctor doctor = (Doctor)infomationService.getData(doctorid).orElse(null);
-        if(doctor==null) return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NOT_FOUND);
-        List<MedicalDetail> medicalDetails = getMedicalDetailService.getMedicalDetails(doctor);
-        return new ResponseEntity<>(medicalDetails,HttpStatus.OK);
+    private ResponseEntity<List<MedicalDetail>> getDoctorMedicalDetail(@PathVariable("id") String doctorId){
+        List<MedicalDetail> res;
+        try {
+           res=this.medicalDetailManageService.getMedicalDetail(doctorId,"doctor");
+        }
+        catch(NullPointerException e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(res,HttpStatus.OK);
 
     }
     @GetMapping("/patient/medicaldetails/{id}")
      
     private ResponseEntity<List<MedicalDetail>> getPatientMedicalDetail(@PathVariable("id") String patientid){
-        IInfomationService infomationService = informationServiceFactory.getInfomationService("patient").get();
-        Patient patient = (Patient)infomationService.getData(patientid).orElse(null);
-        if(patient==null) return new ResponseEntity<>(new ArrayList<>(),HttpStatus.NOT_FOUND);
-        List<MedicalDetail> medicalDetails = getMedicalDetailService.getMedicalDetails(patient);
-        return new ResponseEntity<>(medicalDetails,HttpStatus.OK);
+        List<MedicalDetail> res;
+        try {
+            res = this.medicalDetailManageService.getMedicalDetail(patientid,"patient");
+        }
+        catch(NullPointerException e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(res,HttpStatus.OK);
 
     }
 }

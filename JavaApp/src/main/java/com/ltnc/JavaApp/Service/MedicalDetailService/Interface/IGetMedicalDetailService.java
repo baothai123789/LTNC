@@ -5,6 +5,7 @@ import java.util.List;
 import com.ltnc.JavaApp.Model.MedicalDetail;
 
 
-public interface IGetMedicalDetailService {
-    public List<MedicalDetail> getMedicalDetails(MedicalDetailModel person);
+public interface IGetMedicalDetailService{
+    public List<MedicalDetail> getMedicalDetails(String modelId);
+    public String getType();
 }

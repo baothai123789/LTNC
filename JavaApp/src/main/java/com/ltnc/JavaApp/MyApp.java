@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import java.util.Arrays;
 
 
-
 @SpringBootApplication
 public class MyApp {
 
