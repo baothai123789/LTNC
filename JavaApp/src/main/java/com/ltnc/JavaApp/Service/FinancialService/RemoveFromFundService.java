@@ -2,6 +2,7 @@ package com.ltnc.JavaApp.Service.FinancialService;
 
 import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.FinancialEmployee;
+import com.ltnc.JavaApp.Model.Nurse;
 import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.Repository.DoctorRepository;
 import com.ltnc.JavaApp.Repository.FinancialEmployeeRepository;
@@ -14,37 +15,55 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AddToFundService {
+public class RemoveFromFundService {
+
     @Autowired
-    private  FinancialEmployeeRepository financialEmployeeRepository;
-    private  DoctorRepository doctorRepository;
-    private  NurseRepository nurseRepository;
-    private  PatientRepository patientRepository;
+    private FinancialEmployeeRepository financialEmployeeRepository;
 
+    @Autowired
+    private DoctorRepository doctorRepository;
 
-    public void addDoctorSalariesToFund(String financialEmployeeId) {
+    @Autowired
+    private NurseRepository nurseRepository;
+
+    @Autowired
+    private PatientRepository patientRepository;
+
+    public void removeDoctorSalariesFromFund(String financialEmployeeId) {
         Optional<FinancialEmployee> optionalFinancialEmployee = financialEmployeeRepository.findById(financialEmployeeId);
         if (optionalFinancialEmployee.isPresent()) {
             FinancialEmployee financialEmployee = optionalFinancialEmployee.get();
             List<Doctor> doctors = doctorRepository.findAll();
-            long totalDoctorSalaries = doctors.stream().mapToLong(Doctor::getSalary).sum();
-            financialEmployee.addToFund(totalDoctorSalaries);
+            long salary = doctors.stream().mapToLong(Doctor::getSalary).sum();
+            financialEmployee.minustoFund(salary);
             financialEmployeeRepository.save(financialEmployee);
-        }
-        else {
+        } else {
             throw new RuntimeException("Financial Employee not found with id: " + financialEmployeeId);
         }
     }
-    public void addPatientFeesToFund(String financialEmployeeId) {
+
+    public void removeNurseSalariesFromFund(String financialEmployeeId) {
+        Optional<FinancialEmployee> optionalFinancialEmployee = financialEmployeeRepository.findById(financialEmployeeId);
+        if (optionalFinancialEmployee.isPresent()) {
+            FinancialEmployee financialEmployee = optionalFinancialEmployee.get();
+            List<Nurse> nurses = nurseRepository.findAll();
+            long salary = nurses.stream().mapToLong(Nurse::getSalary).sum();
+            financialEmployee.minustoFund(salary);
+            financialEmployeeRepository.save(financialEmployee);
+        } else {
+            throw new RuntimeException("Financial Employee not found with id: " + financialEmployeeId);
+        }
+    }
+
+    public void removePatientFeesFromFund(String financialEmployeeId) {
         Optional<FinancialEmployee> optionalFinancialEmployee = financialEmployeeRepository.findById(financialEmployeeId);
         if (optionalFinancialEmployee.isPresent()) {
             FinancialEmployee financialEmployee = optionalFinancialEmployee.get();
             List<Patient> patients = patientRepository.findAll();
-            long totalPatientFees = patients.stream().mapToLong(Patient::getFee).sum();
-            financialEmployee.addToFund(totalPatientFees);
+            long salary = patients.stream().mapToLong(Patient::getFee).sum();
+            financialEmployee.minustoFund(salary);
             financialEmployeeRepository.save(financialEmployee);
-        }
-        else {
+        } else {
             throw new RuntimeException("Financial Employee not found with id: " + financialEmployeeId);
         }
     }

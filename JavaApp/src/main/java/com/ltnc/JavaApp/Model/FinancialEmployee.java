@@ -64,7 +64,11 @@ public class FinancialEmployee extends FunctionalEmployee {
     }
 
     public void addToFund(long fund) {
-        this.fund.setFund(fund);
+        this.fund.addFund(fund);
+    }
+
+    public void minustoFund(long fund){
+        this.fund.minusFund(fund);
     }
 
     public List<Patient> getPatients() {

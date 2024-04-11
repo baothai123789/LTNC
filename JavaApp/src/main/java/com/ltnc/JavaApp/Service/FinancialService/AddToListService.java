@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class AddToList {
+public class AddToListService {
     @Autowired
     private FinancialEmployeeRepository financialEmployeeRepository;
     private DoctorRepository doctorRepository;

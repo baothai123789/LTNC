@@ -27,12 +27,12 @@ public class Nurse extends Employee {
     }
 
     @Override
-    protected void setSalary(int salary) {
+    public void setSalary(int salary) {
         this.salary = salary;
     }
 
     @Override
-    protected int getSalary() {
+    public int getSalary() {
         return this.salary;
     }
 }
