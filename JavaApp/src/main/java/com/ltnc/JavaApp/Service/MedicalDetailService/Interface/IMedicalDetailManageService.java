@@ -8,4 +8,5 @@ public interface IMedicalDetailManageService {
     public void addMedicalDetail(MedicalDetail medicalDetail,String doctorId,String type);
     public void updateMedicalDetail(MedicalDetail medicalDetail,String doctorId);
     public List<MedicalDetail> getMedicalDetail(String modelId, String type);
+    public  MedicalDetail getMedicalDetailById(String medicalDetailId);
 }

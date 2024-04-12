@@ -1,22 +1,17 @@
 package com.ltnc.JavaApp.Controller;
 
-import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.MedicalDetail;
-import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.RequestModel.MedicalDetail.CreateMedicalDetailModel;
 import com.ltnc.JavaApp.RequestModel.MedicalDetail.MedicalDetailInfo;
-import com.ltnc.JavaApp.Service.InformationService.Interface.IInfomationService;
-import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IUpdateMedicalDetailService;
-import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IGetMedicalDetailService;
+import com.ltnc.JavaApp.ResponseModel.MedicalDetailResponse.DoctorMedicalDetailResponse;
+import com.ltnc.JavaApp.ResponseModel.MedicalDetailResponse.NurseMedicalDetailResponse;
+import com.ltnc.JavaApp.ResponseModel.MedicalDetailResponse.PatientMedicalDetailResponse;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Service.MedicalDetailManageService;
-import com.ltnc.JavaApp.Service.ScheduleService.Service.CreateMedicalDetailService;
+import com.ltnc.JavaApp.Service.MedicalDetailService.Service.CreateMedicalDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.ltnc.JavaApp.Service.InformationService.Factory.InformationServiceFactory;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +52,8 @@ public class MedicalDetailController {
         }
         return new ResponseEntity<>(new HashMap<>(Map.of("message","Medical detail updated!")),HttpStatus.OK);
     }
-    @GetMapping("/doctor/medicaldetails/{id}")
-    private ResponseEntity<List<MedicalDetail>> getDoctorMedicalDetail(@PathVariable("id") String doctorId){
+    @GetMapping("/getmedicaldetails/doctor/{id}")
+    private ResponseEntity<List<DoctorMedicalDetailResponse>> getDoctorMedicalDetail(@PathVariable("id") String doctorId){
         List<MedicalDetail> res;
         try {
            res=this.medicalDetailManageService.getMedicalDetail(doctorId,"doctor");
@@ -66,12 +61,13 @@ public class MedicalDetailController {
         catch(NullPointerException e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(res,HttpStatus.OK);
+        List<DoctorMedicalDetailResponse> responses = res.stream().map(DoctorMedicalDetailResponse::new).toList();
+        return new ResponseEntity<>(responses,HttpStatus.OK);
 
     }
-    @GetMapping("/patient/medicaldetails/{id}")
+    @GetMapping("/getmedicaldetails/patient/{id}")
      
-    private ResponseEntity<List<MedicalDetail>> getPatientMedicalDetail(@PathVariable("id") String patientid){
+    private ResponseEntity<List<PatientMedicalDetailResponse>> getPatientMedicalDetail(@PathVariable("id") String patientid){
         List<MedicalDetail> res;
         try {
             res = this.medicalDetailManageService.getMedicalDetail(patientid,"patient");
@@ -79,7 +75,18 @@ public class MedicalDetailController {
         catch(NullPointerException e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(res,HttpStatus.OK);
 
+        return new ResponseEntity<>(res.stream().map(PatientMedicalDetailResponse::new).toList(),HttpStatus.OK);
+    }
+    @GetMapping("/getmedicaldetails/nurse/{medicalid}")
+    public ResponseEntity<NurseMedicalDetailResponse> getNurseMedicalDetail(@PathVariable("medicalid") String medicalId){
+        MedicalDetail res;
+        try{
+            res = this.medicalDetailManageService.getMedicalDetailById(medicalId);
+        }
+        catch (NullPointerException e){
+            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(new NurseMedicalDetailResponse(res),HttpStatus.OK);
     }
 }

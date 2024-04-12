@@ -69,4 +69,9 @@ public class Nurse extends Employee implements IHospitalAdmissionManager {
         }
 
     }
+
+    @Override
+    public String getPart() {
+        return "medicalEmployee";
+    }
 }

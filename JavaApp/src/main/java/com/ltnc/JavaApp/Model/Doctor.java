@@ -64,4 +64,8 @@ public class Doctor extends Employee implements MedicalDetailModel, ScheduleMode
     }
 
 
+    @Override
+    public String getPart() {
+        return "medicalEmployee";
+    }
 }

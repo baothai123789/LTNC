@@ -19,11 +19,13 @@ import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,include = JsonTypeInfo.As.PROPERTY,property = "role")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Doctor.class, name = "doctor"),
-        @JsonSubTypes.Type(value = Nurse.class, name = "nurse")
+        @JsonSubTypes.Type(value = Nurse.class, name = "nurse"),
+        @JsonSubTypes.Type(value = FunctionalEmployee.class,name="functionalEmployee")
 })
 public abstract class Employee extends Person {
    protected List<Certificate> certificate;
    protected LocalDate workFrom;
    protected String position;
+   public abstract String getPart();
 }
 

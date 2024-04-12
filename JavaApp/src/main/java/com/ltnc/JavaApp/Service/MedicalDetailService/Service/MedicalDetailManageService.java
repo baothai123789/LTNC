@@ -1,10 +1,7 @@
 package com.ltnc.JavaApp.Service.MedicalDetailService.Service;
 
 import com.ltnc.JavaApp.Model.MedicalDetail;
-import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IAddMedicalDetailService;
-import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IGetMedicalDetailService;
-import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IMedicalDetailManageService;
-import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.IUpdateMedicalDetailService;
+import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +17,8 @@ public class MedicalDetailManageService implements IMedicalDetailManageService {
 
     @Autowired
     List<IGetMedicalDetailService> getMedicalDetailServices;
+    @Autowired
+    IGetMedicalDetailById getMedicalDetailById;
 
 
     @Override
@@ -51,6 +50,18 @@ public class MedicalDetailManageService implements IMedicalDetailManageService {
         }
         catch(Exception e){
             throw new NullPointerException("not found user");
+        }
+        return res;
+    }
+
+    @Override
+    public MedicalDetail getMedicalDetailById(String medicalDetailId) {
+        MedicalDetail res;
+        try{
+            res = this.getMedicalDetailById.getMedicalDetail(medicalDetailId);
+        }
+        catch (NullPointerException e){
+            throw new NullPointerException("Medical Detail not found");
         }
         return res;
     }

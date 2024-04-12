@@ -17,6 +17,8 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 public class MedicalDetail {
     @Id
     private String id;
+    private String doctorId;
+    private String patientId;
     private String major;
     private String nameofDisease;
     private String PatientState;
