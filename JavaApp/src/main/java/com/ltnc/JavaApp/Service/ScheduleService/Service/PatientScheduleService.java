@@ -48,7 +48,7 @@ public class PatientScheduleService implements IPatientScheduleService {
         List<Integer> doctorTime = getDoctorSchedule(doctorSchedule);
         MyApp.LOGGER.info(doctorTime);
         if(doctorTime.isEmpty()) return null;
-        Schedule newschedule = new Schedule(UUID.randomUUID().toString(),date,doctorTime.get(0),doctorTime.get(0)+1,"kham benh");
+        Schedule newschedule = new Schedule(UUID.randomUUID().toString(),date,doctorTime.get(0),doctorTime.get(0)+1,"kham benh",patientId,doctorId);
         scheduleMangeService.addSchedule(newschedule,doctorId,"doctor");
         scheduleMangeService.addSchedule(newschedule,patientId,"patient");
         return new PatientScheduleDTO(newschedule.getId(), newschedule.getStartTime(),date,doctorId);

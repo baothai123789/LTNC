@@ -36,6 +36,17 @@ public class FinancialEmployee extends FunctionalEmployee {
     public void setId(String id) {
         this.id = id;
     }
+
+    @Override
+    public NotificationList getNotifications() {
+        return null;
+    }
+
+    @Override
+    public void setNotifications(NotificationList notifications) {
+
+    }
+
     public List<SchedulePay> getSchedulePays() {
         return schedulePays;
     }

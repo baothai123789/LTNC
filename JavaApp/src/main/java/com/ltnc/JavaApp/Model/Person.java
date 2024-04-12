@@ -20,5 +20,7 @@ public abstract class Person {
 
     public abstract void setId(String id);
     public abstract String getRole();
+    public abstract NotificationList getNotifications();
+    public abstract void setNotifications(NotificationList notifications);
 }
 

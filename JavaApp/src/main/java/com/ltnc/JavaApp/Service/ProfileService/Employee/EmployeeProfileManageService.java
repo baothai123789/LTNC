@@ -3,7 +3,7 @@ package com.ltnc.JavaApp.Service.ProfileService.Employee;
 import com.ltnc.JavaApp.Model.Employee;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.CreateUserService.IEmployeeCreateUserService;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EditUserService.IEditUserService;
-import com.ltnc.JavaApp.Service.ProfileService.Employee.GetProfileService.IGetProfileService;
+import com.ltnc.JavaApp.Service.ProfileService.Employee.GetProfileService.IEmployeeGetProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class EmployeeProfileManageService implements IEmployeeProfileMangeService {
     @Autowired
-    List<IGetProfileService> getProfileServices;
+    List<IEmployeeGetProfileService> getProfileServices;
     @Autowired
     List<IEmployeeCreateUserService> employeeCreateUserServices;
     @Autowired

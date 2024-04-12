@@ -25,6 +25,8 @@ public class Patient extends Person  implements MedicalDetailModel, ScheduleMode
     List<MedicalDetail> medicalDetails= new ArrayList<>();
     @DBRef
     List<Schedule> schedules= new ArrayList<>();
+    @DBRef
+    private NotificationList notifications;
 
 
     @Override
@@ -49,6 +51,7 @@ public class Patient extends Person  implements MedicalDetailModel, ScheduleMode
     public List<Schedule> getSchedules() {
         return this.schedules;
     }
+
 
     @Override
     public void removeSchedule(String scheduleId) {

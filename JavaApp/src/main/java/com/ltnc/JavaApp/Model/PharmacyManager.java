@@ -32,6 +32,16 @@ public class PharmacyManager extends FunctionalEmployee{
     }
 
     @Override
+    public NotificationList getNotifications() {
+        return null;
+    }
+
+    @Override
+    public void setNotifications(NotificationList notifications) {
+
+    }
+
+    @Override
     public String getPart() {
         return "pharmacyManager";
     }

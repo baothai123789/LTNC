@@ -3,7 +3,7 @@ package com.ltnc.JavaApp.Service.ProfileService.Employee.GetProfileService;
 import com.ltnc.JavaApp.Model.Employee;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public class AbstractGetProfileService<T extends Employee> implements IGetProfileService {
+public class AbstractGetProfileService<T extends Employee> implements IEmployeeGetProfileService {
     protected MongoRepository<T,String> modelRepository;
     protected Class<T> type;
     @Override
