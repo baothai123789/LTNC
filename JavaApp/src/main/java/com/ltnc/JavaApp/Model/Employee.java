@@ -22,7 +22,6 @@ public abstract class Employee extends Person {
     protected Certificate certificate;
     protected LocalDate workFrom;
     protected String position;
-    protected abstract void setSalary(int salary);
-    protected abstract int getSalary();
+
 
 }

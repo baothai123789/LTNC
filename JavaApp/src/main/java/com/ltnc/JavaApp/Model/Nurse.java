@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Nurse extends Employee {
     @Id
     private String Id;
-    private int salary;
+
     public Nurse() {
     }
 
@@ -26,13 +26,5 @@ public class Nurse extends Employee {
         return "";
     }
 
-    @Override
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
 
-    @Override
-    public int getSalary() {
-        return this.salary;
-    }
 }

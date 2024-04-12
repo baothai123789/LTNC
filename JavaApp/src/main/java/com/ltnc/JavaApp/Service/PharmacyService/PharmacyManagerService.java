@@ -11,12 +11,10 @@ import java.util.List;
 
 @Service
 public class PharmacyManagerService {
-    private final PharmacyManagerRepository pharmacyManagerRepository;
-
     @Autowired
-    public PharmacyManagerService(PharmacyManagerRepository pharmacyManagerRepository) {
-        this.pharmacyManagerRepository = pharmacyManagerRepository;
-    }
+    private PharmacyManagerRepository pharmacyManagerRepository;
+
+
 
     public void addMedicine(String managerId, Medicine medicine) {
         PharmacyManager pharmacyManager = getPharmacyManagerById(managerId);

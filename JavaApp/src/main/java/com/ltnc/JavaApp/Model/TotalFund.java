@@ -19,8 +19,12 @@ public class TotalFund {
     public void addFund(long fund) {
         this.fund += fund;
     }
-    public void minusFund(long fund){
-        if(this.fund <= 0) System.out.println("Don't have enough money");
-        else this.fund -= fund;
+
+    public void minusFund(long fund) {
+        if (this.fund < fund) {
+            System.out.println("Insufficient funds");
+        } else {
+            this.fund -= fund;
+        }
     }
 }

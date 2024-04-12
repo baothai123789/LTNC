@@ -12,18 +12,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "FinancialEmployee")
-public class FinancialEmployee extends FunctionalEmployee {
+public class FinancialEmployee extends Employee {
     @Id
     private String id;
-    private int salary;
+
+    @DBRef
+    private SalaryOfEmployee salary;
+
+    @DBRef
     private TotalFund fund;
 
     @DBRef
-    private List<Doctor> doctors = new ArrayList<>();
-    @DBRef
-    private List<Nurse> nurses = new ArrayList<>();
-    @DBRef
-    private List<Patient> patients = new ArrayList<>();
+    private FeeOfPatient fee;
+
     @DBRef
     private List<SchedulePay> schedulePays = new ArrayList<>();
 
@@ -41,15 +42,7 @@ public class FinancialEmployee extends FunctionalEmployee {
         return "FinancialEmployee";
     }
 
-    @Override
-    public int getSalary() {
-        return salary;
-    }
 
-    @Override
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
 
     public List<SchedulePay> getSchedulePays() {
         return schedulePays;
@@ -71,51 +64,5 @@ public class FinancialEmployee extends FunctionalEmployee {
         this.fund.minusFund(fund);
     }
 
-    public List<Patient> getPatients() {
-        return patients;
-    }
 
-    public void setPatients(List<Patient> patients) {
-        this.patients = patients;
-    }
-
-    public List<Nurse> getNurses() {
-        return nurses;
-    }
-
-    public void setNurses(List<Nurse> nurses) {
-        this.nurses = nurses;
-    }
-
-    public List<Doctor> getDoctors() {
-        return doctors;
-    }
-
-    public void setDoctors(List<Doctor> doctors) {
-        this.doctors = doctors;
-    }
-
-    public void addDoctor(Doctor doctor) {
-        doctors.add(doctor);
-    }
-
-    public void removeDoctor(Doctor doctor) {
-        doctors.remove(doctor);
-    }
-
-    public void addNurse(Nurse nurse){
-        nurses.add(nurse);
-    }
-
-    public void removeNurse(Nurse nurse){
-        nurses.remove(nurse);
-    }
-
-    public void addPatient(Patient patient){
-        patients.add(patient);
-    }
-
-    public void removePatient(Patient patient){
-        patients.remove(patient);
-    }
 }

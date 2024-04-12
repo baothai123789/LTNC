@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -21,31 +22,33 @@ public class Doctor extends Employee implements MedicalDetailModel, ScheduleMode
     @Id
     private String id;
     private String major;
-    private int salary;
+
     @DBRef
     private List<MedicalDetail> medicalDetails;
     @DBRef
-    private  List<Schedule> schedules;
-    @Override
-    public String getId() {return id;}
-    @Override
-    public void setId(String id) {this.id = id;}
-    @Override
-    public String getRole() {return "doctor";}
+    private List<Schedule> schedules;
+
 
     @Override
-    public void setSalary(int salary){
-        this.salary = salary;
+    public String getId() {
+        return id;
     }
+
     @Override
-    public int getSalary(){
-        return this.salary;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getRole() {
+        return "doctor";
     }
 
     @Override
     public void addMedicalDetail(MedicalDetail medicalDetail) {
         this.medicalDetails.add(medicalDetail);
     }
+
     @Override
     public List<MedicalDetail> getMedicalDetails() {
         return this.medicalDetails;
@@ -64,12 +67,15 @@ public class Doctor extends Employee implements MedicalDetailModel, ScheduleMode
     @Override
     public void removeSchedule(String scheduleId) {
         int i = 0;
-        for(Schedule schedule:schedules){
-            if(schedule.getId().equals(scheduleId)){
+        for (Schedule schedule : schedules) {
+            if (schedule.getId().equals(scheduleId)) {
                 this.schedules.remove(i);
                 break;
             }
             i++;
         }
     }
+
+
+
 }

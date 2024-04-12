@@ -12,10 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "PharmacyManagers")
-public class PharmacyManager extends FunctionalEmployee{
+public class PharmacyManager extends Employee{
     @Id
     private String id;
-    private int salary;
     private List<Medicine> medicines;
     private List<MedicalEquipment> medicalEquipments;
 
@@ -30,12 +29,9 @@ public class PharmacyManager extends FunctionalEmployee{
     }
 
     @Override
-    public int getSalary() {
-        return salary;
+    public String getRole() {
+        return "Pharmacy Manager";
     }
 
-    @Override
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
+
 }

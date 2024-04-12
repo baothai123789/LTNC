@@ -20,7 +20,7 @@ public class Patient extends Person  implements MedicalDetailModel, ScheduleMode
     @Id
     private String id;
     private List<MedicalRecord> medicalRecords=new ArrayList<>();
-    private int fee;
+
     @DBRef
     List<MedicalDetail> medicalDetails= new ArrayList<>();
     @DBRef
@@ -61,11 +61,5 @@ public class Patient extends Person  implements MedicalDetailModel, ScheduleMode
         }
     }
 
-    public int getFee() {
-        return fee;
-    }
 
-    public void setFee(int fee) {
-        this.fee = fee;
-    }
 }
