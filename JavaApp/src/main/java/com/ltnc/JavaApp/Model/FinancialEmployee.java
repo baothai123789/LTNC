@@ -6,7 +6,10 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
@@ -17,13 +20,19 @@ public class FinancialEmployee extends Employee {
     private String id;
 
     @DBRef
-    private SalaryOfEmployee salary;
+    private Map<Doctor,Integer> doctorIntegerMap = new HashMap<>();
+
+    @DBRef
+    private Map<Nurse,Integer> nurseIntegerMap = new HashMap<>();
+
+    @DBRef
+    private Map<PharmacyManager, Integer> pharmacyManagerIntegerMap = new HashMap<>();
+
+    @DBRef
+    private Map<Patient,Integer> patientIntegerMap = new HashMap<>();
 
     @DBRef
     private TotalFund fund;
-
-    @DBRef
-    private FeeOfPatient fee;
 
     @DBRef
     private List<SchedulePay> schedulePays = new ArrayList<>();
@@ -43,15 +52,6 @@ public class FinancialEmployee extends Employee {
     }
 
 
-
-    public List<SchedulePay> getSchedulePays() {
-        return schedulePays;
-    }
-
-    public void setSchedulePays(List<SchedulePay> schedulePays) {
-        this.schedulePays = schedulePays;
-    }
-
     public long getFund() {
         return fund.getFund();
     }
@@ -60,9 +60,75 @@ public class FinancialEmployee extends Employee {
         this.fund.addFund(fund);
     }
 
-    public void minustoFund(long fund){
+    public void minusToFund(long fund){
         this.fund.minusFund(fund);
     }
 
+    public void addToDoctorMap(Doctor doctor) {
+        doctorIntegerMap.put(doctor, 0);
+    }
+
+    public void addToNurseMap(Nurse nurse) {
+        nurseIntegerMap.put(nurse, 0);
+    }
+
+    public void addToPharmacyManagerMap(PharmacyManager pharmacyManager) {
+        pharmacyManagerIntegerMap.put(pharmacyManager, 0);
+    }
+
+    public void addToPatientMap(Patient patient) {
+        patientIntegerMap.put(patient, 0);
+    }
+
+
+    public void setDoctorSalary(Doctor doctor, int salary) {
+        if (doctorIntegerMap.containsKey(doctor)) {
+            doctorIntegerMap.put(doctor, salary);
+        }
+    }
+
+    public void setNurseSalary(Nurse nurse, int salary) {
+        if (nurseIntegerMap.containsKey(nurse)) {
+            nurseIntegerMap.put(nurse, salary);
+        }
+    }
+
+    public void setPharmacyManagerSalary(PharmacyManager pharmacyManager, int salary) {
+        if (pharmacyManagerIntegerMap.containsKey(pharmacyManager)) {
+            pharmacyManagerIntegerMap.put(pharmacyManager, salary);
+        }
+    }
+
+    public void setPatientFee(Patient patient, int fee) {
+        if (patientIntegerMap.containsKey(patient)) {
+            patientIntegerMap.put(patient, fee);
+        }
+    }
+
+    public int getDoctorSalary(Doctor doctor) {
+        if(doctorIntegerMap.containsKey(doctor))
+            return this.doctorIntegerMap.getOrDefault(doctor, 0);
+        return -1;
+    }
+
+    public int getNurseSalary(Nurse nurse) {
+        if(nurseIntegerMap.containsKey(nurse))
+            return this.nurseIntegerMap.getOrDefault(nurse, 0);
+        return -1;
+    }
+
+    public int getPharmacyManagerSalary(PharmacyManager pharmacyManager) {
+        if (pharmacyManagerIntegerMap.containsKey(pharmacyManager)) {
+            return pharmacyManagerIntegerMap.getOrDefault(pharmacyManager, 0);
+        }
+        return -1;
+    }
+
+    public int getPatientFee(Patient patient) {
+        if (patientIntegerMap.containsKey(patient)) {
+            return patientIntegerMap.getOrDefault(patient, 0);
+        }
+        return -1;
+    }
 
 }
