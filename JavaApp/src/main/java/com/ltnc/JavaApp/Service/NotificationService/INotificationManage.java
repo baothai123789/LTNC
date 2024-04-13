@@ -7,7 +7,7 @@ import com.ltnc.JavaApp.Model.Person;
 import java.util.List;
 
 public interface INotificationManage {
-    public void sendNotification(Notification notification);
+    public void sendNotification(Notification notification,NotificationList notificationList);
     public List<Notification> getNotifications(Person person);
     public void createNotifications(NotificationList notifications);
 }

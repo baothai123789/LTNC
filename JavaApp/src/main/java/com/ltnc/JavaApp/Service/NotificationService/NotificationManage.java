@@ -17,8 +17,9 @@ public class NotificationManage implements INotificationManage{
     @Autowired
     ICreateNotificationList createNotificationList;
     @Override
-    public void sendNotification(Notification notification) {
-        this.notificationSender.sendNotification(notification);
+    public void sendNotification(Notification notification,NotificationList notificationList) {
+
+        this.notificationSender.sendNotification(notification,notificationList);
     }
 
     @Override

@@ -20,7 +20,6 @@ public abstract class AbstractEmployeeCreateUserService<T extends Employee> impl
         newemployee.setNotifications(notificationList);
         modelRepository.save((T)newemployee);
         notificationManage.createNotifications(notificationList);
-
     }
 
     @Override

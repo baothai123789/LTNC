@@ -15,7 +15,6 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Notification {
-    private Person person;
     private String title;
     private String body;
     private LocalDateTime dateTime;
