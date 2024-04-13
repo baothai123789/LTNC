@@ -60,7 +60,7 @@ public class FinancialEmployee extends Employee {
         this.fund.addFund(fund);
     }
 
-    public void minusToFund(long fund){
+    public void minusFromFund(long fund){
         this.fund.minusFund(fund);
     }
 
