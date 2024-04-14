@@ -15,8 +15,9 @@ public class AddToFundService implements IAddToFundInterface {
     @Override
     public void addFeeToFund(FinancialEmployee financialEmployee,Patient patient) {
         if (financialEmployee.getPatientIntegerMap().containsKey(patient)) {
-            int fee = financialEmployee.getPatientFee(patient);
-            financialEmployee.addToFund(fee);
+            int fee = financialEmployee.getPatientIntegerMap().get(patient);
+            long curFund = financialEmployee.getFund();
+            financialEmployee.setFund(curFund + fee);
             financialEmployeeRepository.save(financialEmployee);
         } else {
             throw new RuntimeException("Patient not found in the list");

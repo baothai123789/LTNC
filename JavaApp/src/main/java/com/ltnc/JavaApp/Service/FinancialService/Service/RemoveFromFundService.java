@@ -18,9 +18,11 @@ public class RemoveFromFundService implements IRemoveFromFundService {
     @Override
     public void deductDoctorSalaryFromFund(FinancialEmployee financialEmployee, Doctor doctor) {
         if (financialEmployee.getDoctorIntegerMap().containsKey(doctor)) {
-            int doctorSalary = financialEmployee.getDoctorIntegerMap().get(doctor);
-            financialEmployee.minusFromFund(doctorSalary);
+            int salary = financialEmployee.getDoctorIntegerMap().get(doctor);
+            long curFund = financialEmployee.getFund();
+            financialEmployee.setFund(curFund - salary);
             financialEmployeeRepository.save(financialEmployee);
+
         } else {
             throw new RuntimeException("Doctor not found in the list of Financial Employee");
         }
@@ -29,8 +31,9 @@ public class RemoveFromFundService implements IRemoveFromFundService {
     @Override
     public void deductNurseSalaryFromFund(FinancialEmployee financialEmployee, Nurse nurse) {
         if (financialEmployee.getNurseIntegerMap().containsKey(nurse)) {
-            int nurseSalary = financialEmployee.getNurseIntegerMap().get(nurse);
-            financialEmployee.minusFromFund(nurseSalary);
+            int salary = financialEmployee.getNurseIntegerMap().get(nurse);
+            long curFund = financialEmployee.getFund();
+            financialEmployee.setFund(curFund - salary);
             financialEmployeeRepository.save(financialEmployee);
         } else {
             throw new RuntimeException("Nurse not found in the list of Financial Employee");
@@ -40,8 +43,9 @@ public class RemoveFromFundService implements IRemoveFromFundService {
     @Override
     public void deductPharmacyManagerSalaryFromFund(FinancialEmployee financialEmployee, PharmacyManager pharmacyManager) {
         if (financialEmployee.getPharmacyManagerIntegerMap().containsKey(pharmacyManager)) {
-            int pharmacyManagerSalary = financialEmployee.getPharmacyManagerIntegerMap().get(pharmacyManager);
-            financialEmployee.minusFromFund(pharmacyManagerSalary);
+            int salary = financialEmployee.getPharmacyManagerIntegerMap().get(pharmacyManager);
+            long curFund = financialEmployee.getFund();
+            financialEmployee.setFund(curFund - salary);
             financialEmployeeRepository.save(financialEmployee);
         } else {
             throw new RuntimeException("Pharmacy Manager not found in the list of Financial Employee");

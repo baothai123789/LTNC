@@ -14,8 +14,8 @@ public class AddToListOfPatientService implements IAddToListOfPatientService {
     private FinancialEmployeeRepository financialEmployeeRepository;
 
     @Override
-    public void addPatientToMap(FinancialEmployee financialEmployee, Patient patient, int fee) {
-        financialEmployee.getPatientIntegerMap().put(patient, fee);
+    public void addPatientToMap(FinancialEmployee financialEmployee, Patient patient) {
+        financialEmployee.getPatientIntegerMap().put(patient, 0);
         financialEmployeeRepository.save(financialEmployee);
     }
 }

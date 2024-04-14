@@ -16,19 +16,19 @@ public class AddToListOfEmployeeService implements IAddToListOfEmployeeService {
 
     @Override
     public void addDoctorToMap(FinancialEmployee financialEmployee, Doctor doctor) {
-        financialEmployee.addToDoctorMap(doctor);
+        financialEmployee.getDoctorIntegerMap().put(doctor, 0);
         financialEmployeeRepository.save(financialEmployee);
     }
 
     @Override
     public void addNurseToMap(FinancialEmployee financialEmployee, Nurse nurse) {
-        financialEmployee.addToNurseMap(nurse);
+        financialEmployee.getNurseIntegerMap().put(nurse, 0);
         financialEmployeeRepository.save(financialEmployee);
     }
 
     @Override
     public void addPharmacyManagerToMap(FinancialEmployee financialEmployee, PharmacyManager pharmacyManager) {
-        financialEmployee.addToPharmacyManagerMap(pharmacyManager);
+        financialEmployee.getPharmacyManagerIntegerMap().put(pharmacyManager,0);
         financialEmployeeRepository.save(financialEmployee);
     }
 }
