@@ -16,8 +16,9 @@ public class SetToListOfEmployeeService implements ISetToListOfEmployeeService {
     private FinancialEmployeeRepository financialEmployeeRepository;
 
     @Override
-    public void setDoctorMap(FinancialEmployee financialEmployee, Doctor doctor, int salary) {
-        if (financialEmployee.getDoctorIntegerMap().containsKey(doctor)) {
+    public void setDoctorMap(Doctor doctor, int salary) {
+        FinancialEmployee financialEmployee = financialEmployeeRepository.findByDoctor(doctor);
+        if (financialEmployee != null && financialEmployee.getDoctorIntegerMap().containsKey(doctor)) {
             financialEmployee.getDoctorIntegerMap().put(doctor, salary);
             financialEmployeeRepository.save(financialEmployee);
         } else {
@@ -26,8 +27,9 @@ public class SetToListOfEmployeeService implements ISetToListOfEmployeeService {
     }
 
     @Override
-    public void setNurseMap(FinancialEmployee financialEmployee, Nurse nurse, int salary) {
-        if (financialEmployee.getNurseIntegerMap().containsKey(nurse)) {
+    public void setNurseMap(Nurse nurse, int salary) {
+        FinancialEmployee financialEmployee = financialEmployeeRepository.findByNurse(nurse);
+        if (financialEmployee != null && financialEmployee.getNurseIntegerMap().containsKey(nurse)) {
             financialEmployee.getNurseIntegerMap().put(nurse, salary);
             financialEmployeeRepository.save(financialEmployee);
         } else {
@@ -36,8 +38,9 @@ public class SetToListOfEmployeeService implements ISetToListOfEmployeeService {
     }
 
     @Override
-    public void setPharmacyManagerMap(FinancialEmployee financialEmployee, PharmacyManager pharmacyManager, int salary) {
-        if (financialEmployee.getPharmacyManagerIntegerMap().containsKey(pharmacyManager)) {
+    public void setPharmacyManagerMap(PharmacyManager pharmacyManager, int salary) {
+        FinancialEmployee financialEmployee = financialEmployeeRepository.findByPharmacyManager(pharmacyManager);
+        if (financialEmployee != null&& financialEmployee.getPharmacyManagerIntegerMap().containsKey(pharmacyManager)) {
             financialEmployee.getPharmacyManagerIntegerMap().put(pharmacyManager, salary);
             financialEmployeeRepository.save(financialEmployee);
         } else {

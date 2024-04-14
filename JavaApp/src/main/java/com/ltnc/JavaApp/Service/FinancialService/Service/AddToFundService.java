@@ -3,18 +3,19 @@ package com.ltnc.JavaApp.Service.FinancialService.Service;
 import com.ltnc.JavaApp.Model.FinancialEmployee;
 import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.Repository.FinancialEmployeeRepository;
-import com.ltnc.JavaApp.Service.FinancialService.Interface.IAddToFundInterface;
+import com.ltnc.JavaApp.Service.FinancialService.Interface.IAddToFundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddToFundService implements IAddToFundInterface {
+public class AddToFundService implements IAddToFundService {
     @Autowired
     private FinancialEmployeeRepository financialEmployeeRepository;
 
     @Override
-    public void addFeeToFund(FinancialEmployee financialEmployee,Patient patient) {
-        if (financialEmployee.getPatientIntegerMap().containsKey(patient)) {
+    public void addFeeToFund(Patient patient) {
+        FinancialEmployee financialEmployee = financialEmployeeRepository.findByPatient(patient);
+        if (financialEmployee != null && financialEmployee.getPatientIntegerMap().containsKey(patient)) {
             int fee = financialEmployee.getPatientIntegerMap().get(patient);
             long curFund = financialEmployee.getFund();
             financialEmployee.setFund(curFund + fee);

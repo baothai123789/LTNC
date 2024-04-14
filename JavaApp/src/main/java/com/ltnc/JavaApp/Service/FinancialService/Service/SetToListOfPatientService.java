@@ -14,8 +14,9 @@ public class SetToListOfPatientService implements ISetToListOfPatientService {
     private FinancialEmployeeRepository financialEmployeeRepository;
 
     @Override
-    public void setPatientMap(FinancialEmployee financialEmployee, Patient patient, int fee) {
-        if (financialEmployee.getPatientIntegerMap().containsKey(patient)) {
+    public void setPatientMap(Patient patient, int fee) {
+        FinancialEmployee financialEmployee = financialEmployeeRepository.findByPatient(patient);
+        if (financialEmployee != null && financialEmployee.getPatientIntegerMap().containsKey(patient)) {
             financialEmployee.getPatientIntegerMap().put(patient, fee);
             financialEmployeeRepository.save(financialEmployee);
         } else {

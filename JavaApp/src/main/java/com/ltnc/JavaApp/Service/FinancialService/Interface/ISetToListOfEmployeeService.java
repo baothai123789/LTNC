@@ -6,7 +6,7 @@ import com.ltnc.JavaApp.Model.Nurse;
 import com.ltnc.JavaApp.Model.PharmacyManager;
 
 public interface ISetToListOfEmployeeService {
-    public void setDoctorMap(FinancialEmployee financialEmployee, Doctor doctor, int salary);
-    public void setNurseMap(FinancialEmployee financialEmployee, Nurse nurse, int salary);
-    public void setPharmacyManagerMap(FinancialEmployee financialEmployee, PharmacyManager pharmacyManager,int salary);
+    public void setDoctorMap(Doctor doctor, int salary);
+    public void setNurseMap(Nurse nurse, int salary);
+    public void setPharmacyManagerMap(PharmacyManager pharmacyManager,int salary);
 }

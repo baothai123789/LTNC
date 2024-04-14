@@ -4,5 +4,5 @@ import com.ltnc.JavaApp.Model.FinancialEmployee;
 import com.ltnc.JavaApp.Model.Patient;
 
 public interface ISetToListOfPatientService {
-    public void setPatientMap(FinancialEmployee financialEmployee, Patient patient, int fee);
+    public void setPatientMap(Patient patient, int fee);
 }
