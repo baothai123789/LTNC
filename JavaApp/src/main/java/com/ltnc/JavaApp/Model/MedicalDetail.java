@@ -1,5 +1,6 @@
 package com.ltnc.JavaApp.Model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class MedicalDetail {
     private boolean inProgress;
     private Prescription prescription;
     private List<MedicalSchedule> medicalSchedules;
+    private LocalDate date;
 
 }
 

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,8 @@ public class Doctor extends Employee implements MedicalDetailModel, ScheduleMode
     private  List<Schedule> schedules=new ArrayList<>();
     @DBRef
     private NotificationList notifications;
+    @DBRef
+    UserAccount userAccount;
     @Override
     public String getId() {return id;}
     @Override

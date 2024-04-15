@@ -7,6 +7,6 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.scheduling.support.SimpleTriggerContext;
 
 public interface UserAccountRepository extends MongoRepository<UserAccount,String> {
-    @Query("{'userName': ?0}")
+    @Query("{'username': ?0}")
     public UserAccount findByUserName(String username);
 }
