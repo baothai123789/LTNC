@@ -21,6 +21,8 @@ public class Nurse extends Employee implements IHospitalAdmissionManager {
     private List<HospitalAdmissionDetail> hospitalAdmissionDetails=new ArrayList<>();
     @DBRef
     private NotificationList notifications;
+    @DBRef
+    UserAccount userAccount;
     public Nurse() {}
     @Override
     public String getRole(){

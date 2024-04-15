@@ -16,6 +16,7 @@ public abstract class Person {
     protected int age;
     protected Address address;
 
+
     public abstract String getId();
 
     public abstract void setId(String id);
