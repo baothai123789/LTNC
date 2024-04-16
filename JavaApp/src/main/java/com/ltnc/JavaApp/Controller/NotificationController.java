@@ -9,6 +9,7 @@ import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,7 @@ public class NotificationController {
 
     @Autowired
     PatientProfileManageService patientProfileManageService;
+    @PreAuthorize("hasAnyAuthority('doctor','nurse','financialemployee')")
 
     @PostMapping("/sendnotification/")
     public ResponseEntity<Map<String,String>> sendNotification(@RequestBody NotificationRequestModel notificationRequestModel)
@@ -43,6 +45,7 @@ public class NotificationController {
         String message = "Success to send notification to user with id:"+person.getId();
         return new ResponseEntity<>(new HashMap<>(Map.of("message",message)), HttpStatus.CREATED);
     }
+    @PreAuthorize("hasAnyAuthority('doctor','nurse','financialemployee','pharmacymanager')")
     @GetMapping("getnotification/{role}/{userId}")
     public ResponseEntity<List<Notification>> getUserNotification(@PathVariable("userId") String userId,@PathVariable("role") String role){
         Person person;

@@ -6,6 +6,7 @@ import com.ltnc.JavaApp.Service.HospitalAdmission.Interface.IHospitalAdmissionMa
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ public class HospitalAdmissionController {
     @Autowired
     IHospitalAdmissionManageService hospitalAdmissionManageService;
 
+    @PreAuthorize("hasAuthority('nurse')")
     @GetMapping("/details/{id}")
     public ResponseEntity<List<HospitalAdmissionDetail>> getAllHospitalAdmission(@PathVariable("id") String nurseId){
         List<HospitalAdmissionDetail> hospitalAdmissionDetails;
@@ -29,6 +31,7 @@ public class HospitalAdmissionController {
         }
         return new ResponseEntity<>(hospitalAdmissionDetails,HttpStatus.OK);
     }
+    @PreAuthorize("hasAuthority('doctor')")
     @PostMapping("/createdetail/{id}")
     public ResponseEntity<Map<String,String>> createNewDetail(
             @RequestBody HospitalAdmissionDetail hospitalAdmissionDetail,
@@ -41,6 +44,7 @@ public class HospitalAdmissionController {
         }
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
     }
+    @PreAuthorize("hasAnyAuthority('nurse','doctor')")
     @PutMapping("/updatepatientstate/{detailid}")
     public ResponseEntity<Map<String,String>> updatePatientState(
             @RequestBody PatientState patientState,

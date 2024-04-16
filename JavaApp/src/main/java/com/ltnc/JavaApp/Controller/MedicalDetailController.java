@@ -11,6 +11,7 @@ import com.ltnc.JavaApp.Service.MedicalDetailService.Service.CreateMedicalDetail
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ public class MedicalDetailController {
     @Autowired
     MedicalDetailManageService medicalDetailManageService;
 
+    @PreAuthorize("hasAuthority('doctor')")
     @PostMapping("/create")
     private ResponseEntity<Map<String,String>> createMedicalDetail(
             @RequestBody CreateMedicalDetailModel createMedicalDetailModel
@@ -39,6 +41,7 @@ public class MedicalDetailController {
         }
         return new ResponseEntity<>(new HashMap<>(Map.of("message","Medical detail created!")),HttpStatus.CREATED);
     }
+    @PreAuthorize("hasAuthority('doctor')")
     @PutMapping("/edit/{id}")
     private ResponseEntity<Map<String,String>> editMedicalDetail(
         @PathVariable("id") String id,
@@ -52,6 +55,7 @@ public class MedicalDetailController {
         }
         return new ResponseEntity<>(new HashMap<>(Map.of("message","Medical detail updated!")),HttpStatus.OK);
     }
+    @PreAuthorize("hasAuthority('doctor')")
     @GetMapping("/getmedicaldetails/doctor/{id}")
     private ResponseEntity<List<DoctorMedicalDetailResponse>> getDoctorMedicalDetail(@PathVariable("id") String doctorId){
         List<MedicalDetail> res;
@@ -65,6 +69,7 @@ public class MedicalDetailController {
         return new ResponseEntity<>(responses,HttpStatus.OK);
 
     }
+    @PreAuthorize("hasAuthority('patient')")
     @GetMapping("/getmedicaldetails/patient/{id}")
      
     private ResponseEntity<List<PatientMedicalDetailResponse>> getPatientMedicalDetail(@PathVariable("id") String patientid){
@@ -78,6 +83,7 @@ public class MedicalDetailController {
 
         return new ResponseEntity<>(res.stream().map(PatientMedicalDetailResponse::new).toList(),HttpStatus.OK);
     }
+    @PreAuthorize("hasAuthority('nurse')")
     @GetMapping("/getmedicaldetails/nurse/{medicalid}")
     public ResponseEntity<NurseMedicalDetailResponse> getNurseMedicalDetail(@PathVariable("medicalid") String medicalId){
         MedicalDetail res;
