@@ -6,20 +6,29 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ServiceLoader;
+
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "PharmacyManagers")
-public class PharmacyManager extends FunctionalEmployee{
+public class PharmacyManager extends Employee{
     @Id
     private String id;
-    private int salary;
-    private List<Medicine> medicines;
-    private List<MedicalEquipment> medicalEquipments;
+    @DBRef
+    private List<Medicine> medicines = new ArrayList<>();
+    @DBRef
+    private List<MedicalEquipment> medicalEquipments = new ArrayList<>();
+    @DBRef
+    private NotificationList notifications;
+    @DBRef
+    UserAccount userAccount;
 
     @Override
     public String getId() {
@@ -32,21 +41,12 @@ public class PharmacyManager extends FunctionalEmployee{
     }
 
     @Override
-    public NotificationList getNotifications() {
-        return null;
+    public String getRole() {
+        return "pharmacymanger";
     }
-
-    @Override
-    public void setNotifications(NotificationList notifications) {
-
-    }
-
     @Override
     public String getPart() {
-        return "pharmacyManager";
+        return "medicalEmployee";
     }
 
-    @Override
-    public void setUserAccount(UserAccount userAccount) {
-    }
 }
