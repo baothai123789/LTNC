@@ -26,6 +26,7 @@ public class NurseAddHospitalAdmissionService implements IAddHospitalAdmissionSe
         newHospitalAdmission.setMedicalDetail(medicalDetail);
         newHospitalAdmission.setId(UUID.randomUUID().toString());
         nurse.addHospitalAdmissionDetail(newHospitalAdmission);
+        hospitalAdmissionDetailRepository.save(newHospitalAdmission);
         MyApp.LOGGER.info(nurse);
         nurseRepository.save(nurse);
     }

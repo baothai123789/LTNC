@@ -1,5 +1,6 @@
 package com.ltnc.JavaApp.Model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,26 +9,43 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "PharmacyManager")
-public class PharmacyManager extends  FunctionalEmployee{
+@Document(collection = "PharmacyManagers")
+public class PharmacyEquipmentManager extends FunctionalEmployee{
     @Id
     private String id;
     @DBRef
-    private UserAccount userAccount;
+    private List<MedicalEquipment> medicalEquipments = new ArrayList<>();
+
+    @DBRef
+    UserAccount userAccount;
+
     @Override
-    public String getPart() {
-        return "pharmacymanager";
+    public String getId() {
+        return id;
     }
+
+    @Override
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
 
     @Override
     public String getRole() {
-        return "pharmacymanager";
+        return "pharmacymanger";
     }
 
 
+    @Override
+    public String getPart() {
+        return "pharmacymanger";
+    }
 }

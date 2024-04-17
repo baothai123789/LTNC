@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -13,7 +12,7 @@ import lombok.NoArgsConstructor;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,include = JsonTypeInfo.As.PROPERTY,property = "part")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = FinancialEmployee.class, name = "financialEmployee"),
-        @JsonSubTypes.Type(value = PharmacyManager.class, name = "pharmacyManager")
+        @JsonSubTypes.Type(value = PharmacyEquipmentManager.class, name = "pharmacyManager")
 })
 public abstract class FunctionalEmployee extends  Employee{
     @Override
