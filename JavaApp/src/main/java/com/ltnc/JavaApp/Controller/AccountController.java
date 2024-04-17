@@ -61,8 +61,9 @@ public class AccountController {
         userAccount.setId(UUID.randomUUID().toString());
         patient.setUserAccount(userAccount);
         NotificationList notificationList=new NotificationList();
-        patient.setNotifications(notificationList);
-        notificationManage.createNotifications(patient.getNotifications());
+        notificationList.setId(UUID.randomUUID().toString());
+        userAccount.setNotificationList(notificationList);
+        notificationManage.createNotifications(userAccount.getNotificationList());
         patientProfileManageService.createProfile(patient);
         registerService.register(userAccount);
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
@@ -81,8 +82,9 @@ public class AccountController {
         userAccount.setId(UUID.randomUUID().toString());
         employee.setUserAccount(userAccount);
         NotificationList notificationList = new NotificationList();
-        employee.setNotifications(notificationList);
-        notificationManage.createNotifications(employee.getNotifications());
+        notificationList.setId(UUID.randomUUID().toString());
+        userAccount.setNotificationList(notificationList);
+        notificationManage.createNotifications(userAccount.getNotificationList());
         employeeProfileManageService.createEmployeeProfile(employee,userAccount.getRole());
         registerService.register(userAccount);
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
@@ -103,13 +105,20 @@ public class AccountController {
     }
     @PostMapping("/employee/login")
     public ResponseEntity<Map<String,String>> loginEmployeeAccount(@RequestBody EmployeeLoginModel employeeLoginModel){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(employeeLoginModel.getUsername(),employeeLoginModel.getPassword(),
-                        Collections.singleton(new SimpleGrantedAuthority(employeeLoginModel.getRole())))
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtGeneratorValidator.generateToken((CustomUserDetails) authentication.getPrincipal());
-        return new ResponseEntity<>(new HashMap<>(Map.of("token",jwt)),HttpStatus.OK);
+        MyApp.LOGGER.info(employeeLoginModel.getRole());
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(employeeLoginModel.getUsername(),employeeLoginModel.getPassword(),
+                            Collections.singleton(new SimpleGrantedAuthority(employeeLoginModel.getRole())))
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String jwt = jwtGeneratorValidator.generateToken((CustomUserDetails) authentication.getPrincipal());
+            return new ResponseEntity<>(new HashMap<>(Map.of("token",jwt)),HttpStatus.OK);
+        }
+        catch (Exception e){
+            MyApp.LOGGER.info(e.getMessage());
+        }
+        return new ResponseEntity<>(new HashMap<>(Map.of("message","fail")),HttpStatus.NOT_ACCEPTABLE);
     }
 
 }

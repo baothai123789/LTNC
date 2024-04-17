@@ -26,10 +26,7 @@ public class Patient extends Person  implements MedicalDetailModel, ScheduleMode
     @DBRef
     List<Schedule> schedules= new ArrayList<>();
     @DBRef
-    private NotificationList notifications;
-    @DBRef
     UserAccount userAccount;
-
     @Override
     public void addMedicalDetail(MedicalDetail medicalDetail) {
         this.medicalDetails.add(medicalDetail);

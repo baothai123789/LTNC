@@ -1,5 +1,6 @@
 package com.ltnc.JavaApp.Service.ScheduleService.Service;
 
+import com.ltnc.JavaApp.Model.Person;
 import com.ltnc.JavaApp.Model.Schedule;
 import com.ltnc.JavaApp.Repository.ScheduleRepository;
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.IAddScheduleService;
@@ -22,6 +23,7 @@ public abstract class AbstractAddScheduleService<T extends ScheduleModel> implem
         model.addSchedule(newSchedule);
         repository.save(model);
         scheduleRepository.save(newSchedule);
+
     }
     @Override
     public String getType(){

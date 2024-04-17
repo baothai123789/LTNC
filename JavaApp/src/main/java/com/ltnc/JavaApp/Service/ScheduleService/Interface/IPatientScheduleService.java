@@ -1,5 +1,6 @@
 package com.ltnc.JavaApp.Service.ScheduleService.Interface;
 
+import com.ltnc.JavaApp.Model.MedicalSchedule;
 import com.ltnc.JavaApp.Model.Schedule;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.PatientScheduleDTO;
 

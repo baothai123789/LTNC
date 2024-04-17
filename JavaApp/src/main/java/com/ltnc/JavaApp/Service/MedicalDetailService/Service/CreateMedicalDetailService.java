@@ -1,6 +1,7 @@
 package com.ltnc.JavaApp.Service.MedicalDetailService.Service;
 
 import com.ltnc.JavaApp.Model.*;
+import com.ltnc.JavaApp.Service.FinancialService.CreateNewMedicalBillService;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Service.MedicalDetailManageService;
 import com.ltnc.JavaApp.Service.NotificationService.NotificationManage;
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.ICreateMedicalDetailService;
@@ -15,6 +16,10 @@ import java.util.UUID;
 public class CreateMedicalDetailService implements ICreateMedicalDetailService {
     @Autowired
     private MedicalDetailManageService medicalDetailManageService;
+    @Autowired
+    private CreateNewMedicalBillService createNewMedicalBillService;
+
+
 
 
     @Override
@@ -29,5 +34,6 @@ public class CreateMedicalDetailService implements ICreateMedicalDetailService {
         catch (NullPointerException e) {
             throw  new NullPointerException("user not found");
         }
+
     }
 }

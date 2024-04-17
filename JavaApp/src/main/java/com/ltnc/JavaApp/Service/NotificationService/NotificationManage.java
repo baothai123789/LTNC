@@ -3,6 +3,7 @@ package com.ltnc.JavaApp.Service.NotificationService;
 import com.ltnc.JavaApp.Model.Notification;
 import com.ltnc.JavaApp.Model.NotificationList;
 import com.ltnc.JavaApp.Model.Person;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +18,13 @@ public class NotificationManage implements INotificationManage{
     @Autowired
     ICreateNotificationList createNotificationList;
     @Override
-    public void sendNotification(Notification notification,NotificationList notificationList) {
-
-        this.notificationSender.sendNotification(notification,notificationList);
+    public void sendNotification(Notification notification,Person userid) {
+        this.notificationSender.sendNotification(notification,userid);
     }
 
     @Override
-    public List<Notification> getNotifications(Person person) {
-        return this.notificationGetter.getNotifications(person);
+    public List<Notification> getNotifications(String userid) {
+        return this.notificationGetter.getNotifications(userid);
     }
 
     @Override

@@ -10,20 +10,20 @@ import java.util.List;
 
 @Service
 public class MedicalBillManage {
-    @Autowired
-    IAddMedicalBill addMedicalBill;
+
     @Autowired
     IGetMedicalBill getMedicalBill;
     @Autowired
     IUpdateMedicalBill updateMedicalBill;
+    @Autowired
+    FinacialBillDTOMapper finacialBillDTOMapper;
 
-    public FinancialEmployee addMedicalBill(MedicalBill newmedicalBill){
-        return this.addMedicalBill.addMedicalBill(newmedicalBill);
-    }
+
     public void paytheBill(String employeeId,String billId){
         this.updateMedicalBill.payBill(billId,employeeId);
     }
-    public List<MedicalBill> getMedicalBills(String employeeId,Boolean paid){
-        return this.getMedicalBill.getMedicalBills(employeeId,paid);
+    public List<FinacialBillDTO> getMedicalBills(String employeeId,Boolean paid){
+        List<MedicalBill> res=this.getMedicalBill.getMedicalBills(employeeId,paid);
+        return res.stream().map(medicalBill -> finacialBillDTOMapper.map(medicalBill)).toList();
     }
 }

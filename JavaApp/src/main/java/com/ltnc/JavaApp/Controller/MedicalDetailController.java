@@ -1,13 +1,11 @@
 package com.ltnc.JavaApp.Controller;
 
 import com.ltnc.JavaApp.Model.MedicalDetail;
+
 import com.ltnc.JavaApp.RequestModel.MedicalDetail.CreateMedicalDetailModel;
 import com.ltnc.JavaApp.RequestModel.MedicalDetail.MedicalDetailInfo;
-import com.ltnc.JavaApp.ResponseModel.MedicalDetailResponse.DoctorMedicalDetailResponse;
-import com.ltnc.JavaApp.ResponseModel.MedicalDetailResponse.NurseMedicalDetailResponse;
-import com.ltnc.JavaApp.ResponseModel.MedicalDetailResponse.PatientMedicalDetailResponse;
-import com.ltnc.JavaApp.Service.MedicalDetailService.Service.MedicalDetailManageService;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Service.CreateMedicalDetailService;
+import com.ltnc.JavaApp.Service.MedicalDetailService.Service.MedicalDetailManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,74 +23,43 @@ public class MedicalDetailController {
     @Autowired
     MedicalDetailManageService medicalDetailManageService;
 
-    @PreAuthorize("hasAuthority('doctor')")
-    @PostMapping("/create")
-    private ResponseEntity<Map<String,String>> createMedicalDetail(
-            @RequestBody CreateMedicalDetailModel createMedicalDetailModel
-            )
-    {
-        MedicalDetail detail = createMedicalDetailModel.getDetail();
-        MedicalDetailInfo info = createMedicalDetailModel.getInfo();
-        try{
-            this.createMedicalDetailService.createMedicalDetail(detail,info.getDoctorId(),info.getPatientId());
-        }
-        catch(NullPointerException e){
-            return new ResponseEntity<>(new HashMap<>(Map.of("message",e.getMessage())),HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(new HashMap<>(Map.of("message","Medical detail created!")),HttpStatus.CREATED);
-    }
-    @PreAuthorize("hasAuthority('doctor')")
-    @PutMapping("/edit/{id}")
-    private ResponseEntity<Map<String,String>> editMedicalDetail(
-        @PathVariable("id") String id,
-        @RequestBody MedicalDetail newDetail
-    ){
-        try{
-            this.medicalDetailManageService.updateMedicalDetail(newDetail,id);
-        }
-        catch(NullPointerException e){
-            return new ResponseEntity<>(new HashMap<>(Map.of("message",e.getMessage())),HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(new HashMap<>(Map.of("message","Medical detail updated!")),HttpStatus.OK);
-    }
-    @PreAuthorize("hasAuthority('doctor')")
-    @GetMapping("/getmedicaldetails/doctor/{id}")
-    private ResponseEntity<List<DoctorMedicalDetailResponse>> getDoctorMedicalDetail(@PathVariable("id") String doctorId){
-        List<MedicalDetail> res;
-        try {
-           res=this.medicalDetailManageService.getMedicalDetail(doctorId,"doctor");
-        }
-        catch(NullPointerException e){
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-        }
-        List<DoctorMedicalDetailResponse> responses = res.stream().map(DoctorMedicalDetailResponse::new).toList();
-        return new ResponseEntity<>(responses,HttpStatus.OK);
 
+    @PreAuthorize("hasAuthority('doctor')")
+    @PostMapping("/createmedicaldetail")
+    public ResponseEntity<Map<String,String>> createMedicalDetail(@RequestBody CreateMedicalDetailModel createMedicalDetailModel){
+        MedicalDetail medicalDetail = createMedicalDetailModel.getDetail();
+        MedicalDetailInfo info = createMedicalDetailModel.getInfo();
+        this.createMedicalDetailService.createMedicalDetail(
+                medicalDetail,info.getDoctorId(), info.getPatientId()
+        );
+        return new ResponseEntity<>(new HashMap<>(Map.of("message","success")), HttpStatus.CREATED);
+    }
+    @PreAuthorize("hasAuthority('doctor')")
+    @GetMapping("/getmedicaldetail/doctor/{id}")
+    public ResponseEntity<List<MedicalDetail>> getMedicalDetailDoctor(@PathVariable("id") String id){
+        List<MedicalDetail> res = this.medicalDetailManageService.getMedicalDetail(id,"doctor");
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
     @PreAuthorize("hasAuthority('patient')")
-    @GetMapping("/getmedicaldetails/patient/{id}")
-     
-    private ResponseEntity<List<PatientMedicalDetailResponse>> getPatientMedicalDetail(@PathVariable("id") String patientid){
-        List<MedicalDetail> res;
-        try {
-            res = this.medicalDetailManageService.getMedicalDetail(patientid,"patient");
-        }
-        catch(NullPointerException e){
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(res.stream().map(PatientMedicalDetailResponse::new).toList(),HttpStatus.OK);
+    @GetMapping("/getmedicaldetail/patient/{id}")
+    public ResponseEntity<List<MedicalDetail>> getMedicalDetailPatient(@PathVariable("id") String id){
+        List<MedicalDetail> res = this.medicalDetailManageService.getMedicalDetail(id,"patient");
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
     @PreAuthorize("hasAuthority('nurse')")
-    @GetMapping("/getmedicaldetails/nurse/{medicalid}")
-    public ResponseEntity<NurseMedicalDetailResponse> getNurseMedicalDetail(@PathVariable("medicalid") String medicalId){
-        MedicalDetail res;
-        try{
-            res = this.medicalDetailManageService.getMedicalDetailById(medicalId);
-        }
-        catch (NullPointerException e){
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(new NurseMedicalDetailResponse(res),HttpStatus.OK);
+    @GetMapping("/getmedicaldetail/nurse/{medicalid}")
+    public ResponseEntity<MedicalDetail> getMedicalDetailNurse(@PathVariable("medicalid") String medicalid){
+        MedicalDetail res = this.medicalDetailManageService.getMedicalDetailById(medicalid);
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
+    @PreAuthorize("hasAuthority('doctor')")
+    @PutMapping("/updatemedicaldetail/{medicaldetailid}")
+    public ResponseEntity<Map<String,String>> updateMedicalDetail(
+            @RequestBody MedicalDetail newmedicaldetail,
+            @PathVariable("medicaldetailid")String medicaldetailid){
+        this.medicalDetailManageService.updateMedicalDetail(newmedicaldetail,medicaldetailid);
+        return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.OK);
     }
 }
+
+

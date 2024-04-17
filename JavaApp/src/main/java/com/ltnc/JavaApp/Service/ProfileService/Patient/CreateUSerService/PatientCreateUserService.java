@@ -22,7 +22,6 @@ public class PatientCreateUserService implements IPatientCreateUserService {
         NotificationList notificationList = new NotificationList();
         notificationList.setId(UUID.randomUUID().toString());
         newpatient.setId(UUID.randomUUID().toString());
-        newpatient.setNotifications(notificationList);
         repository.save(newpatient);
         notificationManage.createNotifications(notificationList);
     }

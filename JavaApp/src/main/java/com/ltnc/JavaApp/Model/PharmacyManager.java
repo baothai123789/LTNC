@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.userdetails.User;
 
 import java.util.List;
 @EqualsAndHashCode(callSuper = true)
@@ -17,9 +19,8 @@ import java.util.List;
 public class PharmacyManager extends FunctionalEmployee{
     @Id
     private String id;
-    private int salary;
-    private List<Medicine> medicines;
-    private List<MedicalEquipment> medicalEquipments;
+    @DBRef
+    private UserAccount userAccount;
 
     @Override
     public String getId() {
@@ -30,23 +31,13 @@ public class PharmacyManager extends FunctionalEmployee{
     public void setId(String id) {
         this.id = id;
     }
-
-    @Override
-    public NotificationList getNotifications() {
-        return null;
-    }
-
-    @Override
-    public void setNotifications(NotificationList notifications) {
-
-    }
-
     @Override
     public String getPart() {
-        return "pharmacyManager";
+        return "pharmacymanager";
     }
 
     @Override
     public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
     }
 }

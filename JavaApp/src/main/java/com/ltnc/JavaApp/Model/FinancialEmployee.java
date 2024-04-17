@@ -15,8 +15,7 @@ import java.util.List;
 public class FinancialEmployee extends FunctionalEmployee {
     @Id
     private String id;
-    @DBRef
-    private NotificationList notificationList;
+
     @DBRef
     private List<MedicalBill> medicalBill=new ArrayList<>();
     @Setter
@@ -30,15 +29,7 @@ public class FinancialEmployee extends FunctionalEmployee {
     }
 
 
-    @Override
-    public NotificationList getNotifications() {
-        return this.notificationList;
-    }
 
-    @Override
-    public void setNotifications(NotificationList notifications) {
-        this.notificationList = notifications;
-    }
     public void addMedicalBill(MedicalBill medicalBill){
         this.amountofBillPaid++;
         this.medicalBill.add(medicalBill);
