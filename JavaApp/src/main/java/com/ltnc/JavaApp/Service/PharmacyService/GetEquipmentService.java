@@ -4,7 +4,7 @@ import com.ltnc.JavaApp.Model.MedicalEquipment;
 import com.ltnc.JavaApp.Model.PharmacyManager;
 import com.ltnc.JavaApp.Repository.MedicalEquipmentRepository;
 import com.ltnc.JavaApp.Repository.PharmacyManagerRepository;
-import com.ltnc.JavaApp.Service.PharmacyService.Interface.IGetService;
+import com.ltnc.JavaApp.Service.PharmacyService.Interface.IGetEquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class GetService implements IGetService {
+public class GetEquipmentService implements IGetEquipmentService {
 
     @Autowired
     private PharmacyManagerRepository pharmacyManagerRepository;

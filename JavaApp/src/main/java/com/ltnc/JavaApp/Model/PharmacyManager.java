@@ -18,7 +18,7 @@ import java.util.ServiceLoader;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "PharmacyManagers")
-public class PharmacyManager extends Employee{
+public class PharmacyManager extends FunctionalEmployee{
     @Id
     private String id;
     @DBRef

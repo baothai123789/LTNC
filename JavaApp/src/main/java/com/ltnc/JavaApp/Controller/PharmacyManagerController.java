@@ -2,8 +2,9 @@ package com.ltnc.JavaApp.Controller;
 
 import com.ltnc.JavaApp.Model.MedicalEquipment;
 import com.ltnc.JavaApp.Model.PharmacyManager;
-import com.ltnc.JavaApp.Service.PharmacyService.AddEquipmentService;
-import com.ltnc.JavaApp.Service.PharmacyService.RemoveEquipmentService;
+import com.ltnc.JavaApp.Service.PharmacyService.Interface.IAddEquipmentService;
+import com.ltnc.JavaApp.Service.PharmacyService.Interface.IGetEquipmentService;
+import com.ltnc.JavaApp.Service.PharmacyService.Interface.IRemoveEquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,10 +18,13 @@ import java.util.List;
 public class PharmacyManagerController {
 
     @Autowired
-    private AddEquipmentService addEquipmentService;
+    private IAddEquipmentService addEquipmentService;
 
     @Autowired
-    private RemoveEquipmentService removeEquipmentService;
+    private IRemoveEquipmentService removeEquipmentService;
+
+    @Autowired
+    private IGetEquipmentService getEquipmentService;
 
     @PreAuthorize("hasAuthority('pharmacyemployee')")
     @PostMapping("/{managerId}/equipment")
@@ -28,7 +32,7 @@ public class PharmacyManagerController {
             @PathVariable String managerId,
             @RequestBody MedicalEquipment equipment
     ) {
-        PharmacyManager updatedManager = addEquipmentService.addEquipment(equipment);
+        PharmacyManager updatedManager = addEquipmentService.addEquipment(managerId,equipment);
         return ResponseEntity.ok(updatedManager);
     }
 
@@ -42,5 +46,22 @@ public class PharmacyManagerController {
         return ResponseEntity.ok(updatedManager);
     }
 
+    @GetMapping("/equipment")
+    @PreAuthorize("hasAuthority('pharmacyemployee')")
+    public ResponseEntity<List<MedicalEquipment>> getAllMedicalEquipments() {
+        List<MedicalEquipment> medicalEquipments = getEquipmentService.getAllMedicalEquipments();
+        return ResponseEntity.ok(medicalEquipments);
+    }
+
+    @GetMapping("/equipment/{equipmentId}")
+    @PreAuthorize("hasAuthority('pharmacyemployee')")
+    public ResponseEntity<MedicalEquipment> getMedicalEquipmentById(@PathVariable String equipmentId) {
+        MedicalEquipment medicalEquipment = getEquipmentService.getMedicalEquipmentById(equipmentId);
+        if (medicalEquipment != null) {
+            return ResponseEntity.ok(medicalEquipment);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

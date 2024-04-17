@@ -21,23 +21,19 @@ public class AddEquipmentService implements IAddEquipmentService {
     private MedicalEquipmentRepository medicalEquipmentRepository;
 
     @Override
-    public PharmacyManager addEquipment(MedicalEquipment equipment) {
-        Optional<PharmacyManager> pharmacyManagerOptional = findEmployee();
-
+    public PharmacyManager addEquipment(String id,MedicalEquipment equipment) {
+        Optional<PharmacyManager> pharmacyManagerOptional = pharmacyManagerRepository.findById(id);
         if (pharmacyManagerOptional.isPresent()) {
             PharmacyManager pharmacyManager = pharmacyManagerOptional.get();
             List<MedicalEquipment> currentEquipments = pharmacyManager.getMedicalEquipments();
             currentEquipments.add(equipment);
             pharmacyManager.setMedicalEquipments(currentEquipments);
 
-            // Save the updated PharmacyManager with the new equipment
             return pharmacyManagerRepository.save(pharmacyManager);
         } else {
             throw new RuntimeException("No valid PharmacyManager found to add equipment");
         }
     }
 
-    private Optional<PharmacyManager> findEmployee() {
-        return pharmacyManagerRepository.findPharmacyManagerValid().stream().findFirst();
-    }
+
 }
