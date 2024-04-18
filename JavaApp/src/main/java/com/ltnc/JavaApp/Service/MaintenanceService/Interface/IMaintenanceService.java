@@ -7,4 +7,5 @@ import java.time.LocalDate;
 
 public interface IMaintenanceService {
     public HistoryDTO createMaintenance(LocalDate date,String detail,String equipId,Boolean active);
+    public HistoryDTO updateMaintenance(String id, LocalDate date, String equipmentId, String detail, Boolean active);
 }

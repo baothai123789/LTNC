@@ -20,4 +20,21 @@ public class MedicalEquipment {
     private List<MaintenanceHistory> maintenanceHistory;
 
 
+    public void addHistory(MaintenanceHistory history) {
+        this.maintenanceHistory.add(history);
+    }
+
+    public boolean updateHistory(String historyId, MaintenanceHistory updatedHistory) {
+        for (int i = 0; i < maintenanceHistory.size(); i++) {
+            MaintenanceHistory history = maintenanceHistory.get(i);
+            if (history.getId().equals(historyId)) {
+                history.setDate(updatedHistory.getDate());
+                history.setDetail(updatedHistory.getDetail());
+                history.setActive(updatedHistory.getActive());
+                maintenanceHistory.set(i, history);
+                return true;
+            }
+        }
+        return false;
+    }
 }
