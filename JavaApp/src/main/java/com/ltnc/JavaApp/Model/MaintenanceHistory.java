@@ -18,6 +18,7 @@ public class MaintenanceHistory {
     private String id;
     @Indexed
     private LocalDate date;
+    private Boolean active;
     private String detail;
     private String equipid;
 
