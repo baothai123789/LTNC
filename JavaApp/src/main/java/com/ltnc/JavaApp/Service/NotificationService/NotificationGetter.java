@@ -22,7 +22,6 @@ public class NotificationGetter implements INotificationGetter{
     @Override
     public List<Notification> getNotifications(String username) throws NullPointerException {
         UserAccount userAccount=userAccountRepository.findByUserName(username);
-        NotificationList notificationList = notificationRepository.findById(userAccount.getNotificationList().getId()).orElseThrow(NullPointerException::new);
-        return notificationList.getNotifications();
+        return userAccount.getNotificationList().getNotifications();
     }
 }

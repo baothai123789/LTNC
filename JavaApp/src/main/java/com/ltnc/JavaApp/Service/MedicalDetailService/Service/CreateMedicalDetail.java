@@ -36,6 +36,8 @@ public class CreateMedicalDetail {
         doctor.addMedicalDetail(medicalDetail);
         patient.addMedicalDetail(medicalDetail);
         medicalDetailRepository.save(medicalDetail);
+        doctorRepository.save(doctor);
+        patientRepository.save(patient);
         List<Schedule> schedules=scheduleMedicalDetailService.createMedicalSchedule(doctor,patient,medicalDetail.getMedicalSchedules());
         scheduleRepository.saveAll(schedules);
         for(Schedule schedule:schedules){
