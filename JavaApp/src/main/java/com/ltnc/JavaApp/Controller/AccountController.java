@@ -11,23 +11,23 @@ import com.ltnc.JavaApp.RequestModel.CreateUserRequestModel.EmployeeRegisterRequ
 import com.ltnc.JavaApp.RequestModel.CreateUserRequestModel.LoginModel;
 import com.ltnc.JavaApp.RequestModel.CreateUserRequestModel.PatientRegisterRequestModel;
 import com.ltnc.JavaApp.Service.AccountService.CustomUserDetails;
+import com.ltnc.JavaApp.Service.AccountService.IUserManageService;
 import com.ltnc.JavaApp.Service.AccountService.RegisterService;
+import com.ltnc.JavaApp.Service.AccountService.UserAccountService;
 import com.ltnc.JavaApp.Service.NotificationService.NotificationManage;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,6 +51,8 @@ public class AccountController {
     BCryptPasswordEncoder cryptPasswordEncoder;
     @Autowired
     NotificationManage notificationManage;
+    @Autowired
+    IUserManageService userManageService;
 
     @PostMapping("/patient/register")
     public ResponseEntity<Map<String,String>> registerAccount(@RequestBody PatientRegisterRequestModel patientRegisterRequestModel){
@@ -103,6 +105,18 @@ public class AccountController {
         return new ResponseEntity<>(new HashMap<>(Map.of("token",jwt)),HttpStatus.OK);
 
     }
+    @PreAuthorize("hasAnyAuthority('patient','doctor','nurse','financialemployee','pharmacymanager')")
+    @GetMapping("/getuserid/{username}")
+    public ResponseEntity<Map<String,String>> getUserId(@PathVariable("username") String username){
+        try{
+            Map<String,String> res = userManageService.getUserId(username);
+            return new ResponseEntity<>(res,HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(new HashMap<>(Map.of("error",e.getMessage())),HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
     @PostMapping("/employee/login")
     public ResponseEntity<Map<String,String>> loginEmployeeAccount(@RequestBody EmployeeLoginModel employeeLoginModel){
         MyApp.LOGGER.info(employeeLoginModel.getRole());
