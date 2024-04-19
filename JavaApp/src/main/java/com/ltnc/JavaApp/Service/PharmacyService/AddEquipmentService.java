@@ -17,9 +17,6 @@ public class AddEquipmentService implements IAddEquipmentService {
     @Autowired
     private PharmacyManagerRepository pharmacyManagerRepository;
 
-    @Autowired
-    private MedicalEquipmentRepository medicalEquipmentRepository;
-
     @Override
     public PharmacyEquipmentManager addEquipment(String id, MedicalEquipment equipment) {
         Optional<PharmacyEquipmentManager> pharmacyManagerOptional = pharmacyManagerRepository.findById(id);

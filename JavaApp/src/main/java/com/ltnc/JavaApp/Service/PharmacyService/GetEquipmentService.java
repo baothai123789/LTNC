@@ -1,7 +1,7 @@
 package com.ltnc.JavaApp.Service.PharmacyService;
 
 import com.ltnc.JavaApp.Model.MedicalEquipment;
-import com.ltnc.JavaApp.Repository.MedicalEquipmentRepository;
+import com.ltnc.JavaApp.Model.PharmacyEquipmentManager;
 import com.ltnc.JavaApp.Repository.PharmacyManagerRepository;
 import com.ltnc.JavaApp.Service.PharmacyService.Interface.IGetEquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +16,29 @@ public class GetEquipmentService implements IGetEquipmentService {
     @Autowired
     private PharmacyManagerRepository pharmacyManagerRepository;
 
-    @Autowired
-    private MedicalEquipmentRepository medicalEquipmentRepository;
-
     @Override
-    public MedicalEquipment getMedicalEquipmentById(String id) {
-        Optional<MedicalEquipment> medicalEquipmentOptional = medicalEquipmentRepository.findById(id);
-        return medicalEquipmentOptional.orElse(null);
+    public List<MedicalEquipment> getAllMedicalEquipments(String managerId) {
+        Optional<PharmacyEquipmentManager> pharmacyManagerOptional = pharmacyManagerRepository.findById(managerId);
+        if (pharmacyManagerOptional.isPresent()) {
+            PharmacyEquipmentManager pharmacyManager = pharmacyManagerOptional.get();
+            return pharmacyManager.getMedicalEquipments();
+        } else {
+            throw new RuntimeException("No valid PharmacyManager found to get equipment");
+        }
     }
 
     @Override
-    public List<MedicalEquipment> getAllMedicalEquipments() {
-        return medicalEquipmentRepository.findAll();
+    public MedicalEquipment getMedicalEquipmentById(String managerId, String equipmentId) {
+        Optional<PharmacyEquipmentManager> pharmacyManagerOptional = pharmacyManagerRepository.findById(managerId);
+        if (pharmacyManagerOptional.isPresent()) {
+            PharmacyEquipmentManager pharmacyManager = pharmacyManagerOptional.get();
+            List<MedicalEquipment> medicalEquipments = pharmacyManager.getMedicalEquipments();
+            for (MedicalEquipment equipment : medicalEquipments) {
+                if (equipment.getId().equals(equipmentId)) {
+                    return equipment;
+                }
+            }
+        }
+        return null;
     }
 }

@@ -6,6 +6,7 @@ import com.ltnc.JavaApp.Service.PharmacyService.Interface.IAddEquipmentService;
 import com.ltnc.JavaApp.Service.PharmacyService.Interface.IGetEquipmentService;
 import com.ltnc.JavaApp.Service.PharmacyService.Interface.IRemoveEquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +32,8 @@ public class PharmacyManagerController {
             @PathVariable String managerId,
             @RequestBody MedicalEquipment equipment
     ) {
-        PharmacyEquipmentManager updatedManager = addEquipmentService.addEquipment(managerId,equipment);
-        return ResponseEntity.ok(updatedManager);
+        PharmacyEquipmentManager updatedManager = addEquipmentService.addEquipment(managerId, equipment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updatedManager);
     }
 
     @PreAuthorize("hasAuthority('pharmacyemployee')")
@@ -45,22 +46,25 @@ public class PharmacyManagerController {
         return ResponseEntity.ok(updatedManager);
     }
 
-    @GetMapping("/equipment")
+    @GetMapping("/{managerId}/equipment")
     @PreAuthorize("hasAuthority('pharmacyemployee')")
-    public ResponseEntity<List<MedicalEquipment>> getAllMedicalEquipments() {
-        List<MedicalEquipment> medicalEquipments = getEquipmentService.getAllMedicalEquipments();
+    public ResponseEntity<List<MedicalEquipment>> getAllMedicalEquipments(
+            @PathVariable String managerId) {
+        List<MedicalEquipment> medicalEquipments = getEquipmentService.getAllMedicalEquipments(managerId);
         return ResponseEntity.ok(medicalEquipments);
     }
 
-    @GetMapping("/equipment/{equipmentId}")
+    @GetMapping("/{managerId}/equipment/{equipmentId}")
     @PreAuthorize("hasAuthority('pharmacyemployee')")
-    public ResponseEntity<MedicalEquipment> getMedicalEquipmentById(@PathVariable String equipmentId) {
-        MedicalEquipment medicalEquipment = getEquipmentService.getMedicalEquipmentById(equipmentId);
+    public ResponseEntity<MedicalEquipment> getMedicalEquipmentById(
+            @PathVariable String managerId,
+            @PathVariable String equipmentId
+    ) {
+        MedicalEquipment medicalEquipment = getEquipmentService.getMedicalEquipmentById(managerId, equipmentId);
         if (medicalEquipment != null) {
             return ResponseEntity.ok(medicalEquipment);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
-
 }
