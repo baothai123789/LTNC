@@ -1,0 +1,253 @@
+ <!DOCTYPE html>
+<html lang="vi">
+<head>
+    <script>
+        window.onload = function() {
+          if (!sessionStorage.getItem('jwt')) {
+            window.location.href = '/Nam2/advanced_programming/final/login/login_signup.html  '; // Nếu không có token, chuyển hướng người dùng về trang đăng nhập
+          }
+        }
+      </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style rel="stylesheet" href="file.css">
+    
+    body {
+        color:rgb(14, 98, 81);
+        font-weight: 600;
+        box-sizing: border-box;
+    
+    }
+    header {
+        background-color:  #f4f4f4;
+        color: white;
+        text-align:start;
+        position: sticky;
+        margin:0px;
+        padding:0px;
+        top: 0;
+        z-index: 100;
+    }
+    header button{
+        background-color:  #f4f4f4;
+        text-align: center;
+    }
+    header button:hover{
+        background-color:  #f4f4f4;
+    }
+
+    #nav1 {
+        background-color: rgb(213, 245, 227);  
+        padding:1px;
+        margin:1px;
+        width: 15%;
+        height: 100%;
+        float: left;   
+        position: fixed;
+    }
+    #nav1 ul {
+        list-style: none;        
+        padding: 0px;
+    }
+    #nav1 ul button {
+        background-color: rgb(115, 198, 182);
+        cursor: pointer;
+        border: #f4f4f4;
+        height:100px;
+    }
+    #nav1 ul button:hover {
+        cursor: pointer;
+    }
+    #nav2{
+        text-align: right;
+        margin: 0px;
+        padding:0px;
+    }
+    section {
+        margin-left: 15%;
+    }
+
+    .menu-toggle {
+        display:block;
+        cursor: pointer;
+        color: white;
+        text-align:center;
+        font-size: 200%;
+        max-width: 8%;
+        padding:0.5rem;
+    }
+    #notification-div {
+        background-color: #F2F3F4 ;
+        padding:1px;
+        margin:1px;
+        width: 300px;
+        height: 500px;
+        float: right;   
+        top:60px;
+        right: 60px;
+        position: absolute;
+        
+    }
+    .notification-toggle {
+        display:block;
+        cursor: pointer;
+        color: white;
+        text-align:center;
+        font-size: 25px;
+        max-width: 20%;
+        padding:0.5rem;
+    }
+    .home-toggle {
+        display:block;
+        cursor: pointer;
+        color: white;
+        text-align:center;
+        font-size: 25px;
+        max-width: 20%;
+        padding:0.5rem;
+    }
+    .guide-toggle {
+        display:block;
+        cursor: pointer;
+        color: white;
+        text-align:center;
+        font-size: 25px;
+        max-width: 20%;
+        padding:0.5rem;
+    }
+    #account-div {
+        background-color: #F2F3F4  ;
+        padding:1px;
+        margin:1px;
+        width: 300px;
+        height: 500px;
+        float: right;   
+        top:60px;
+        right: 0px;
+        position: absolute;
+        
+    }
+    .account-toggle {
+        display:block;
+        cursor: pointer;
+        color: white;
+        text-align:center;
+        font-size: 25px;
+        max-width: 20%;
+        padding:0.5rem;
+    }
+    @media (max-width: 600px) {
+        #nav1 {
+            height: auto;
+            position: relative;
+        }
+        #nav1 ul {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+    .button {
+        display: inline-block;
+        margin-top: 10px;
+        margin-left:50%;
+        padding: 10px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-radius: 30%;
+        border-color: #f4f4f4;
+        background-color: rgb(26, 188, 156);
+        transition-property: background-color, color;
+        transition-duration: 500ms, 200ms;
+        transition-timing-function: cubic-bezier(.789, .159, .25, 1), cubic-bezier(.789, .159, .25, 1);
+        color: white;
+        font-size: 16px;
+        width: auto;
+        line-height: 26px;
+        font-weight: 600;
+        text-align: center;
+    }
+    .button:hover {
+        background-color: white;
+        color: #6b6b6b;
+    }
+    form{
+        font-size: 20px;
+        align-items: center;
+        max-width: 700px;
+        margin-left:22%;
+        padding-top:50px;
+        padding-left: 7%;
+        padding-right: 10%;
+        box-shadow: 0px 0px 10px rgba(208, 236, 231);
+        background-color: rgb(163, 228, 215);
+    }
+    input, label, select{
+        margin: 5px;
+    }
+    h1{
+        margin-left:22%;
+        padding-left: 160px;
+        font-size:40px;
+
+    }
+    .__icon{
+        font-size: 30px;
+        color:white;
+        margin-left:40px;
+
+    }
+</style>
+</head>
+<body>
+    <header >
+        <nav id='nav2' class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid" style="background-color: rgb(213, 245, 227);">
+                <button class="menu-toggle btn btn-secondary disabled;" style="background-color: rgb(115, 198, 182);border: #f4f4f4;">☰</button>
+                <div class="d-flex justify-content-end" >
+                    <i class="home-toggle btn btn-secondary __icon  fas fa-home" onclick="window.location.href='Doctor.html';"></i>
+                    <i class="notification-toggle btn btn-secondary  __icon fas fa-bell" ></i>
+                    <i class="guide-toggle btn btn-secondary __icon fas fa-map" ></i>  
+                    <i class="account-toggle btn btn-secondary __icon fas fa-user"></i>
+                </div>
+            </div>
+       </nav>
+     </header>
+<div id ='notification-div'>
+    <div>Thông báo ở đây</div>
+    <div>Thông báo 1</div>
+    <div>Thông báo 2</div>
+    <div>Thông báo 3</div>
+</div>
+<div id ='account-div'>
+    <div style="font-size:30px;"><i class="fa fa-sign-out" style="font-size:30px;color: black;" ></i>Sign out</div>
+</div>
+<div id ='nav1'>
+    <ul class="d-grid gap-2" >
+    <button onclick="func1()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem thông tin cá nhân</button>
+    <button onclick="func2()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Sửa thông tin cá nhân</button>
+    <button onclick="func3()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem hồ sơ khám bệnh</button>
+    <button onclick="func4()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem lịch khám bệnh</button>
+    </ul>
+</div>
+<section id="section">
+    <img src="bg_doctor.jpg" style="height: 100%;width: 100%;"></img>
+                
+</section>
+<script src="file.js"></script>
+</body>
+</html>
