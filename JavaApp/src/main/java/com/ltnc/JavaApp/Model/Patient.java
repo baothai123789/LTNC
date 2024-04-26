@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,15 +22,11 @@ public class Patient extends Person  implements MedicalDetailModel, ScheduleMode
     private List<MedicalRecord> medicalRecords=new ArrayList<>();
 
     @DBRef
-    UserAccount userAccount;
-    @DBRef
     List<MedicalDetail> medicalDetails= new ArrayList<>();
     @DBRef
     List<Schedule> schedules= new ArrayList<>();
     @DBRef
-    private NotificationList notifications;
-
-
+    UserAccount userAccount;
     @Override
     public void addMedicalDetail(MedicalDetail medicalDetail) {
         this.medicalDetails.add(medicalDetail);

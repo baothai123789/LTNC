@@ -1,32 +1,34 @@
 package com.ltnc.JavaApp.Service.FinancialService;
 
-import com.ltnc.JavaApp.Model.FinancialEmployee;
-import com.ltnc.JavaApp.Model.MedicalBill;
-import com.ltnc.JavaApp.Model.Notification;
-import com.ltnc.JavaApp.Service.NotificationService.NotificationManage;
+import com.ltnc.JavaApp.Model.*;
+import com.mongodb.lang.Nullable;
+import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
+
 
 @Service
 public class CreateNewMedicalBillService {
     @Autowired
-    MedicalBillManage medicalBillManage;
+    MedicalBillCreatorFactory medicalBillCreatorFactory;
     @Autowired
-    NotificationManage notificationManage;
-    void sendNotification(FinancialEmployee financialEmployee){
-        String notifi =" Ban co hoa don moi tu hoa don kham benh ma:" ;
-        Notification notification = new Notification("Hoa don moi",notifi, LocalDateTime.now());
-        notificationManage.sendNotification(notification,financialEmployee.getNotificationList());
-    }
-    public void createNewMedicalBill(MedicalBill medicalBill){
-        for(Map<String,Object> precistion:medicalBill.getPrescription()){
-            precistion.put("inInventory",true);
-        }
-        FinancialEmployee employee = medicalBillManage.addMedicalBill(medicalBill);
-        sendNotification(employee);
+    FinancialNotifyService financialNotifyService;
+    @Autowired
+    FindFinancialEmployeeService findFinancialEmployeeService;
+    @Autowired
+    IAddMedicalBill addMedicalBill;
+
+    public void createNewMedicalBill(@Nullable MedicalDetail medicalDetail,
+                                     @Nullable List<Map<String,Object>> presciption,
+                                     @Nonnull Patient patient,@Nonnull String type) throws NullPointerException{
+        IMedicalBillCreator creator = medicalBillCreatorFactory.getBillCreator(type);
+        MedicalBill medicalBill=creator.createBill(medicalDetail,presciption,patient);
+        FinancialEmployee financialEmployee = findFinancialEmployeeService.findEmployee().orElseThrow(()->new NullPointerException("cannot find financial employee"));
+        financialEmployee.addMedicalBill(medicalBill);
+        addMedicalBill.addMedicalBill(medicalBill,financialEmployee);
+        financialNotifyService.sendNotifytoEmployee(financialEmployee,medicalBill,patient.getId());
+        financialNotifyService.sendNotifytoPatient(patient,medicalBill,financialEmployee.getPhone(), medicalBill.getId());
     }
 }

@@ -20,10 +20,8 @@ public class HospitalAdmissionDetail {
     private String id;
     @DBRef
     private MedicalDetail medicalDetail;
-    @DBRef
-    private Doctor doctor;
-    @DBRef
-    private Patient patient;
+    private String doctorId;
+    private String patientId;
     private List<PatientState> patientStates=new ArrayList<>();
     private String detail;
     private LocalDate startDate;

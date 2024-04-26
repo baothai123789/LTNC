@@ -1,5 +1,6 @@
 package com.ltnc.JavaApp.Service.ScheduleService.Service;
 
+import com.ltnc.JavaApp.Model.Person;
 import com.ltnc.JavaApp.Model.Schedule;
 
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.*;
@@ -28,7 +29,7 @@ public class ScheduleMangeService implements IScheduleManageService{
     public ScheduleMangeService(){}
 
     @Override
-    public void addSchedule(Schedule newschedule, String modelId,String type)throws NullPointerException {
+    public void addSchedule(Schedule newschedule, String modelId, String type)throws NullPointerException {
         IAddScheduleService addScheduleService=addScheduleServices
                 .stream().filter(service->service.getType().equalsIgnoreCase(type)).findFirst()
                 .orElseThrow(NullPointerException::new);

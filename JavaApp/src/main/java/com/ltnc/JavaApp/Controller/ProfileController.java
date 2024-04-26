@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/profile")
 public class ProfileController {
     @Autowired
@@ -24,7 +25,7 @@ public class ProfileController {
     @Autowired
     EmployeeProfileManageService employeeProfileManageService;
 
-    @PreAuthorize("hasAuthority('patient')")
+    @PreAuthorize("permitAll()")
     @GetMapping("/patient/getprofile/{id}")
     public ResponseEntity<PatientProfileResponseModel> getPatientProfile(@PathVariable("id") String id){
         MyApp.LOGGER.info("hello");
@@ -37,6 +38,7 @@ public class ProfileController {
         }
         return new ResponseEntity<>(new PatientProfileResponseModel(res), HttpStatus.OK);
     }
+    @PreAuthorize("permitAll()")
     @GetMapping("/employee/{type}/getprofile/{id}")
     public ResponseEntity<EmployeeProfileResponseModel> getEmployeeProfile(@PathVariable("id") String id,@PathVariable("type") String type ){
         Employee employee;
@@ -48,6 +50,7 @@ public class ProfileController {
         }
         return new ResponseEntity<>(new EmployeeProfileResponseModel(employee),HttpStatus.OK);
     }
+    @PreAuthorize("hasAuthority('patient')")
     @PostMapping("/patient/createprofile/")
     public ResponseEntity<Map<String,String>> createPatientProfile(@RequestBody Patient patient){
         try {
@@ -58,6 +61,7 @@ public class ProfileController {
         }
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
     }
+    @PreAuthorize("hasAnyAuthority('doctor','nurse','financialemployee')")
     @PostMapping("/employee/createprofile")
     public ResponseEntity<Map<String,String>> createEmployeeProfile(@RequestBody Employee employee){
         try{
@@ -73,6 +77,7 @@ public class ProfileController {
         }
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
     }
+    @PreAuthorize("hasAuthority('patient')")
     @PutMapping("/patient/editprofile/{id}")
     public ResponseEntity<Map<String,String>> editPatientProfile(@RequestBody Patient patient,@PathVariable("id") String id){
         try {
@@ -83,6 +88,7 @@ public class ProfileController {
         }
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.OK);
     }
+    @PreAuthorize("hasAnyAuthority('doctor','nurse','financialemployee')")
     @PutMapping("/employee/editprofile/{id}")
     public ResponseEntity<Map<String,String>> editEmployeeProfile(@RequestBody Employee employee,@PathVariable("id")String id){
         try{

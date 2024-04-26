@@ -19,7 +19,5 @@ public class Schedule {
     private Integer startTime;
     private Integer endTime;
     private String detail;
-    private String patientId;
-    private String doctorId;
 }
 

@@ -4,5 +4,5 @@ import com.ltnc.JavaApp.Model.FinancialEmployee;
 import com.ltnc.JavaApp.Model.MedicalBill;
 
 public interface IAddMedicalBill {
-    public FinancialEmployee addMedicalBill(MedicalBill medicalBill);
+    public void addMedicalBill(MedicalBill medicalBill,FinancialEmployee financialEmployee);
 }

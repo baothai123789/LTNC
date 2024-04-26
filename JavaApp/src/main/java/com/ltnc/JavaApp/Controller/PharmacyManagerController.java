@@ -1,33 +1,67 @@
 package com.ltnc.JavaApp.Controller;
 
-import com.ltnc.JavaApp.Model.Medicine;
-import com.ltnc.JavaApp.Service.PharmacyService.PharmacyManagerService;
+import com.ltnc.JavaApp.Model.MedicalEquipment;
+import com.ltnc.JavaApp.Model.PharmacyEquipmentManager;
+import com.ltnc.JavaApp.Service.PharmacyService.Interface.IAddEquipmentService;
+import com.ltnc.JavaApp.Service.PharmacyService.Interface.IGetEquipmentService;
+import com.ltnc.JavaApp.Service.PharmacyService.Interface.IRemoveEquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/pharmacyitem")
+@CrossOrigin(origins = "*")
+@RequestMapping("/pharmacymanager")
 public class PharmacyManagerController {
-    private final PharmacyManagerService pharmacyManagerService;
+
     @Autowired
-    public PharmacyManagerController(PharmacyManagerService pharmacyManagerService) {
-        this.pharmacyManagerService = pharmacyManagerService;
-    }
-    @PostMapping("/addMedicine/{managerId}")
-    public void addMedicine(@PathVariable String managerId, @RequestBody Medicine medicine) {
-        pharmacyManagerService.addMedicine(managerId, medicine);
+    private IAddEquipmentService addEquipmentService;
+
+    @Autowired
+    private IRemoveEquipmentService removeEquipmentService;
+
+    @Autowired
+    private IGetEquipmentService getEquipmentService;
+
+    @PreAuthorize("hasAuthority('pharmacyemployee')")
+    @PostMapping("/{managerId}/equipment")
+    public ResponseEntity<PharmacyEquipmentManager> addEquipmentToManager(
+            @PathVariable String managerId,
+            @RequestBody MedicalEquipment equipment
+    ) {
+        PharmacyEquipmentManager updatedManager = addEquipmentService.addEquipment(managerId,equipment);
+        return ResponseEntity.ok(updatedManager);
     }
 
-    @DeleteMapping("/removeMedicine/{managerId}/{medicineId}")
-    public void removeMedicine(@PathVariable String managerId, @PathVariable String medicineId) {
-        pharmacyManagerService.removeMedicine(managerId, medicineId);
+    @PreAuthorize("hasAuthority('pharmacyemployee')")
+    @DeleteMapping("/{managerId}/equipment/{equipmentId}")
+    public ResponseEntity<PharmacyEquipmentManager> removeEquipmentFromManager(
+            @PathVariable String managerId,
+            @PathVariable String equipmentId
+    ) {
+        PharmacyEquipmentManager updatedManager = removeEquipmentService.removeEquipment(managerId, equipmentId);
+        return ResponseEntity.ok(updatedManager);
     }
 
-    @GetMapping("/medicines/{managerId}")
-    public List<Medicine> getAllMedicines(@PathVariable String managerId) {
-        return pharmacyManagerService.getAllMedicines(managerId);
+    @GetMapping("/equipment")
+    @PreAuthorize("hasAuthority('pharmacyemployee')")
+    public ResponseEntity<List<MedicalEquipment>> getAllMedicalEquipments() {
+        List<MedicalEquipment> medicalEquipments = getEquipmentService.getAllMedicalEquipments();
+        return ResponseEntity.ok(medicalEquipments);
+    }
+
+    @GetMapping("/equipment/{equipmentId}")
+    @PreAuthorize("hasAuthority('pharmacyemployee')")
+    public ResponseEntity<MedicalEquipment> getMedicalEquipmentById(@PathVariable String equipmentId) {
+        MedicalEquipment medicalEquipment = getEquipmentService.getMedicalEquipmentById(equipmentId);
+        if (medicalEquipment != null) {
+            return ResponseEntity.ok(medicalEquipment);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

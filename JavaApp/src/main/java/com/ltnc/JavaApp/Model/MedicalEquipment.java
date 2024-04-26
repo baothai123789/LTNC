@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "medicalEquipments")
+import java.util.List;
+
+@Document(collection = "MedicalEquipments")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,47 +17,24 @@ public class MedicalEquipment {
     @Id
     private String id;
     private String name;
-    private boolean isActive;
-    private int quantity;
-    private String maintenanceHistory;
+    private List<MaintenanceHistory> maintenanceHistory;
 
-    public String getId() {
-        return id;
+
+    public void addHistory(MaintenanceHistory history) {
+        this.maintenanceHistory.add(history);
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getMaintenanceHistory() {
-        return maintenanceHistory;
-    }
-
-    public void setMaintenanceHistory(String maintenanceHistory) {
-        this.maintenanceHistory = maintenanceHistory;
+    public boolean updateHistory(String historyId, MaintenanceHistory updatedHistory) {
+        for (int i = 0; i < maintenanceHistory.size(); i++) {
+            MaintenanceHistory history = maintenanceHistory.get(i);
+            if (history.getId().equals(historyId)) {
+                history.setDate(updatedHistory.getDate());
+                history.setDetail(updatedHistory.getDetail());
+                history.setActive(updatedHistory.getActive());
+                maintenanceHistory.set(i, history);
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -6,5 +6,5 @@ import com.ltnc.JavaApp.Model.Person;
 import java.util.List;
 
 public interface INotificationGetter{
-    public List<Notification> getNotifications(Person user);
+    public List<Notification> getNotifications(String username);
 }

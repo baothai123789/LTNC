@@ -13,4 +13,5 @@ public class PatientScheduleRequest {
     private String doctorId;
     private String patientId;
     LocalDate date;
+    Integer startTime;
 }

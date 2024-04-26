@@ -1,6 +1,7 @@
 package com.ltnc.JavaApp.Model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class MedicalDetail {
     private String PatientState;
     private boolean inProgress;
     private Prescription prescription;
-    private List<MedicalSchedule> medicalSchedules;
+    private List<MedicalSchedule> medicalSchedules=new ArrayList<>();
     private LocalDate date;
 
 }

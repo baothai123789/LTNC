@@ -1,7 +1,9 @@
 package com.ltnc.JavaApp.Service.HospitalAdmission.Service;
 
 import com.ltnc.JavaApp.Model.HospitalAdmissionDetail;
+import com.ltnc.JavaApp.Model.Nurse;
 import com.ltnc.JavaApp.Model.PatientState;
+import com.ltnc.JavaApp.Service.HospitalAdmission.DTO.HospitalAdmissionDetailDTO;
 import com.ltnc.JavaApp.Service.HospitalAdmission.Interface.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +24,9 @@ public class HospitalAdmissionManageService implements IHospitalAdmissionManageS
 
 
     @Override
-    public void addHospitalAdmission(HospitalAdmissionDetail newHospitalAdmission, String modelId) throws NullPointerException{
+    public void addHospitalAdmission(HospitalAdmissionDetail newHospitalAdmission, Nurse nurse) throws NullPointerException{
         try {
-            this.addHospitalAdmissionService.addHospitalAdmission(newHospitalAdmission, modelId);
+            this.addHospitalAdmissionService.addHospitalAdmission(newHospitalAdmission,nurse);
         }
         catch (NullPointerException e){
             throw new NullPointerException("User not found");
@@ -55,7 +57,7 @@ public class HospitalAdmissionManageService implements IHospitalAdmissionManageS
     }
 
     @Override
-    public List<HospitalAdmissionDetail> getHospitalAdmissionDetails(String modelId) throws NullPointerException {
+    public List<HospitalAdmissionDetailDTO> getHospitalAdmissionDetails(String modelId) throws NullPointerException {
         try{
             return this.getHospitalAdmissionService.getHospitalAdmissions(modelId,false);
         }

@@ -1,63 +1,30 @@
 package com.ltnc.JavaApp.Controller;
 
 import com.ltnc.JavaApp.Model.Notification;
-import com.ltnc.JavaApp.Model.Person;
-import com.ltnc.JavaApp.RequestModel.Notification.NotificationRequestModel;
-import com.ltnc.JavaApp.Service.NotificationService.NotificationManage;
-import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
-import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
+import com.ltnc.JavaApp.Service.NotificationService.INotificationGetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/notification")
+@CrossOrigin(origins = "*")
+@RequestMapping("/notify")
 public class NotificationController {
     @Autowired
-    NotificationManage notificationManage;
-
-    @Autowired
-    EmployeeProfileManageService employeeProfileManageService;
-
-    @Autowired
-    PatientProfileManageService patientProfileManageService;
-
-    @PostMapping("/sendnotification/")
-    public ResponseEntity<Map<String,String>> sendNotification(@RequestBody NotificationRequestModel notificationRequestModel)
-    {
-        Notification notification = notificationRequestModel.getNotification();
-        String userId = notificationRequestModel.getUserNotifyinfo().getId();
-        String role = notificationRequestModel.getUserNotifyinfo().getRole();
-        Person person;
-        if(role.equalsIgnoreCase("patient")){
-            person = patientProfileManageService.getProfile(userId);
-        }
-        else{
-            person = employeeProfileManageService.getEmployeeProfile(userId,role);
-        }
-        notificationManage.sendNotification(notification,person.getNotifications());
-        String message = "Success to send notification to user with id:"+person.getId();
-        return new ResponseEntity<>(new HashMap<>(Map.of("message",message)), HttpStatus.CREATED);
-    }
-    @GetMapping("getnotification/{role}/{userId}")
-    public ResponseEntity<List<Notification>> getUserNotification(@PathVariable("userId") String userId,@PathVariable("role") String role){
-        Person person;
+    INotificationGetter notificationGetter;
+    @PreAuthorize("hasAnyAuthority('patient','doctor','nurse','financialemployee','pharmacymanager')")
+    @GetMapping("/getnotify/{username}")
+    public ResponseEntity<List<Notification>> getNotification(@PathVariable("username") String username){
         try {
-            if (role.equalsIgnoreCase("patient")) {
-                person = patientProfileManageService.getProfile(userId);
-            } else {
-                person = employeeProfileManageService.getEmployeeProfile(userId, role);
-            }
+            List<Notification> res = notificationGetter.getNotifications(username);
+            return new ResponseEntity<>(res, HttpStatus.OK);
         }
         catch (NullPointerException e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
-        List<Notification> res = notificationManage.getNotifications(person);
-
-        return new ResponseEntity<>(res,HttpStatus.OK);
     }
 }

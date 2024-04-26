@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.springframework.security.core.userdetails.User;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +22,6 @@ public abstract class Person {
 
     public abstract void setId(String id);
     public abstract String getRole();
-    public abstract NotificationList getNotifications();
-    public abstract void setNotifications(NotificationList notifications);
+    public abstract UserAccount getUserAccount();
 }
 
