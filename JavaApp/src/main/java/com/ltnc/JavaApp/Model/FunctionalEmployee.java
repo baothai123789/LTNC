@@ -16,8 +16,6 @@ import lombok.NoArgsConstructor;
         @JsonSubTypes.Type(value = PharmacyManager.class, name = "pharmacyManager")
 })
 public abstract class FunctionalEmployee extends  Employee{
-    public abstract String getPart();
-
     @Override
     public String getRole() {
         return "functionalEmployee";

@@ -6,12 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RegisterService implements IRegisterService {
+public class RegisterService {
     @Autowired
     UserAccountRepository userAccountRepository;
 
-    @Override
-    public void register(UserAccount userAccount) {
-        userAccountRepository.save(userAccount);
+    public void register(UserAccount userAccount){
+        this.userAccountRepository.save(userAccount);
     }
 }

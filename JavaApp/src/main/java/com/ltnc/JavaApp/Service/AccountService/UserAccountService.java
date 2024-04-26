@@ -1,6 +1,7 @@
 package com.ltnc.JavaApp.Service.AccountService;
 
 import com.ltnc.JavaApp.Model.UserAccount;
+import com.ltnc.JavaApp.MyApp;
 import com.ltnc.JavaApp.Repository.UserAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,7 +23,8 @@ public class UserAccountService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserAccount userAccount = userAccountRepository.findByUserName(username);
-        if (userAccount==null) return null;
+        MyApp.LOGGER.info(userAccount);
+        if (userAccount==null) throw new UsernameNotFoundException("not found user");
         return new CustomUserDetails(userAccount);
     }
     public Collection<? extends GrantedAuthority> mapRolesToAuthorities(String role){

@@ -45,4 +45,8 @@ public class PharmacyManager extends FunctionalEmployee{
     public String getPart() {
         return "pharmacyManager";
     }
+
+    @Override
+    public void setUserAccount(UserAccount userAccount) {
+    }
 }

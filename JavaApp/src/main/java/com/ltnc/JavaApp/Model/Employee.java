@@ -20,12 +20,14 @@ import java.util.List;
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Doctor.class, name = "doctor"),
         @JsonSubTypes.Type(value = Nurse.class, name = "nurse"),
-        @JsonSubTypes.Type(value = FunctionalEmployee.class,name="functionalEmployee")
+        @JsonSubTypes.Type(value = FinancialEmployee.class,name="financialemployee"),
+        @JsonSubTypes.Type(value = PharmacyManager.class,name="pharmacymanager")
 })
 public abstract class Employee extends Person {
    protected List<Certificate> certificate;
    protected LocalDate workFrom;
    protected String position;
    public abstract String getPart();
+   public abstract void setUserAccount(UserAccount userAccount);
 }
 

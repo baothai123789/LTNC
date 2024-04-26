@@ -26,7 +26,7 @@ public class EmployeeProfileResponseModel {
         this.id = patient.getId();
         this.name = patient.getName();
         this.phone = patient.getPhone();
-        this.gender = patient.getPhone();
+        this.gender = patient.getGender();
         this.age = patient.getAge();
         this.address = new Address(patient.getAddress().getNation(),patient.getAddress().getProvince(),patient.getAddress().getTown(),patient.getAddress().getStreet());
         this.workFrom = patient.getWorkFrom();

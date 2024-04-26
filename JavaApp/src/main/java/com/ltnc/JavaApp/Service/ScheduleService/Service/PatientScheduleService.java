@@ -26,6 +26,7 @@ public class PatientScheduleService implements IPatientScheduleService {
     ScheduleMangeService scheduleMangeService;
 
 
+
     private List<Integer> getDoctorSchedule(List<Schedule> schedules) {
 
             Boolean[] time=new Boolean[24];

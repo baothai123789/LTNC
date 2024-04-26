@@ -2,12 +2,14 @@ package com.ltnc.JavaApp.Controller;
 
 import com.ltnc.JavaApp.Model.Employee;
 import com.ltnc.JavaApp.Model.Patient;
+import com.ltnc.JavaApp.MyApp;
 import com.ltnc.JavaApp.ResponseModel.ProfileResponse.EmployeeProfileResponseModel;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import com.ltnc.JavaApp.ResponseModel.ProfileResponse.PatientProfileResponseModel;
 
@@ -22,8 +24,10 @@ public class ProfileController {
     @Autowired
     EmployeeProfileManageService employeeProfileManageService;
 
+    @PreAuthorize("hasAuthority('patient')")
     @GetMapping("/patient/getprofile/{id}")
     public ResponseEntity<PatientProfileResponseModel> getPatientProfile(@PathVariable("id") String id){
+        MyApp.LOGGER.info("hello");
         Patient res;
         try {
             res=patientProfileManageService.getProfile(id);
