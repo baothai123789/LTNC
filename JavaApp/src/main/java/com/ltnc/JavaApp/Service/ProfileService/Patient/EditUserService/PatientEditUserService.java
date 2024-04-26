@@ -19,4 +19,9 @@ public class PatientEditUserService implements IEditUserService{
     public String getType() {
         return "patient";
     }
+
+    @Override
+    public void updateUser(Patient patient) {
+        this.patientRepository.save(patient);
+    }
 }

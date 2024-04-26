@@ -18,7 +18,7 @@ public class ScheduleNotifyService {
     public void sendNotifytoDoctor(Doctor doctor, String patientId, Schedule schedule){
         Notification notification = new Notification();
         notification.setBody("Bạn có lịch khám bệnh từ bệnh nhân: "+patientId+
-                " vào lúc "+schedule.getStartTime()+" ngày "+schedule.getDate());
+                " vào lúc "+schedule.getStartTime()+"h ngày "+schedule.getDate());
         notification.setTitle("Lịch khám bệnh");
         notification.setDateTime(LocalDateTime.now());
 

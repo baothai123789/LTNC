@@ -8,6 +8,8 @@ import com.ltnc.JavaApp.Repository.DoctorRepository;
 import com.ltnc.JavaApp.Repository.PatientRepository;
 import com.ltnc.JavaApp.Repository.ScheduleRepository;
 import com.ltnc.JavaApp.Service.NotificationService.NotificationManage;
+import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
+import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.PatientScheduleDTO;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.PatientScheduleDTOMapper;
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.IPatientScheduleService;
@@ -21,32 +23,29 @@ public class PatientScheduleService implements IPatientScheduleService {
     @Autowired
     FindDoctorScheduleService findDoctorScheduleService;
     @Autowired
-    NotificationManage notificationManage;
+    EmployeeProfileManageService employeeProfileManageService;
     @Autowired
-    DoctorRepository doctorRepository;
-    @Autowired
-    PatientRepository patientRepository;
-    @Autowired
-    ScheduleRepository scheduleRepository;
+    PatientProfileManageService patientProfileManageService;
     @Autowired
     PatientScheduleDTOMapper patientScheduleDTOMapper;
     @Autowired
     ScheduleNotifyService scheduleNotifyService;
+    @Autowired
+    private ScheduleMangeService scheduleMangeService;
 
     @Override
     public PatientScheduleDTO patientSchedule(LocalDate date, String doctorId,String patientId,int startTime) throws NullPointerException {
-        Patient patient = patientRepository.findById(patientId).orElseThrow(()->new NullPointerException("patient not found"));
-        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(()->new NullPointerException("Doctor not found"));
-        MyApp.LOGGER.info(patient);
-        MyApp.LOGGER.info(doctor);
+        Patient patient = patientProfileManageService.getProfile(patientId);
+        Doctor doctor = (Doctor) employeeProfileManageService.getEmployeeProfile(doctorId,"doctor");
         Schedule newSchedule = new Schedule(
                 UUID.randomUUID().toString(),date,startTime,startTime+1,"Lịch tái khám"
         );
         MyApp.LOGGER.info(newSchedule);
-        doctor.addSchedule(newSchedule);
-        patient.addSchedule(newSchedule);
-        scheduleRepository.save(newSchedule);
+        scheduleMangeService.addSchedule(newSchedule,doctor);
+        scheduleMangeService.addSchedule(newSchedule,patient);
         scheduleNotifyService.sendNotifyPatient(patient,newSchedule);
+        employeeProfileManageService.UpdateUserProfile(doctor);
+        patientProfileManageService.updateUserProfile(patient);
         scheduleNotifyService.sendNotifytoDoctor(doctor,patientId,newSchedule);
         return patientScheduleDTOMapper.map(newSchedule,doctor);
     }

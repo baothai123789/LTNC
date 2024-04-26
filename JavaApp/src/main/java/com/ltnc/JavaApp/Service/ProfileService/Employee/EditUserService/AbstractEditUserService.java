@@ -13,6 +13,11 @@ public abstract class AbstractEditUserService<T extends Employee> implements IEd
     }
 
     @Override
+    public void updateUser(Employee employee) {
+        this.modelRepository.save((T)employee);
+    }
+
+    @Override
     public String getType() {
         return type.getSimpleName();
     }

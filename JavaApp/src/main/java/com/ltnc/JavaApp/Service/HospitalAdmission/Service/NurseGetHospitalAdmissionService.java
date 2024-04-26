@@ -1,6 +1,7 @@
 package com.ltnc.JavaApp.Service.HospitalAdmission.Service;
 
 
+import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.Nurse;
 import com.ltnc.JavaApp.Repository.DoctorRepository;
 import com.ltnc.JavaApp.Repository.HospitalAdmissionDetailRepository;
@@ -9,6 +10,8 @@ import com.ltnc.JavaApp.Repository.PatientRepository;
 import com.ltnc.JavaApp.Service.HospitalAdmission.DTO.HospitalAdmissionDTOMapper;
 import com.ltnc.JavaApp.Service.HospitalAdmission.DTO.HospitalAdmissionDetailDTO;
 import com.ltnc.JavaApp.Service.HospitalAdmission.Interface.IGetHospitalAdmissionService;
+import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
+import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -20,9 +23,9 @@ public class NurseGetHospitalAdmissionService implements IGetHospitalAdmissionSe
     @Autowired
     HospitalAdmissionDetailRepository hospitalAdmissionDetailRepository;
     @Autowired
-    PatientRepository patientRepository;
+    PatientProfileManageService patientProfileManageService;
     @Autowired
-    DoctorRepository doctorRepository;
+    EmployeeProfileManageService employeeProfileManageService;
     @Autowired
     HospitalAdmissionDTOMapper hospitalAdmissionDTOMapper;
     @Override
@@ -32,8 +35,8 @@ public class NurseGetHospitalAdmissionService implements IGetHospitalAdmissionSe
                 .map(hospitalAdmissionDetail ->
                         hospitalAdmissionDTOMapper.map(
                                 hospitalAdmissionDetail,
-                                patientRepository.findById(hospitalAdmissionDetail.getPatientId()).orElseThrow(()->new NullPointerException("patinet not found")),
-                                doctorRepository.findById(hospitalAdmissionDetail.getDoctorId()).orElseThrow(()->new NullPointerException("doctor not found"))
+                                patientProfileManageService.getProfile(hospitalAdmissionDetail.getPatientId()),
+                                (Doctor) employeeProfileManageService.getEmployeeProfile(hospitalAdmissionDetail.getDoctorId(),"doctor")
                         )).toList();
 
     }

@@ -1,10 +1,15 @@
 package com.ltnc.JavaApp.Service.MedicalDetailService.Service;
 
+import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.Repository.DoctorRepository;
 import com.ltnc.JavaApp.Repository.PatientRepository;
 import com.ltnc.JavaApp.Service.MedicalDetailService.DTO.IMedicalDetailDTO;
 import com.ltnc.JavaApp.Service.MedicalDetailService.DTO.PatientMedicalDetailDTOMapper;
+import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
+import com.ltnc.JavaApp.Service.ProfileService.Employee.IEmployeeProfileMangeService;
+import com.ltnc.JavaApp.Service.ProfileService.Patient.IPatientProfileManageService;
+import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +18,18 @@ import java.util.List;
 @Service
 public class PatientGetMedicalDetailService implements IGetMedicalDetailService{
    @Autowired
-   PatientRepository patientRepository;
+   IPatientProfileManageService patientProfileManageService;
    @Autowired
-   DoctorRepository doctorRepository;
+   IEmployeeProfileMangeService employeeProfileManageService;
    @Autowired
    PatientMedicalDetailDTOMapper patientMedicalDetailDTOMapper;
 
     @Override
     public List<IMedicalDetailDTO> getMedicalDetail(String userId) {
-        Patient patient = patientRepository.findById(userId).orElseThrow(()->new NullPointerException("user not found"));
+        Patient patient = patientProfileManageService.getProfile(userId);
         return patient.getMedicalDetails().stream().map(
                 medicalDetail -> patientMedicalDetailDTOMapper.map(
-                        medicalDetail,doctorRepository.findById(medicalDetail.getDoctorId()).orElseThrow(()->new NullPointerException("doctor not found")),
+                        medicalDetail,(Doctor) employeeProfileManageService.getEmployeeProfile(medicalDetail.getDoctorId(),"doctor"),
                         null
                 )
         ).toList();

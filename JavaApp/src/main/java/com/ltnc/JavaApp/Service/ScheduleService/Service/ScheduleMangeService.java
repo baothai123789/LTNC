@@ -19,9 +19,7 @@ import java.util.List;
 @Service
 public class ScheduleMangeService implements IScheduleManageService{
     @Autowired
-    List<IAddScheduleService> addScheduleServices;
-    @Autowired
-    List<IRemoveScheduleService> removeScheduleServices;
+    IAddScheduleService addScheduleService;
     @Autowired
     List<IGetScheduleService> getScheduleServices;
 
@@ -29,19 +27,8 @@ public class ScheduleMangeService implements IScheduleManageService{
     public ScheduleMangeService(){}
 
     @Override
-    public void addSchedule(Schedule newschedule, String modelId, String type)throws NullPointerException {
-        IAddScheduleService addScheduleService=addScheduleServices
-                .stream().filter(service->service.getType().equalsIgnoreCase(type)).findFirst()
-                .orElseThrow(NullPointerException::new);
-        addScheduleService.addSchedule(modelId,newschedule);
-    }
-
-    @Override
-    public void removeSchedule(String scheduleId, String modelId,String type) {
-        IRemoveScheduleService removeScheduleService=removeScheduleServices
-                .stream().filter(service->service.getType().equalsIgnoreCase(type)).findFirst()
-                .orElseThrow(NullPointerException::new);
-        removeScheduleService.removeSchedule(modelId,scheduleId);
+    public void addSchedule(Schedule newschedule,ScheduleModel scheduleModel)throws NullPointerException {
+        addScheduleService.addSchedule(scheduleModel,newschedule);
     }
 
     @Override

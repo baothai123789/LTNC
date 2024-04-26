@@ -39,4 +39,9 @@ public class PatientProfileManageService implements IPatientProfileManageService
         }
         return res;
     }
+
+    @Override
+    public void updateUserProfile(Patient patient) {
+        this.editUserService.updateUser(patient);
+    }
 }

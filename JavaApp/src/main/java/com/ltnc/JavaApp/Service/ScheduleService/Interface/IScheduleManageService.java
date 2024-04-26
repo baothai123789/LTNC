@@ -7,8 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IScheduleManageService{
-    void addSchedule(Schedule newschedule, String modelId, String type);
-    void removeSchedule(String schedule,String modelId,String type);
+    void addSchedule(Schedule newschedule,ScheduleModel scheduleModel);
     List<Schedule> getSchedules(String modelId,String type);
     List<Schedule> getSchedulesbyDate(String modelId, LocalDate date,String type);
 

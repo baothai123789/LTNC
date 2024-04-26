@@ -8,4 +8,5 @@ public interface ScheduleModel {
     public void addSchedule(Schedule newschedule);
     public List<Schedule> getSchedules();
     public void removeSchedule(String scheduleId);
+    public String getRole();
 }

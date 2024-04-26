@@ -9,6 +9,9 @@ import com.ltnc.JavaApp.Repository.MedicalDetailRepository;
 import com.ltnc.JavaApp.Repository.PatientRepository;
 import com.ltnc.JavaApp.Repository.ScheduleRepository;
 import com.ltnc.JavaApp.Service.FinancialService.PatientInfoDTO;
+import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
+import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
+import com.ltnc.JavaApp.Service.ScheduleService.Service.ScheduleMangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,32 +20,37 @@ import java.util.UUID;
 
 @Service
 public class CreateMedicalDetail {
-    @Autowired
-    MedicalDetailRepository medicalDetailRepository;
+
     @Autowired
     NotifyMedicalDetailService notifyMedicalDetailService;
     @Autowired
     ScheduleMedicalDetailService scheduleMedicalDetailService;
     @Autowired
-    ScheduleRepository scheduleRepository;
+    PatientProfileManageService patientProfileManageService;
     @Autowired
-    DoctorRepository doctorRepository;
+    EmployeeProfileManageService employeeProfileManageService;
     @Autowired
-    PatientRepository patientRepository;
+    IMedicalDetailManageService medicalDetailManageService;
+    @Autowired
+    ScheduleMangeService scheduleMangeService;
     public void createMedicalDetail(String doctorid, String patientId, MedicalDetail medicalDetail){
         medicalDetail.setId(UUID.randomUUID().toString());
-        Doctor doctor =doctorRepository.findById(doctorid).orElseThrow(()->new NullPointerException("doctor not found"));
-        Patient patient = patientRepository.findById(patientId).orElseThrow(()->new NullPointerException("patient not found"));
+        Doctor doctor;
+        Patient patient;
+        doctor =(Doctor) employeeProfileManageService.getEmployeeProfile(doctorid,"doctor");
+        patient =(Patient) patientProfileManageService.getProfile(patientId);
         doctor.addMedicalDetail(medicalDetail);
         patient.addMedicalDetail(medicalDetail);
-        medicalDetailRepository.save(medicalDetail);
-        doctorRepository.save(doctor);
-        patientRepository.save(patient);
+        medicalDetailManageService.addMedicalDetail(medicalDetail,doctor);
+        medicalDetailManageService.addMedicalDetail(medicalDetail,patient);
         List<Schedule> schedules=scheduleMedicalDetailService.createMedicalSchedule(doctor,patient,medicalDetail.getMedicalSchedules());
-        scheduleRepository.saveAll(schedules);
         for(Schedule schedule:schedules){
+            scheduleMangeService.addSchedule(schedule,doctor);
+            scheduleMangeService.addSchedule(schedule,patient);
             notifyMedicalDetailService.sendNotifytoPatient(patient,schedule,medicalDetail.getId());
             notifyMedicalDetailService.sendNotifytoDoctor(doctor,schedule,patientId,medicalDetail.getId());
         }
+        patientProfileManageService.updateUserProfile(patient);
+        employeeProfileManageService.UpdateUserProfile(doctor);
     }
 }

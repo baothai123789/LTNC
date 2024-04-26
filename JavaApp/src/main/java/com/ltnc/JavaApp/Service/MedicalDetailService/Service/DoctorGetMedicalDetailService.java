@@ -5,6 +5,8 @@ import com.ltnc.JavaApp.Repository.DoctorRepository;
 import com.ltnc.JavaApp.Repository.PatientRepository;
 import com.ltnc.JavaApp.Service.MedicalDetailService.DTO.DoctorMedicalDetailDTOMapper;
 import com.ltnc.JavaApp.Service.MedicalDetailService.DTO.IMedicalDetailDTO;
+import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
+import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +15,18 @@ import java.util.List;
 @Service
 public class DoctorGetMedicalDetailService implements  IGetMedicalDetailService{
     @Autowired
-    PatientRepository patientRepository;
+    PatientProfileManageService patientProfileManageService;
     @Autowired
-    DoctorRepository doctorRepository;
+    EmployeeProfileManageService employeeProfileManageService;
     @Autowired
     DoctorMedicalDetailDTOMapper doctorMedicalDetailDTOMapper;
     @Override
     public List<IMedicalDetailDTO> getMedicalDetail(String userId) {
-        Doctor  doctor = doctorRepository.findById(userId).orElseThrow(()->new NullPointerException("user not found"));
+        Doctor  doctor = (Doctor) employeeProfileManageService.getEmployeeProfile(userId,"doctor");
         return doctor.getMedicalDetails().stream().map(
                 medicalDetail -> doctorMedicalDetailDTOMapper.map(
                         medicalDetail,null,
-                        patientRepository.findById(medicalDetail.getPatientId()).orElseThrow(()->new NullPointerException("patient not found"))
+                        patientProfileManageService.getProfile(medicalDetail.getPatientId())
                 )
         ).toList();
     }

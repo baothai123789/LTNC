@@ -5,4 +5,5 @@ import com.ltnc.JavaApp.Model.Patient;
 public interface IEditUserService {
     public void editUser(String id, Patient patient);
     public String getType();
+    public void updateUser(Patient patient);
 }

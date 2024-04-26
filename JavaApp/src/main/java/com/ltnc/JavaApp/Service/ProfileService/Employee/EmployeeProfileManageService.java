@@ -41,4 +41,13 @@ public class EmployeeProfileManageService implements IEmployeeProfileMangeServic
                 getService->getService.getType().equalsIgnoreCase(type)
         ).findFirst().orElseThrow(NullPointerException::new).getUserProfile(modelId);
     }
+
+    @Override
+    public void UpdateUserProfile(Employee employee) {
+        String type = employee.getRole().equalsIgnoreCase("functionemployee")?employee.getPart():employee.getRole();
+        IEditUserService editUserService = editUserServices.stream().filter(service->service.getType().equalsIgnoreCase(type))
+                .findFirst().orElseThrow(()->new NullPointerException("Service not found"));
+        editUserService.updateUser(employee);
+    }
+
 }
