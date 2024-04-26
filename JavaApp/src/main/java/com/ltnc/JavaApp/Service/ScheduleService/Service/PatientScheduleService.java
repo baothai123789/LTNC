@@ -2,6 +2,8 @@ package com.ltnc.JavaApp.Service.ScheduleService.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
+
 import com.ltnc.JavaApp.Model.*;
 import com.ltnc.JavaApp.MyApp;
 import com.ltnc.JavaApp.Repository.DoctorRepository;
@@ -30,44 +32,25 @@ public class PatientScheduleService implements IPatientScheduleService {
     ScheduleRepository scheduleRepository;
     @Autowired
     PatientScheduleDTOMapper patientScheduleDTOMapper;
-
-
-    private void sendNotifytoDoctor(Doctor doctor,String patientId,Schedule schedule){
-        Notification notification = new Notification();
-        notification.setBody("Bạn có lịch khám bệnh từ bệnh nhân: "+patientId+
-                " vào lúc "+schedule.getStartTime()+" ngày "+schedule.getDate());
-        notification.setTitle("Lịch khám bệnh");
-        notification.setDateTime(LocalDateTime.now());
-
-        notificationManage.sendNotification(notification,doctor);
-    }
-    private void sendNotifyPatient(Patient patient,Schedule schedule){
-        Notification notification_patient = new Notification();
-        notification_patient.setBody(
-                "Bạn có lịch khám bệnh vào lúc"+schedule.getStartTime()
-                        +" ngày "+schedule.getDate()+
-                        ". Mã lịch hẹn:"+ schedule.getId()
-        );
-        notification_patient.setTitle("Lịch Khám Bệnh");
-        notification_patient.setDateTime(LocalDateTime.now());
-        notificationManage.sendNotification(notification_patient,patient);
-    }
+    @Autowired
+    ScheduleNotifyService scheduleNotifyService;
 
     @Override
-    public PatientScheduleDTO patientSchedule(LocalDate date, String doctorId,String patientId) throws NullPointerException {
+    public PatientScheduleDTO patientSchedule(LocalDate date, String doctorId,String patientId,int startTime) throws NullPointerException {
         Patient patient = patientRepository.findById(patientId).orElseThrow(()->new NullPointerException("patient not found"));
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(()->new NullPointerException("Doctor not found"));
         MyApp.LOGGER.info(patient);
         MyApp.LOGGER.info(doctor);
-        Schedule newSchedule = findDoctorScheduleService.getSchedules(doctor,date);
+        Schedule newSchedule = new Schedule(
+                UUID.randomUUID().toString(),date,startTime,startTime+1,"Lịch tái khám"
+        );
         MyApp.LOGGER.info(newSchedule);
         doctor.addSchedule(newSchedule);
         patient.addSchedule(newSchedule);
         scheduleRepository.save(newSchedule);
-        sendNotifyPatient(patient,newSchedule);
-        sendNotifytoDoctor(doctor,patientId,newSchedule);
+        scheduleNotifyService.sendNotifyPatient(patient,newSchedule);
+        scheduleNotifyService.sendNotifytoDoctor(doctor,patientId,newSchedule);
         return patientScheduleDTOMapper.map(newSchedule,doctor);
-
     }
 
 }

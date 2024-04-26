@@ -8,6 +8,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface IPatientScheduleService {
-    public PatientScheduleDTO patientSchedule(LocalDate date,String doctorid,String patientid) throws NullPointerException;
+    public PatientScheduleDTO patientSchedule(LocalDate date,String doctorid,String patientid,int startTime) throws NullPointerException;
 
 }

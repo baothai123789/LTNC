@@ -11,6 +11,7 @@ import com.ltnc.JavaApp.RequestModel.CreateUserRequestModel.EmployeeRegisterRequ
 import com.ltnc.JavaApp.RequestModel.CreateUserRequestModel.LoginModel;
 import com.ltnc.JavaApp.RequestModel.CreateUserRequestModel.PatientRegisterRequestModel;
 import com.ltnc.JavaApp.Service.AccountService.CustomUserDetails;
+import com.ltnc.JavaApp.Service.AccountService.Exception.UnvalidAccountException;
 import com.ltnc.JavaApp.Service.AccountService.IUserManageService;
 import com.ltnc.JavaApp.Service.AccountService.RegisterService;
 import com.ltnc.JavaApp.Service.AccountService.UserAccountService;
@@ -35,6 +36,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/account")
 public class AccountController {
     @Autowired
@@ -59,7 +61,6 @@ public class AccountController {
         Patient patient = patientRegisterRequestModel.getPatient();
         UserAccount userAccount = patientRegisterRequestModel.getUserAccount();
         userAccount.setRole(patient.getRole());
-        userAccount.setPassword(cryptPasswordEncoder.encode(userAccount.getPassword()));
         userAccount.setId(UUID.randomUUID().toString());
         patient.setUserAccount(userAccount);
         NotificationList notificationList=new NotificationList();
@@ -67,7 +68,12 @@ public class AccountController {
         userAccount.setNotificationList(notificationList);
         notificationManage.createNotifications(userAccount.getNotificationList());
         patientProfileManageService.createProfile(patient);
+        try{
         registerService.register(userAccount);
+        }
+        catch (UnvalidAccountException e){
+            return new ResponseEntity<>(new HashMap<>(Map.of("message",e.getMessage())),HttpStatus.NOT_ACCEPTABLE);
+        }
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
     }
     @PostMapping("/employee/register")
@@ -80,7 +86,6 @@ public class AccountController {
         else{
             userAccount.setRole(employee.getRole());
         }
-        userAccount.setPassword(cryptPasswordEncoder.encode(userAccount.getPassword()));
         userAccount.setId(UUID.randomUUID().toString());
         employee.setUserAccount(userAccount);
         NotificationList notificationList = new NotificationList();
@@ -88,7 +93,13 @@ public class AccountController {
         userAccount.setNotificationList(notificationList);
         notificationManage.createNotifications(userAccount.getNotificationList());
         employeeProfileManageService.createEmployeeProfile(employee,userAccount.getRole());
-        registerService.register(userAccount);
+        try {
+            registerService.register(userAccount);
+        }
+        catch (UnvalidAccountException e){
+            MyApp.LOGGER.info(e);
+            return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
+        }
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
     }
     @PostMapping("/patient/login")
