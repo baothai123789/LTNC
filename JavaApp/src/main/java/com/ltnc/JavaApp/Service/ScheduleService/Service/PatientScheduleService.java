@@ -12,6 +12,7 @@ import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageSer
 import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.PatientScheduleDTO;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.PatientScheduleDTOMapper;
+import com.ltnc.JavaApp.Service.ScheduleService.DTO.ScheduleDTO;
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.IPatientScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,11 +35,12 @@ public class PatientScheduleService implements IPatientScheduleService {
     private ScheduleMangeService scheduleMangeService;
 
     @Override
-    public PatientScheduleDTO patientSchedule(LocalDate date, String doctorId,String patientId,int startTime) throws NullPointerException {
+    public ScheduleDTO patientSchedule(LocalDate date, String doctorId, String patientId, int startTime) throws NullPointerException {
         Patient patient = patientProfileManageService.getProfile(patientId);
         Doctor doctor = (Doctor) employeeProfileManageService.getEmployeeProfile(doctorId,"doctor");
         Schedule newSchedule = new Schedule(
-                UUID.randomUUID().toString(),date,startTime,startTime+1,"Lịch tái khám"
+                UUID.randomUUID().toString(),date,startTime,startTime+1,"Lịch tái khám",doctorId,
+                patientId
         );
         MyApp.LOGGER.info(newSchedule);
         scheduleMangeService.addSchedule(newSchedule,doctor);

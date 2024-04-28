@@ -3,8 +3,8 @@ package com.ltnc.JavaApp.Controller;
 import com.ltnc.JavaApp.MyApp;
 import com.ltnc.JavaApp.RequestModel.ScheduleRequestModel.PatientScheduleRequest;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.DoctorInfoScheduleDTO;
-import com.ltnc.JavaApp.Service.ScheduleService.DTO.DoctorScheduleDTO;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.PatientScheduleDTO;
+import com.ltnc.JavaApp.Service.ScheduleService.DTO.ScheduleDTO;
 import com.ltnc.JavaApp.Service.ScheduleService.Exception.DoctorMajorNotfoundException;
 import com.ltnc.JavaApp.Service.ScheduleService.Service.FindDoctorScheduleService;
 import com.ltnc.JavaApp.Service.ScheduleService.Service.PatientScheduleService;
@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.DoubleConsumer;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -33,9 +32,9 @@ public class ScheduleController {
     FindDoctorScheduleService findDoctorScheduleService;
     @PreAuthorize("hasAuthority('patient')")
     @PostMapping("/createschedule")
-    public ResponseEntity<PatientScheduleDTO> createPatientSchedule(@RequestBody PatientScheduleRequest patientScheduleRequest){
+    public ResponseEntity<ScheduleDTO> createPatientSchedule(@RequestBody PatientScheduleRequest patientScheduleRequest){
         MyApp.LOGGER.info(patientScheduleRequest);
-        PatientScheduleDTO res = patientScheduleService.patientSchedule(
+        ScheduleDTO res = patientScheduleService.patientSchedule(
                 patientScheduleRequest.getDate(),
                 patientScheduleRequest.getDoctorId(),
                 patientScheduleRequest.getPatientId(),
@@ -55,5 +54,13 @@ public class ScheduleController {
         catch (DoctorMajorNotfoundException e){
             return new ResponseEntity<>(new HashMap<>(Map.of("message",e.getMessage())),HttpStatus.NOT_ACCEPTABLE);
         }
+    }
+    @PreAuthorize("hasAuthority('doctor')")
+    @GetMapping("/doctor/getschedule/{id}")
+    public ResponseEntity<List<ScheduleDTO>> getSchedules(@PathVariable String id){
+        MyApp.LOGGER.info(id);
+        List<ScheduleDTO> res = scheduleMangeService.getSchedules(id,"doctor");
+        MyApp.LOGGER.info(res);
+        return new ResponseEntity<>(res,HttpStatus.OK);
     }
 }

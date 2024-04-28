@@ -4,17 +4,14 @@ import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.Schedule;
 import com.ltnc.JavaApp.Repository.DoctorRepository;
 import com.ltnc.JavaApp.Repository.ScheduleRepository;
-import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.DoctorInfoScheduleDTO;
-import com.ltnc.JavaApp.Service.ScheduleService.DTO.DoctorInfoScheduleDTOMapper;
-import com.ltnc.JavaApp.Service.ScheduleService.DTO.DoctorScheduleDTO;
+import com.ltnc.JavaApp.Service.ScheduleService.DTO.DoctorInfoScheduleForPatientChoiceDTOMapper;
 import com.ltnc.JavaApp.Service.ScheduleService.Exception.DoctorMajorNotfoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
@@ -24,7 +21,7 @@ public class FindDoctorScheduleService {
     @Autowired
     DoctorRepository doctorRepository;
     @Autowired
-    DoctorInfoScheduleDTOMapper doctorInfoScheduleDTOMapper;
+    DoctorInfoScheduleForPatientChoiceDTOMapper doctorInfoScheduleDTOMapper;
     private List<Integer> getDoctorScheduleList(List<Schedule> schedules) {
 
         Boolean[] time=new Boolean[24];

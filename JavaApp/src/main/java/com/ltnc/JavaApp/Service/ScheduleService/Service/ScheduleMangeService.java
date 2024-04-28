@@ -3,6 +3,7 @@ package com.ltnc.JavaApp.Service.ScheduleService.Service;
 import com.ltnc.JavaApp.Model.Person;
 import com.ltnc.JavaApp.Model.Schedule;
 
+import com.ltnc.JavaApp.Service.ScheduleService.DTO.ScheduleDTO;
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.*;
 
 
@@ -32,14 +33,14 @@ public class ScheduleMangeService implements IScheduleManageService{
     }
 
     @Override
-    public List<Schedule> getSchedules(String modelId,String type) {
+    public List<ScheduleDTO> getSchedules(String modelId, String type) {
         IGetScheduleService getScheduleService=getScheduleServices
                 .stream().filter(service->service.getType().equalsIgnoreCase(type)).findFirst()
                 .orElseThrow(NullPointerException::new);
         return getScheduleService.getSchedules(modelId);
     }
     @Override
-    public List<Schedule> getSchedulesbyDate(String modelId, LocalDate date,String type) {
+    public List<ScheduleDTO> getSchedulesbyDate(String modelId, LocalDate date,String type) {
         IGetScheduleService getScheduleService=getScheduleServices
                 .stream().filter(service->service.getType().equalsIgnoreCase(type)).findFirst()
                 .orElseThrow(NullPointerException::new);

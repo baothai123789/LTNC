@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class DoctorInfoScheduleDTOMapper {
+public class DoctorInfoScheduleForPatientChoiceDTOMapper {
     public DoctorInfoScheduleDTO map(Doctor doctor, List<Integer> times){
         return DoctorInfoScheduleDTO.builder()
                 .doctorInfo(new DoctorInfoDTO(doctor))
-                .doctorScheduleDTOs(times.stream().map(time->new DoctorScheduleDTO(time,time+1)).toList())
+                .doctorScheduleDTOs(times.stream().map(time->new DoctorScheduleForPatientChoiceDTO(time,time+1)).toList())
                 .build();
     }
 }

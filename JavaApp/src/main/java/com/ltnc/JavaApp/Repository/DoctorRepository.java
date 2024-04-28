@@ -10,4 +10,6 @@ import java.util.List;
 public interface DoctorRepository extends MongoRepository<Doctor,String> {
     @Query("{'major': ?0}")
     public List<Doctor> findByMajor(String major);
+    @Query("{'schedules.id': ?0}")
+    public Doctor findBySchedules(String scheduleId);
 }

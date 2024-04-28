@@ -1,17 +1,13 @@
 package com.ltnc.JavaApp.Service.ScheduleService.DTO;
-
-import com.ltnc.JavaApp.Model.Doctor;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
-public class PatientScheduleDTO {
-    private String id;
-    private Integer time;
-    private LocalDate date;
+@SuperBuilder(toBuilder = true)
+public class PatientScheduleDTO extends ScheduleDTO{
     private DoctorInfoDTO doctorInfo;
 }
