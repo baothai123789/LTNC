@@ -8,6 +8,8 @@ import com.ltnc.JavaApp.Repository.DoctorRepository;
 import com.ltnc.JavaApp.Repository.MedicalDetailRepository;
 import com.ltnc.JavaApp.Repository.PatientRepository;
 import com.ltnc.JavaApp.Repository.ScheduleRepository;
+import com.ltnc.JavaApp.Service.FinancialService.CreateNewMedicalBillService;
+import com.ltnc.JavaApp.Service.FinancialService.MedicalBillManage;
 import com.ltnc.JavaApp.Service.FinancialService.PatientInfoDTO;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
@@ -32,15 +34,15 @@ public class CreateMedicalDetail {
     @Autowired
     IMedicalDetailManageService medicalDetailManageService;
     @Autowired
+    CreateNewMedicalBillService createNewMedicalBillService;
+    @Autowired
     ScheduleMangeService scheduleMangeService;
-    public void createMedicalDetail(String doctorid, String patientId, MedicalDetail medicalDetail){
+    public void createMedicalDetail(String doctorid, String patientId, MedicalDetail medicalDetail)throws NullPointerException{
         medicalDetail.setId(UUID.randomUUID().toString());
         Doctor doctor;
         Patient patient;
         doctor =(Doctor) employeeProfileManageService.getEmployeeProfile(doctorid,"doctor");
         patient =(Patient) patientProfileManageService.getProfile(patientId);
-        doctor.addMedicalDetail(medicalDetail);
-        patient.addMedicalDetail(medicalDetail);
         medicalDetailManageService.addMedicalDetail(medicalDetail,doctor);
         medicalDetailManageService.addMedicalDetail(medicalDetail,patient);
         List<Schedule> schedules=scheduleMedicalDetailService.createMedicalSchedule(doctor,patient,medicalDetail.getMedicalSchedules());
@@ -52,5 +54,6 @@ public class CreateMedicalDetail {
         }
         patientProfileManageService.updateUserProfile(patient);
         employeeProfileManageService.UpdateUserProfile(doctor);
+        createNewMedicalBillService.createNewMedicalBill(medicalDetail,null,patient,"medicaldetailbill");
     }
 }

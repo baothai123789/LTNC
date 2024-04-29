@@ -46,9 +46,9 @@ public class PatientScheduleService implements IPatientScheduleService {
         scheduleMangeService.addSchedule(newSchedule,doctor);
         scheduleMangeService.addSchedule(newSchedule,patient);
         scheduleNotifyService.sendNotifyPatient(patient,newSchedule);
+        scheduleNotifyService.sendNotifytoDoctor(doctor,patientId,newSchedule);
         employeeProfileManageService.UpdateUserProfile(doctor);
         patientProfileManageService.updateUserProfile(patient);
-        scheduleNotifyService.sendNotifytoDoctor(doctor,patientId,newSchedule);
         return patientScheduleDTOMapper.map(newSchedule,doctor);
     }
 

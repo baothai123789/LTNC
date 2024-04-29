@@ -19,8 +19,6 @@ import java.util.List;
 @Service
 public class NurseGetHospitalAdmissionService implements IGetHospitalAdmissionService {
     @Autowired
-    NurseRepository nurseRepository;
-    @Autowired
     HospitalAdmissionDetailRepository hospitalAdmissionDetailRepository;
     @Autowired
     PatientProfileManageService patientProfileManageService;
@@ -30,7 +28,7 @@ public class NurseGetHospitalAdmissionService implements IGetHospitalAdmissionSe
     HospitalAdmissionDTOMapper hospitalAdmissionDTOMapper;
     @Override
     public List<HospitalAdmissionDetailDTO> getHospitalAdmissions(String modelId, boolean done) throws NullPointerException {
-        Nurse nurse = nurseRepository.findById(modelId).orElseThrow(NullPointerException::new);
+        Nurse nurse = (Nurse) employeeProfileManageService.getEmployeeProfile(modelId,"nurse");
         return nurse.getHospitalAdmissionDetails().stream()
                 .map(hospitalAdmissionDetail ->
                         hospitalAdmissionDTOMapper.map(

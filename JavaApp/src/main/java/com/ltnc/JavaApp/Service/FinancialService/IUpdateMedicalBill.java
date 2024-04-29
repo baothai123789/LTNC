@@ -1,5 +1,5 @@
 package com.ltnc.JavaApp.Service.FinancialService;
 
 public interface IUpdateMedicalBill {
-    public void payBill(String billId,String employeeId);
+    public void payBill(String billId);
 }

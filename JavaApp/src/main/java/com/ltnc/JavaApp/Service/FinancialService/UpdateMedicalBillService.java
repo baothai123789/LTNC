@@ -9,25 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class UpdateMedicalBillService implements IUpdateMedicalBill{
     @Autowired
     MedicalBillRepository medicalBillRepository;
-    @Autowired
-    FinancialEmployeeRepository financialEmployeeRepository;
     @Override
-    public void payBill(String billId, String employeeId) throws NullPointerException {
-        FinancialEmployee employee = financialEmployeeRepository.findById(employeeId).orElseThrow(NullPointerException::new);
-        List<MedicalBill> medicalBillList = employee.getMedicalBill().stream().map(
-                bill->medicalBillRepository.findById(bill.getId()).orElseThrow(NullPointerException::new)
-        ).toList();
-        employee.setMedicalBill(medicalBillList);
-        employee.paytheBill(billId);
-        financialEmployeeRepository.save(employee);
-        MedicalBill medicalBill = new MedicalBill();
+    public void payBill(String billId) throws NullPointerException {
+        MedicalBill medicalBill = medicalBillRepository.findById(billId).orElseThrow(()->new NullPointerException("medicalbill not found"));
         medicalBill.setPaid(true);
+        medicalBill.setPayDate(LocalDate.now());
         medicalBillRepository.save(medicalBill);
+
+
     }
 }

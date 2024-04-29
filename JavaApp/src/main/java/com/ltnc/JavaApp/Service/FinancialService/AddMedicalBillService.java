@@ -18,8 +18,6 @@ import java.util.UUID;
 public class AddMedicalBillService implements IAddMedicalBill {
     @Autowired
     private MedicalBillRepository medicalBillRepository;
-    @Autowired
-    private FinancialEmployeeRepository financialEmployeeRepository;
 
 
 
@@ -28,6 +26,5 @@ public class AddMedicalBillService implements IAddMedicalBill {
     public void addMedicalBill(MedicalBill medicalBill,FinancialEmployee financialEmployee) throws NullPointerException{
         medicalBillRepository.save(medicalBill);
         financialEmployee.addMedicalBill(medicalBill);
-        financialEmployeeRepository.save(financialEmployee);
     }
 }

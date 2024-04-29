@@ -5,10 +5,14 @@ import com.ltnc.JavaApp.Model.MedicalDetail;
 import com.ltnc.JavaApp.Model.Patient;
 import com.mongodb.lang.Nullable;
 import jakarta.annotation.Nonnull;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Service
 public class MedicalDetailMedicalBillCreator implements IMedicalBillCreator{
 
     @Override
@@ -19,6 +23,9 @@ public class MedicalDetailMedicalBillCreator implements IMedicalBillCreator{
         medicalBill.setType("Hoá đơn khám bệnh");
         medicalBill.setPatient(patient);
         medicalBill.setMedicalFee(300000);
+        medicalBill.setPaid(false);
+        medicalBill.setPayDate(null);
+        medicalBill.setHastopay(LocalDate.now().plusDays(7));
         return medicalBill;
     }
 

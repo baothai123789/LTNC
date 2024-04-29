@@ -25,6 +25,5 @@ public class MedicalBill {
     private Boolean paid;
     private LocalDate hastopay;
     private Integer totalPay;
-
-
+    private LocalDate payDate;
 }

@@ -4,11 +4,13 @@ import com.ltnc.JavaApp.Model.MedicalBill;
 import com.ltnc.JavaApp.Model.MedicalDetail;
 import com.ltnc.JavaApp.Model.Patient;
 import jakarta.annotation.Nonnull;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+@Service
 public class MedicinMedicalBillCreator implements IMedicalBillCreator{
     @Override
     public MedicalBill createBill(MedicalDetail medicalDetail, List<Map<String, Object>> presciption, @Nonnull Patient patient) {

@@ -3,6 +3,7 @@ package com.ltnc.JavaApp.Service.FinancialService;
 import com.ltnc.JavaApp.Model.Employee;
 import com.ltnc.JavaApp.Model.FinancialEmployee;
 import com.ltnc.JavaApp.Model.MedicalBill;
+import com.ltnc.JavaApp.MyApp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +18,20 @@ public class MedicalBillManage {
     IUpdateMedicalBill updateMedicalBill;
     @Autowired
     FinacialBillDTOMapper finacialBillDTOMapper;
+    @Autowired
+    IAddMedicalBill addMedicalBill;
 
 
-    public void paytheBill(String employeeId,String billId){
-        this.updateMedicalBill.payBill(billId,employeeId);
+    public void paytheBill(String billId){
+        this.updateMedicalBill.payBill(billId);
     }
     public List<FinacialBillDTO> getMedicalBills(String employeeId,Boolean paid){
         List<MedicalBill> res=this.getMedicalBill.getMedicalBills(employeeId,paid);
+        MyApp.LOGGER.info(res);
         return res.stream().map(medicalBill -> finacialBillDTOMapper.map(medicalBill)).toList();
     }
+    public void addMedicalBill(MedicalBill medicalBill,FinancialEmployee financialEmployee){
+        this.addMedicalBill.addMedicalBill(medicalBill,financialEmployee);
+    }
+
 }

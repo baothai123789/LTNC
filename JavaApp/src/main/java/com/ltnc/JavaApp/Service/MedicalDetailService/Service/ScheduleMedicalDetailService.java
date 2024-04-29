@@ -17,6 +17,8 @@ public class ScheduleMedicalDetailService {
            schedule.setDate(medicalSchedule.getTime().toLocalDate());
            schedule.setStartTime(medicalSchedule.getTime().getHour());
            schedule.setEndTime(medicalSchedule.getTime().getHour()+1);
+           schedule.setDoctorId(doctor.getId());
+           schedule.setPatientId(patient.getId());
            doctor.addSchedule(schedule);
            patient.addSchedule(schedule);
            res.add(schedule);
