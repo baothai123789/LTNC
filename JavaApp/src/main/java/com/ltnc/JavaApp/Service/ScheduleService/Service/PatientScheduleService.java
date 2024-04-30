@@ -1,39 +1,52 @@
 package com.ltnc.JavaApp.Service.ScheduleService.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import com.ltnc.JavaApp.Model.*;
 import com.ltnc.JavaApp.MyApp;
-import com.ltnc.JavaApp.Repository.DoctorRepository;
-import com.ltnc.JavaApp.Repository.PatientRepository;
-import com.ltnc.JavaApp.Repository.ScheduleRepository;
-import com.ltnc.JavaApp.Service.NotificationService.NotificationManage;
+import com.ltnc.JavaApp.Service.NotificationService.NotifyListener;
+import com.ltnc.JavaApp.Service.NotificationService.NotifyObserver;
+import com.ltnc.JavaApp.Service.NotificationService.ScheduleNotifyListener;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
-import com.ltnc.JavaApp.Service.ScheduleService.DTO.PatientScheduleDTO;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.PatientScheduleDTOMapper;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.ScheduleDTO;
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.IPatientScheduleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 
 
 @Service
 public class PatientScheduleService implements IPatientScheduleService {
-    @Autowired
-    FindDoctorScheduleService findDoctorScheduleService;
-    @Autowired
-    EmployeeProfileManageService employeeProfileManageService;
-    @Autowired
-    PatientProfileManageService patientProfileManageService;
-    @Autowired
-    PatientScheduleDTOMapper patientScheduleDTOMapper;
-    @Autowired
-    ScheduleNotifyService scheduleNotifyService;
-    @Autowired
-    private ScheduleMangeService scheduleMangeService;
 
+    @Resource
+    EmployeeProfileManageService employeeProfileManageService;
+    @Resource
+    PatientProfileManageService patientProfileManageService;
+    @Resource
+    PatientScheduleDTOMapper patientScheduleDTOMapper;
+    @Resource
+    private ScheduleMangeService scheduleMangeService;
+    @Resource
+    NotifyObserver notifyObserver;
+
+    private void sendNotify(Doctor doctor,Patient patient,Schedule schedule){
+        Notification notification = new Notification();
+        notification.setDateTime(LocalDateTime.now());
+        notification.setTitle("Lịch khám bệnh");
+        notification.setBody("Bạn có lịch khám bệnh vào lúc: "+schedule.getStartTime()+
+                " ngày "+schedule.getDate()+"."+
+                "Mã lịch hẹn là: "+schedule.getId()+".");
+        NotifyListener patientNotifyListener = new ScheduleNotifyListener(patient);
+        NotifyListener doctorNotifyListener = new ScheduleNotifyListener(doctor);
+        notifyObserver.addListener("schedule",patientNotifyListener);
+        notifyObserver.addListener("schedule",doctorNotifyListener);
+        notifyObserver.notifyListener("schedule",notification);
+        notifyObserver.removeListener("schedule",doctorNotifyListener);
+        notifyObserver.removeListener("schedule",patientNotifyListener);
+    }
     @Override
     public ScheduleDTO patientSchedule(LocalDate date, String doctorId, String patientId, int startTime) throws NullPointerException {
         Patient patient = patientProfileManageService.getProfile(patientId);
@@ -45,8 +58,7 @@ public class PatientScheduleService implements IPatientScheduleService {
         MyApp.LOGGER.info(newSchedule);
         scheduleMangeService.addSchedule(newSchedule,doctor);
         scheduleMangeService.addSchedule(newSchedule,patient);
-        scheduleNotifyService.sendNotifyPatient(patient,newSchedule);
-        scheduleNotifyService.sendNotifytoDoctor(doctor,patientId,newSchedule);
+        sendNotify(doctor,patient,newSchedule);
         employeeProfileManageService.UpdateUserProfile(doctor);
         patientProfileManageService.updateUserProfile(patient);
         return patientScheduleDTOMapper.map(newSchedule,doctor);
