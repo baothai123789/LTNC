@@ -4,6 +4,7 @@ import com.ltnc.JavaApp.Model.Employee;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.CreateUserService.IEmployeeCreateUserService;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EditUserService.IEditUserService;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.GetProfileService.IEmployeeGetProfileService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +12,11 @@ import java.util.List;
 
 @Service
 public class EmployeeProfileManageService implements IEmployeeProfileMangeService {
-    @Autowired
+    @Resource
     List<IEmployeeGetProfileService> getProfileServices;
-    @Autowired
+    @Resource
     List<IEmployeeCreateUserService> employeeCreateUserServices;
-    @Autowired
+    @Resource
     List<IEditUserService> editUserServices;
 
 

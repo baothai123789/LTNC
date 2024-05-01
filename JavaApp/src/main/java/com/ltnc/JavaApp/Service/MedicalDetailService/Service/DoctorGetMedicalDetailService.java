@@ -7,6 +7,7 @@ import com.ltnc.JavaApp.Service.MedicalDetailService.DTO.DoctorMedicalDetailDTOM
 import com.ltnc.JavaApp.Service.MedicalDetailService.DTO.IMedicalDetailDTO;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,11 @@ import java.util.List;
 
 @Service
 public class DoctorGetMedicalDetailService implements  IGetMedicalDetailService{
-    @Autowired
+    @Resource
     PatientProfileManageService patientProfileManageService;
-    @Autowired
+    @Resource
     EmployeeProfileManageService employeeProfileManageService;
-    @Autowired
+    @Resource
     DoctorMedicalDetailDTOMapper doctorMedicalDetailDTOMapper;
     @Override
     public List<IMedicalDetailDTO> getMedicalDetail(String userId) {
