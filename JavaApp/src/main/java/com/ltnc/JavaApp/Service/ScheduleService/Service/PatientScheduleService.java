@@ -35,17 +35,12 @@ public class PatientScheduleService implements IPatientScheduleService {
     NotifyObserver notifyObserver;
 
     private void sendNotify(Doctor doctor,Patient patient,Schedule schedule){
-        NotifyListener patientNotifyListener = new ScheduleNotifyListener(patient);
-        NotifyListener doctorNotifyListener = new ScheduleNotifyListener(doctor);
         Map<String,Object> detail=new HashMap<>(Map.of(
                 "scheduleId",schedule.getId(),
                 "scheduleDate",schedule.getDate(),
                 "scheduleTime",schedule.getStartTime()));
-        notifyObserver.addListener("schedule",patientNotifyListener);
-        notifyObserver.addListener("schedule",doctorNotifyListener);
         notifyObserver.notifyListener("schedule",detail);
-        notifyObserver.removeListener("schedule",doctorNotifyListener);
-        notifyObserver.removeListener("schedule",patientNotifyListener);
+        notifyObserver.clearListener("schedule");
     }
     @Override
     public ScheduleDTO patientSchedule(LocalDate date, String doctorId, String patientId, int startTime) throws NullPointerException {

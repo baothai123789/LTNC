@@ -10,14 +10,10 @@ import java.util.UUID;
 public abstract class AbstractEmployeeCreateUserService<T extends Employee> implements IEmployeeCreateUserService {
     protected MongoRepository<T,String> modelRepository;
     protected Class<T> type;
-    protected NotificationManage notificationManage;
     @Override
     public void createUser(Employee newemployee) {
-        NotificationList notificationList = new NotificationList();
-        notificationList.setId(UUID.randomUUID().toString());
         newemployee.setId(UUID.randomUUID().toString());
         modelRepository.save((T)newemployee);
-        notificationManage.createNotifications(notificationList);
     }
 
     @Override

@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class PharmacyManagerCreateUserService extends AbstractEmployeeCreateUserService<PharmacyEquipmentManager> {
     @Autowired
-    public PharmacyManagerCreateUserService(PharmacyManagerRepository pharmacyManagerRepository, NotificationManage notificationManage){
+    public PharmacyManagerCreateUserService(PharmacyManagerRepository pharmacyManagerRepository){
         this.modelRepository = pharmacyManagerRepository;
         this.type= PharmacyEquipmentManager.class;
-        this.notificationManage=notificationManage;
     }
 }

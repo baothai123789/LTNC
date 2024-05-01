@@ -1,11 +1,9 @@
 package com.ltnc.JavaApp.Service.FinancialService;
 
-import com.ltnc.JavaApp.Model.Employee;
 import com.ltnc.JavaApp.Model.FinancialEmployee;
 import com.ltnc.JavaApp.Model.MedicalBill;
 import com.ltnc.JavaApp.MyApp;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +29,7 @@ public class MedicalBillManage {
         MyApp.LOGGER.info(res);
         return res.stream().map(medicalBill -> finacialBillDTOMapper.map(medicalBill,"financialemployee")).toList();
     }
-    public void addMedicalBill(MedicalBill medicalBill,FinancialEmployee financialEmployee){
+    public void addMedicalBill(MedicalBill medicalBill, FinancialEmployee financialEmployee){
         medicalBill.setFinancialEmployeeId(financialEmployee.getId());
         this.addMedicalBill.addMedicalBill(medicalBill,financialEmployee);
     }

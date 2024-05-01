@@ -11,9 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class NurseCreateUserService extends AbstractEmployeeCreateUserService<Nurse> {
     @Autowired
-    public NurseCreateUserService(NurseRepository nurseRepository, NotificationManage notificationManage){
+    public NurseCreateUserService(NurseRepository nurseRepository){
         this.modelRepository=nurseRepository;
         this.type=Nurse.class;
-        this.notificationManage=notificationManage;
     }
 }

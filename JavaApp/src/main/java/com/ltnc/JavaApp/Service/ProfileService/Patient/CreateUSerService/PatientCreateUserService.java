@@ -8,22 +8,17 @@ import com.ltnc.JavaApp.Repository.PatientRepository;
 import java.util.UUID;
 
 import com.ltnc.JavaApp.Service.NotificationService.NotificationManage;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PatientCreateUserService implements IPatientCreateUserService {
-    @Autowired
+    @Resource
     private PatientRepository repository;
-
-    @Autowired
-    private NotificationManage notificationManage;
     public void createUser(Patient newpatient){
-        NotificationList notificationList = new NotificationList();
-        notificationList.setId(UUID.randomUUID().toString());
         newpatient.setId(UUID.randomUUID().toString());
         repository.save(newpatient);
-        notificationManage.createNotifications(notificationList);
     }
 
 }

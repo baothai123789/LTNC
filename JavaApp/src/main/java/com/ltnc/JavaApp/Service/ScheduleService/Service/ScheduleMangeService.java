@@ -7,7 +7,7 @@ import com.ltnc.JavaApp.Service.ScheduleService.DTO.ScheduleDTO;
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.*;
 
 
-
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -19,9 +19,9 @@ import java.util.List;
 
 @Service
 public class ScheduleMangeService implements IScheduleManageService{
-    @Autowired
+    @Resource
     IAddScheduleService addScheduleService;
-    @Autowired
+    @Resource
     List<IGetScheduleService> getScheduleServices;
 
 

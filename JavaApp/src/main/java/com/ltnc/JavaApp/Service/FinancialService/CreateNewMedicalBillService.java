@@ -25,19 +25,16 @@ public class CreateNewMedicalBillService {
     EmployeeProfileManageService employeeProfileManageService;
 
     private void sendNotify(MedicalBill medicalBill,Patient patient,FinancialEmployee financialEmployee){
-        NotifyListener patientNotifier = new FinancialNotifyListener(patient);
-        NotifyListener financialNotifier = new FinancialNotifyListener(financialEmployee);
-        notifyObserver.addListener("financial",patientNotifier);
-        notifyObserver.addListener("financial",financialNotifier);
         Map<String,Object> detail = new HashMap<>(Map.of(
                 "medicalBillId",medicalBill.getId(),
                 "totalPay",medicalBill.getTotalPay(),
                 "hastoPay",medicalBill.getHastopay(),
                 "type",medicalBill.getType()
         ));
+        MyApp.LOGGER.info(notifyObserver.getListener());
         notifyObserver.notifyListener("financial",detail);
-        notifyObserver.removeListener("financial",patientNotifier);
-        notifyObserver.removeListener("financial",financialNotifier);
+        notifyObserver.clearListener("financial");
+
     }
     public void createNewMedicalBill(MedicalBill medicalBill,Patient patient) throws NullPointerException{
         MyApp.LOGGER.info(medicalBill.getId());

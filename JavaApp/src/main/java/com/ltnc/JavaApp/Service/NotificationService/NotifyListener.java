@@ -7,5 +7,7 @@ import java.util.Map;
 
 public interface NotifyListener{
     public void sendNotify(Map<String,Object> detail);
+    public void sendNotify(Notification notification);
     public void  setNotificationManage(NotificationManage notificationManage);
+    public Person getPerson();
 }

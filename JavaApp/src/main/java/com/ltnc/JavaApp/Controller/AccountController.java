@@ -2,7 +2,7 @@ package com.ltnc.JavaApp.Controller;
 
 import com.ltnc.JavaApp.Authentication.JwtGeneratorValidator;
 import com.ltnc.JavaApp.Model.Employee;
-import com.ltnc.JavaApp.Model.NotificationList;
+
 import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.Model.UserAccount;
 import com.ltnc.JavaApp.MyApp;
@@ -14,11 +14,9 @@ import com.ltnc.JavaApp.Service.AccountService.CustomUserDetails;
 import com.ltnc.JavaApp.Service.AccountService.Exception.UnvalidAccountException;
 import com.ltnc.JavaApp.Service.AccountService.IUserManageService;
 import com.ltnc.JavaApp.Service.AccountService.RegisterService;
-import com.ltnc.JavaApp.Service.AccountService.UserAccountService;
-import com.ltnc.JavaApp.Service.NotificationService.NotificationManage;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,9 +25,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,22 +35,18 @@ import java.util.UUID;
 @CrossOrigin(origins = "*")
 @RequestMapping("/account")
 public class AccountController {
-    @Autowired
+    @Resource
     RegisterService registerService;
-    @Autowired
+    @Resource
     PatientProfileManageService patientProfileManageService;
-    @Autowired
+    @Resource
     EmployeeProfileManageService employeeProfileManageService;
-    @Autowired
+    @Resource
     AuthenticationManager authenticationManager;
-    @Autowired
+    @Resource
     JwtGeneratorValidator jwtGeneratorValidator;
 
-    @Autowired
-    BCryptPasswordEncoder cryptPasswordEncoder;
-    @Autowired
-    NotificationManage notificationManage;
-    @Autowired
+    @Resource
     IUserManageService userManageService;
 
     @PostMapping("/patient/register")
@@ -64,17 +56,13 @@ public class AccountController {
         userAccount.setRole(patient.getRole());
         userAccount.setId(UUID.randomUUID().toString());
         patient.setUserAccount(userAccount);
-        NotificationList notificationList=new NotificationList();
-        notificationList.setId(UUID.randomUUID().toString());
-        userAccount.setNotificationList(notificationList);
-        notificationManage.createNotifications(userAccount.getNotificationList());
-        patientProfileManageService.createProfile(patient);
         try{
         registerService.register(userAccount);
         }
         catch (UnvalidAccountException e){
             return new ResponseEntity<>(new HashMap<>(Map.of("message",e.getMessage())),HttpStatus.NOT_ACCEPTABLE);
         }
+        patientProfileManageService.createProfile(patient);
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
     }
     @PostMapping("/employee/register")
@@ -89,11 +77,6 @@ public class AccountController {
         }
         userAccount.setId(UUID.randomUUID().toString());
         employee.setUserAccount(userAccount);
-        NotificationList notificationList = new NotificationList();
-        notificationList.setId(UUID.randomUUID().toString());
-        userAccount.setNotificationList(notificationList);
-        notificationManage.createNotifications(userAccount.getNotificationList());
-        employeeProfileManageService.createEmployeeProfile(employee,userAccount.getRole());
         try {
             registerService.register(userAccount);
         }
@@ -101,6 +84,7 @@ public class AccountController {
             MyApp.LOGGER.info(e);
             return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
         }
+        employeeProfileManageService.createEmployeeProfile(employee,userAccount.getRole());
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
     }
     @PostMapping("/patient/login")

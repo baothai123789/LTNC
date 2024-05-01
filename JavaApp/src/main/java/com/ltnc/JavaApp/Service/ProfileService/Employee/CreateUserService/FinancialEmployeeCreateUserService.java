@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class FinancialEmployeeCreateUserService extends AbstractEmployeeCreateUserService<FinancialEmployee> {
     @Autowired
-    public FinancialEmployeeCreateUserService(FinancialEmployeeRepository financialEmployeeRepository, NotificationManage notificationManage){
+    public FinancialEmployeeCreateUserService(FinancialEmployeeRepository financialEmployeeRepository){
         this.modelRepository=financialEmployeeRepository;
         this.type = FinancialEmployee.class;
-        this.notificationManage=notificationManage;
+
     }
 }

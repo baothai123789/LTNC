@@ -2,6 +2,7 @@ package com.ltnc.JavaApp.Service.NotificationService;
 
 import com.ltnc.JavaApp.Model.Notification;
 import com.ltnc.JavaApp.Model.Person;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.Map;
 public class FinancialNotifyListener implements NotifyListener{
     @Setter
     NotificationManage notificationManage;
+    @Getter
     Person person;
     public FinancialNotifyListener(Person person){
         this.person = person;
@@ -42,6 +44,11 @@ public class FinancialNotifyListener implements NotifyListener{
                     +" với số tiền cần thanh toán là "+detail.get("hastoPay")
                     +"Hạn thanh toán trước ngày "+detail.get("hastoPay"));
         }
+        notificationManage.sendNotification(notification,person);
+    }
+
+    @Override
+    public void sendNotify(Notification notification) {
         notificationManage.sendNotification(notification,person);
     }
 

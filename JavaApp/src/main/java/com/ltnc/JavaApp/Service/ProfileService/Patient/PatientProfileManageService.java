@@ -4,6 +4,7 @@ import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.CreateUSerService.IPatientCreateUserService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.EditUserService.IEditUserService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.GetProfileService.IGetProfileService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +12,11 @@ import java.util.List;
 
 @Service
 public class PatientProfileManageService implements IPatientProfileManageService{
-    @Autowired
+    @Resource
     IPatientCreateUserService patientCreateUserService;
-    @Autowired
+    @Resource
     IEditUserService editUserService;
-    @Autowired
+    @Resource
     IGetProfileService getProfileService;
 
     @Override
