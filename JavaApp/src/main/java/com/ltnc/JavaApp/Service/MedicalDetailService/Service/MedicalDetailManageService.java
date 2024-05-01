@@ -4,6 +4,7 @@ import com.ltnc.JavaApp.Model.MedicalDetail;
 import com.ltnc.JavaApp.Repository.MedicalDetailRepository;
 import com.ltnc.JavaApp.Service.MedicalDetailService.DTO.IMedicalDetailDTO;
 import com.ltnc.JavaApp.Service.MedicalDetailService.Interface.MedicalDetailModel;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +13,11 @@ import java.util.List;
 
 @Service
 public class MedicalDetailManageService implements IMedicalDetailManageService {
-    @Autowired
+    @Resource
     IAddMedicalDetailService addMedicalDetailService;
-    @Autowired
+    @Resource
     List<IGetMedicalDetailService> getMedicalDetailServices;
-    @Autowired
+    @Resource
     MedicalDetailRepository medicalDetailRepository;
     @Override
     public void addMedicalDetail(MedicalDetail medicalDetail, MedicalDetailModel medicalDetailModel) {

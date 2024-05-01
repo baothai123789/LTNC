@@ -42,4 +42,9 @@ public class FinanceController {
         }
         return new ResponseEntity<>(res,HttpStatus.OK);
     }
+    @GetMapping("/getmedicalbill/patient/{patientid}")
+    public ResponseEntity<List<FinacialBillDTO>> getPatientMedicalBill(@PathVariable("patientid") String patientId){
+        List<FinacialBillDTO> res = medicalBillManage.getPatientMedicalBill(patientId);
+        return new ResponseEntity<>(res,HttpStatus.OK);
+    }
 }

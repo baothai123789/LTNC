@@ -13,8 +13,8 @@ public class AddMedicalDetailService implements IAddMedicalDetailService {
     @Autowired
     private MedicalDetailRepository medicalDetailRepository;
     public void addMedicalDetail(MedicalDetail medicalDetail, MedicalDetailModel medicalDetailModel) {
-        medicalDetailRepository.save(medicalDetail);
         medicalDetailModel.addMedicalDetail(medicalDetail);
+        medicalDetailRepository.save(medicalDetail);
     }
 
 }

@@ -4,38 +4,34 @@ import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.MedicalDetail;
 import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.Model.Schedule;
-import com.ltnc.JavaApp.Repository.DoctorRepository;
-import com.ltnc.JavaApp.Repository.MedicalDetailRepository;
-import com.ltnc.JavaApp.Repository.PatientRepository;
-import com.ltnc.JavaApp.Repository.ScheduleRepository;
-import com.ltnc.JavaApp.Service.FinancialService.CreateNewMedicalBillService;
-import com.ltnc.JavaApp.Service.FinancialService.MedicalBillManage;
-import com.ltnc.JavaApp.Service.FinancialService.PatientInfoDTO;
+import com.ltnc.JavaApp.Service.FinancialService.CreateMedicalBillAdapter;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
 import com.ltnc.JavaApp.Service.ScheduleService.Service.ScheduleMangeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
 public class CreateMedicalDetail {
 
-    @Autowired
+    @Resource
     NotifyMedicalDetailService notifyMedicalDetailService;
-    @Autowired
+    @Resource
     ScheduleMedicalDetailService scheduleMedicalDetailService;
-    @Autowired
+    @Resource
     PatientProfileManageService patientProfileManageService;
-    @Autowired
+    @Resource
     EmployeeProfileManageService employeeProfileManageService;
-    @Autowired
+    @Resource
     IMedicalDetailManageService medicalDetailManageService;
-    @Autowired
-    CreateNewMedicalBillService createNewMedicalBillService;
-    @Autowired
+    @Resource
+    CreateMedicalBillAdapter createMedicalBillAdapter;
+    @Resource
     ScheduleMangeService scheduleMangeService;
     public void createMedicalDetail(String doctorid, String patientId, MedicalDetail medicalDetail)throws NullPointerException{
         medicalDetail.setId(UUID.randomUUID().toString());
@@ -54,6 +50,10 @@ public class CreateMedicalDetail {
         }
         patientProfileManageService.updateUserProfile(patient);
         employeeProfileManageService.UpdateUserProfile(doctor);
-        createNewMedicalBillService.createNewMedicalBill(medicalDetail,null,patient,"medicaldetailbill");
+        Map<String,Object> dataforMedicalBill = new HashMap<>(Map.of(
+                "type","medicaldetailbill",
+                "medicalDetail",medicalDetail
+        ));
+        createMedicalBillAdapter.createMedicalBill(dataforMedicalBill,patient);
     }
 }

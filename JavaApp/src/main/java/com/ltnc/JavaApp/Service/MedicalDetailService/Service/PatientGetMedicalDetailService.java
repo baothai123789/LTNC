@@ -10,6 +10,7 @@ import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageSer
 import com.ltnc.JavaApp.Service.ProfileService.Employee.IEmployeeProfileMangeService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.IPatientProfileManageService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +18,11 @@ import java.util.List;
 
 @Service
 public class PatientGetMedicalDetailService implements IGetMedicalDetailService{
-   @Autowired
+   @Resource
    IPatientProfileManageService patientProfileManageService;
-   @Autowired
+   @Resource
    IEmployeeProfileMangeService employeeProfileManageService;
-   @Autowired
+   @Resource
    PatientMedicalDetailDTOMapper patientMedicalDetailDTOMapper;
 
     @Override

@@ -7,31 +7,33 @@ import com.ltnc.JavaApp.Repository.NurseRepository;
 import com.ltnc.JavaApp.Repository.PatientRepository;
 import com.ltnc.JavaApp.Service.HospitalAdmission.DTO.NurseDTOMapper;
 import com.ltnc.JavaApp.Service.HospitalAdmission.DTO.NurseInfoDTO;
+import com.ltnc.JavaApp.Service.MedicalDetailService.Service.MedicalDetailManageService;
 import com.ltnc.JavaApp.Service.NotificationService.NotificationManage;
+import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
+import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CreateHospitalAdmissionService {
-    @Autowired
+    @Resource
+    FindNurseService findNurse;
+    @Resource
     private HospitalAdmissionManageService hospitalAdmissionManageService;
-    @Autowired
-    NurseRepository nurseRepository;
-    @Autowired
+    @Resource
+    EmployeeProfileManageService employeeProfileManageService;
+    @Resource
     NotificationManage notificationManage;
-    @Autowired
-    MedicalDetailRepository medicalDetailRepository;
-    @Autowired
-    PatientRepository patientRepository;
-
-    private Nurse findNurse(){
-        List<Nurse> nurses = nurseRepository.findAll();
-         return nurses.stream().filter(nurse -> nurse.getHospitalAdmissionDetails().size()<10).findFirst().orElseThrow(NullPointerException::new);
-    }
+    @Resource
+    MedicalDetailManageService medicalDetailManageService;
+    @Resource
+    PatientProfileManageService patientProfileManageService;
     private void sendNotifytoNurse(Nurse nurse,HospitalAdmissionDetail hospitalAdmissionDetail){
         Notification notification = new Notification();
         notification.setDateTime(LocalDateTime.now());
@@ -40,7 +42,7 @@ public class CreateHospitalAdmissionService {
         notificationManage.sendNotification(notification,nurse);
     }
     private void sendNotifytoPatient(HospitalAdmissionDetail hospitalAdmissionDetail,String nursePhone){
-        Patient patient = patientRepository.findById(hospitalAdmissionDetail.getPatientId()).orElseThrow(()->new NullPointerException("patient not found"));
+        Patient patient = patientProfileManageService.getProfile(hospitalAdmissionDetail.getPatientId());
         Notification notification_patient= new Notification();
         notification_patient.setTitle("Lịch nhập viện");
         notification_patient.setBody("Bạn có lịch nhập viện vào ngày " +hospitalAdmissionDetail.getStartDate()
@@ -52,12 +54,12 @@ public class CreateHospitalAdmissionService {
     }
 
     public NurseInfoDTO createHospitalAdmission(HospitalAdmissionDetail hospitalAdmissionDetail){
-        MedicalDetail medicalDetail = medicalDetailRepository.findById(hospitalAdmissionDetail.getMedicalDetail().getId())
-                .orElseThrow(()->new NullPointerException("cannot find medical detai"));
+        hospitalAdmissionDetail.setId(UUID.randomUUID().toString());
+        MedicalDetail medicalDetail = medicalDetailManageService.getMedicalDetail(hospitalAdmissionDetail.getMedicalDetail().getId());
         hospitalAdmissionDetail.setMedicalDetail(medicalDetail);
-        Nurse nurse = findNurse();
-        MyApp.LOGGER.info(nurse);
+        Nurse nurse = findNurse.findNurse();
         hospitalAdmissionManageService.addHospitalAdmission(hospitalAdmissionDetail,nurse);
+        employeeProfileManageService.UpdateUserProfile(nurse);
         sendNotifytoNurse(nurse,hospitalAdmissionDetail);
         sendNotifytoPatient(hospitalAdmissionDetail,nurse.getPhone());
         NurseDTOMapper nurseDTOMapper = new NurseDTOMapper();

@@ -26,10 +26,10 @@ public class NotifyObserver implements INotifyObserver{
         listener.get(type).add(notifyListener);
     }
     @Override
-    public void notifyListener(String type, Notification notification) {
+    public void notifyListener(String type, Map<String,Object> detail) {
         if(!listener.containsKey(type)) throw  new NullPointerException("not found notify");
         for(NotifyListener notifyListener:listener.get(type)){
-            notifyListener.sendNotify(notification);
+            notifyListener.sendNotify(detail);
         }
     }
     @Override

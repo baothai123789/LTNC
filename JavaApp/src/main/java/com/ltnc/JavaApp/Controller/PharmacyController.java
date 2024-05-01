@@ -6,6 +6,7 @@ import com.ltnc.JavaApp.ResponseModel.Pharmacy.MedicinePriceResponse;
 import com.ltnc.JavaApp.Service.FinancialService.CreateNewMedicalBillService;
 import com.ltnc.JavaApp.Service.PharmacyManager.CreatePresciptionService;
 import com.ltnc.JavaApp.Service.PharmacyManager.MedicineManageService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +21,9 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 @RequestMapping("/pharmacy")
 public class PharmacyController {
-    @Autowired
+    @Resource
     MedicineManageService medicineManageService;
-    @Autowired
+    @Resource
     CreatePresciptionService createPresciptionService;
 
     @PreAuthorize("hasAuthority('pharmacymanager')")
@@ -48,6 +49,9 @@ public class PharmacyController {
     @PreAuthorize("hasAuthority('pharmacymanager')")
     @PostMapping("/createpresciption")
     public ResponseEntity<Map<String,String>> createPresciption(@RequestBody MedicinCreateRequestModel medicinCreateRequestModel){
+        if(medicinCreateRequestModel.getTotalPay()==null) {
+            medicinCreateRequestModel.setTotalPay(medicineManageService.getMedicinesPrice(medicinCreateRequestModel.getPresciption()));
+        }
         createPresciptionService.createNewPresciption(medicinCreateRequestModel);
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
     }

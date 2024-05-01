@@ -13,4 +13,5 @@ import java.util.Map;
 public class MedicinCreateRequestModel {
     private String patientId;
     private List<Map<String,Object>> presciption;
+    private Integer totalPay;
 }

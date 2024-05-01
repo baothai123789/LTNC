@@ -21,9 +21,11 @@ public class MedicalBill {
     private Patient patient;
     private String type;
     private List<Map<String,Object>> prescription;
+    private String medicalDetailId;
     private Integer medicalFee;
     private Boolean paid;
     private LocalDate hastopay;
     private Integer totalPay;
     private LocalDate payDate;
+    private String financialEmployeeId;
 }

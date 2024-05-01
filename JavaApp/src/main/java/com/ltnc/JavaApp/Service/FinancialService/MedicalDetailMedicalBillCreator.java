@@ -16,13 +16,15 @@ import java.util.UUID;
 public class MedicalDetailMedicalBillCreator implements IMedicalBillCreator{
 
     @Override
-    public MedicalBill createBill(MedicalDetail medicalDetail,List<Map<String, Object>> presciption, @Nonnull Patient patient) {
+    public MedicalBill createBill(Map<String,Object> data,Patient patient) {
         MedicalBill medicalBill=new MedicalBill();
         medicalBill.setId(UUID.randomUUID().toString());
+        medicalBill.setMedicalDetailId(((MedicalDetail)data.get("medicalDetail")).getId());
         medicalBill.setPatient(patient);
         medicalBill.setType("Hoá đơn khám bệnh");
         medicalBill.setPatient(patient);
         medicalBill.setMedicalFee(300000);
+        medicalBill.setTotalPay(medicalBill.getMedicalFee());
         medicalBill.setPaid(false);
         medicalBill.setPayDate(null);
         medicalBill.setHastopay(LocalDate.now().plusDays(7));

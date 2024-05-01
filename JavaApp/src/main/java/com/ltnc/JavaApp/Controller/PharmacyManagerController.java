@@ -5,6 +5,7 @@ import com.ltnc.JavaApp.Model.PharmacyEquipmentManager;
 import com.ltnc.JavaApp.Service.PharmacyService.Interface.IAddEquipmentService;
 import com.ltnc.JavaApp.Service.PharmacyService.Interface.IGetEquipmentService;
 import com.ltnc.JavaApp.Service.PharmacyService.Interface.IRemoveEquipmentService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,13 +18,13 @@ import java.util.List;
 @RequestMapping("/pharmacymanager")
 public class PharmacyManagerController {
 
-    @Autowired
+    @Resource
     private IAddEquipmentService addEquipmentService;
 
-    @Autowired
+    @Resource
     private IRemoveEquipmentService removeEquipmentService;
 
-    @Autowired
+    @Resource
     private IGetEquipmentService getEquipmentService;
 
     @PreAuthorize("hasAuthority('pharmacyemployee')")

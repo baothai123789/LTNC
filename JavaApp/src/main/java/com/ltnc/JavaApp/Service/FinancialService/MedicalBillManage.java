@@ -4,6 +4,7 @@ import com.ltnc.JavaApp.Model.Employee;
 import com.ltnc.JavaApp.Model.FinancialEmployee;
 import com.ltnc.JavaApp.Model.MedicalBill;
 import com.ltnc.JavaApp.MyApp;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,13 @@ import java.util.List;
 @Service
 public class MedicalBillManage {
 
-    @Autowired
+    @Resource
     IGetMedicalBill getMedicalBill;
-    @Autowired
+    @Resource
     IUpdateMedicalBill updateMedicalBill;
-    @Autowired
+    @Resource
     FinacialBillDTOMapper finacialBillDTOMapper;
-    @Autowired
+    @Resource
     IAddMedicalBill addMedicalBill;
 
 
@@ -28,10 +29,15 @@ public class MedicalBillManage {
     public List<FinacialBillDTO> getMedicalBills(String employeeId,Boolean paid){
         List<MedicalBill> res=this.getMedicalBill.getMedicalBills(employeeId,paid);
         MyApp.LOGGER.info(res);
-        return res.stream().map(medicalBill -> finacialBillDTOMapper.map(medicalBill)).toList();
+        return res.stream().map(medicalBill -> finacialBillDTOMapper.map(medicalBill,"financialemployee")).toList();
     }
     public void addMedicalBill(MedicalBill medicalBill,FinancialEmployee financialEmployee){
+        medicalBill.setFinancialEmployeeId(financialEmployee.getId());
         this.addMedicalBill.addMedicalBill(medicalBill,financialEmployee);
+    }
+    public List<FinacialBillDTO> getPatientMedicalBill(String patientId){
+        List<MedicalBill> res = this.getMedicalBill.getPatientMedicalBill(patientId);
+        return res.stream().map(medicalBill -> finacialBillDTOMapper.map(medicalBill,"patient")).toList();
     }
 
 }

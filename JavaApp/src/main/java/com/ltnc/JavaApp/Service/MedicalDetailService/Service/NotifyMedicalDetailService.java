@@ -2,6 +2,7 @@ package com.ltnc.JavaApp.Service.MedicalDetailService.Service;
 
 import com.ltnc.JavaApp.Model.*;
 import com.ltnc.JavaApp.Service.NotificationService.NotificationManage;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Service
 public class NotifyMedicalDetailService {
-    @Autowired
+    @Resource
     NotificationManage notificationManage;
     public void sendNotifytoPatient(Patient patient, Schedule schedule,String medicalDetailId){
         Notification notification = new Notification();

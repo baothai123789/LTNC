@@ -1,11 +1,16 @@
 package com.ltnc.JavaApp.Service.FinancialService;
 
+import com.ltnc.JavaApp.Model.Employee;
 import com.ltnc.JavaApp.Model.MedicalBill;
+import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FinacialBillDTOMapper {
-    public FinacialBillDTO map(MedicalBill medicalBill){
+    @Resource
+    EmployeeProfileManageService employeeProfileManageService;
+    public FinacialBillDTO map(MedicalBill medicalBill,String type){
         return FinacialBillDTO.builder()
                 .id(medicalBill.getId())
                 .paid(medicalBill.getPaid())
@@ -14,6 +19,10 @@ public class FinacialBillDTOMapper {
                 .hastopay(medicalBill.getHastopay())
                 .prescription(medicalBill.getPrescription())
                 .totalPay(medicalBill.getTotalPay())
-                .patientInfoDTO(new PatientInfoDTO(medicalBill.getPatient())).build();
+                .contactInfoDTO(new ContactInfoDTO(
+                        type.equalsIgnoreCase("patient")?
+                        medicalBill.getPatient()
+                                :employeeProfileManageService.getEmployeeProfile(medicalBill.getFinancialEmployeeId(),"financialemployee"))
+                ).build();
     }
 }

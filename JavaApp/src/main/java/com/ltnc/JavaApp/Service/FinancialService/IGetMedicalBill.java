@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface IGetMedicalBill {
     public List<MedicalBill> getMedicalBills(String userid,Boolean paid);
+    public List<MedicalBill> getPatientMedicalBill(String patientId);
 }

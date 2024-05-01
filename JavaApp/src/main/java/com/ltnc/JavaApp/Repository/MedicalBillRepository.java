@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface MedicalBillRepository extends MongoRepository<MedicalBill,String>{
     @Query("{'$and': [{'id':?0},{'paid': ?1}]}")
     public List<MedicalBill> findMedicalBillByPaid(String id, Boolean paid);
+    @Query("{'patient.id': ?0}")
+    public List<MedicalBill> findPatientMedicalBill(String patientId);
 }

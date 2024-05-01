@@ -2,6 +2,8 @@ package com.ltnc.JavaApp.Service.ScheduleService.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import com.ltnc.JavaApp.Model.*;
 import com.ltnc.JavaApp.MyApp;
@@ -33,17 +35,15 @@ public class PatientScheduleService implements IPatientScheduleService {
     NotifyObserver notifyObserver;
 
     private void sendNotify(Doctor doctor,Patient patient,Schedule schedule){
-        Notification notification = new Notification();
-        notification.setDateTime(LocalDateTime.now());
-        notification.setTitle("Lịch khám bệnh");
-        notification.setBody("Bạn có lịch khám bệnh vào lúc: "+schedule.getStartTime()+
-                " ngày "+schedule.getDate()+"."+
-                "Mã lịch hẹn là: "+schedule.getId()+".");
         NotifyListener patientNotifyListener = new ScheduleNotifyListener(patient);
         NotifyListener doctorNotifyListener = new ScheduleNotifyListener(doctor);
+        Map<String,Object> detail=new HashMap<>(Map.of(
+                "scheduleId",schedule.getId(),
+                "scheduleDate",schedule.getDate(),
+                "scheduleTime",schedule.getStartTime()));
         notifyObserver.addListener("schedule",patientNotifyListener);
         notifyObserver.addListener("schedule",doctorNotifyListener);
-        notifyObserver.notifyListener("schedule",notification);
+        notifyObserver.notifyListener("schedule",detail);
         notifyObserver.removeListener("schedule",doctorNotifyListener);
         notifyObserver.removeListener("schedule",patientNotifyListener);
     }

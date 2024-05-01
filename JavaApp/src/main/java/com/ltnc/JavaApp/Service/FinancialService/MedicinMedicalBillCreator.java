@@ -13,14 +13,13 @@ import java.util.UUID;
 @Service
 public class MedicinMedicalBillCreator implements IMedicalBillCreator{
     @Override
-    public MedicalBill createBill(MedicalDetail medicalDetail, List<Map<String, Object>> presciption, @Nonnull Patient patient) {
-        if(presciption==null) throw new NullPointerException("wrong class");
+    public MedicalBill createBill(Map<String,Object> data,Patient patient) {
         MedicalBill medicalBill = new MedicalBill();
         medicalBill.setId(UUID.randomUUID().toString());
         medicalBill.setPatient(patient);
         medicalBill.setType("Hoá đơn thuốc");
         medicalBill.setMedicalFee(0);
-        medicalBill.setPrescription(presciption);
+        medicalBill.setPrescription((List<Map<String, Object>>) data.get("medicine"));
         return medicalBill;
     }
 

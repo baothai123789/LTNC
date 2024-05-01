@@ -11,6 +11,6 @@ import java.util.Map;
 
 public interface IMedicalBillCreator {
 
-    public MedicalBill createBill(@Nullable MedicalDetail medicalDetail, @Nullable List<Map<String,Object>> presciption, @Nonnull Patient patient);
+    public MedicalBill createBill(Map<String,Object> data,Patient patient);
     public String getType();
 }

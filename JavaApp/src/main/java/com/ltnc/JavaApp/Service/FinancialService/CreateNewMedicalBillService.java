@@ -1,37 +1,53 @@
 package com.ltnc.JavaApp.Service.FinancialService;
 
 import com.ltnc.JavaApp.Model.*;
+import com.ltnc.JavaApp.MyApp;
+import com.ltnc.JavaApp.Service.NotificationService.FinancialNotifyListener;
+import com.ltnc.JavaApp.Service.NotificationService.NotifyListener;
+import com.ltnc.JavaApp.Service.NotificationService.NotifyObserver;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
-import com.mongodb.lang.Nullable;
-import jakarta.annotation.Nonnull;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 
 @Service
 public class CreateNewMedicalBillService {
-    @Autowired
-    MedicalBillCreatorFactory medicalBillCreatorFactory;
-    @Autowired
-    FinancialNotifyService financialNotifyService;
-    @Autowired
+    @Resource
+    NotifyObserver notifyObserver;
+    @Resource
     FindFinancialEmployeeService findFinancialEmployeeService;
-    @Autowired
+    @Resource
     MedicalBillManage medicalBillManage;
-    @Autowired
+    @Resource
     EmployeeProfileManageService employeeProfileManageService;
 
-    public void createNewMedicalBill(@Nullable MedicalDetail medicalDetail,
-                                     @Nullable List<Map<String,Object>> presciption,
-                                     @Nonnull Patient patient,@Nonnull String type) throws NullPointerException{
-        IMedicalBillCreator creator = medicalBillCreatorFactory.getBillCreator(type);
-        MedicalBill medicalBill=creator.createBill(medicalDetail,presciption,patient);
+    private void sendNotify(MedicalBill medicalBill,Patient patient,FinancialEmployee financialEmployee){
+        NotifyListener patientNotifier = new FinancialNotifyListener(patient);
+        NotifyListener financialNotifier = new FinancialNotifyListener(financialEmployee);
+        notifyObserver.addListener("financial",patientNotifier);
+        notifyObserver.addListener("financial",financialNotifier);
+        Map<String,Object> detail = new HashMap<>(Map.of(
+                "medicalBillId",medicalBill.getId(),
+                "totalPay",medicalBill.getTotalPay(),
+                "hastoPay",medicalBill.getHastopay(),
+                "type",medicalBill.getType()
+        ));
+        notifyObserver.notifyListener("financial",detail);
+        notifyObserver.removeListener("financial",patientNotifier);
+        notifyObserver.removeListener("financial",financialNotifier);
+    }
+    public void createNewMedicalBill(MedicalBill medicalBill,Patient patient) throws NullPointerException{
+        MyApp.LOGGER.info(medicalBill.getId());
+        MyApp.LOGGER.info(medicalBill.getTotalPay());
+        MyApp.LOGGER.info(medicalBill.getHastopay());
+        MyApp.LOGGER.info(medicalBill.getType());
         FinancialEmployee financialEmployee = findFinancialEmployeeService.findEmployee().orElseThrow(()->new NullPointerException("cannot find financial employee"));
         medicalBillManage.addMedicalBill(medicalBill,financialEmployee);
-        financialNotifyService.sendNotifytoEmployee(financialEmployee,medicalBill,patient.getId());
-        financialNotifyService.sendNotifytoPatient(patient,medicalBill,financialEmployee.getPhone(), medicalBill.getId());
         employeeProfileManageService.UpdateUserProfile(financialEmployee);
+        sendNotify(medicalBill,patient,financialEmployee);
+
     }
 }

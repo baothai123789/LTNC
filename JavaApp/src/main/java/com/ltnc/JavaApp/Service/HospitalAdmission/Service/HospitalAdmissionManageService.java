@@ -5,6 +5,7 @@ import com.ltnc.JavaApp.Model.Nurse;
 import com.ltnc.JavaApp.Model.PatientState;
 import com.ltnc.JavaApp.Service.HospitalAdmission.DTO.HospitalAdmissionDetailDTO;
 import com.ltnc.JavaApp.Service.HospitalAdmission.Interface.*;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +14,13 @@ import java.util.List;
 
 @Service
 public class HospitalAdmissionManageService implements IHospitalAdmissionManageService {
-    @Autowired
+    @Resource
     IGetHospitalAdmissionService getHospitalAdmissionService;
-    @Autowired
+    @Resource
     IAddHospitalAdmissionService addHospitalAdmissionService;
-    @Autowired
+    @Resource
     IUpdateHospitalAdmissionService updateHospitalAdmissionService;
-    @Autowired
+    @Resource
     IRemoveHospitalAdmissionService removeHospitalAdmissionService;
 
 
