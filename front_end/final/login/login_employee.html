@@ -99,13 +99,13 @@ async function login() {
       .then(function(data){
         sessionStorage.setItem('id',data.userId)
         if(role=='doctor'){
-      window.location.href = '/Nam2/advanced_programming/final/employee/doctor/Doctor.html';
+      window.location.href = '../employee/doctor/Doctor.html';
       }
       if(role=='nurse'){
-        window.location.href = '/Nam2/advanced_programming/final/employee/nurse/nurse.html';
+        window.location.href = '../employee/nurse/nurse.html';
       }
       if(role=='financialemployee'){
-
+        window.location.href = '../employee/financialEmployee/financialEmployee.html';
       }
       })
     } 

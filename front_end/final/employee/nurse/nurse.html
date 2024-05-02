@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+    <script>
+        window.onload = function() {
+          if (!sessionStorage.getItem('jwt')) {
+            window.location.href = '../../login/login_signup.html'; // Nếu không có token, chuyển hướng người dùng về trang đăng nhập
+          }
+        }
+      </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web</title>
@@ -211,7 +218,7 @@
             <div class="container-fluid" style="background-color: rgb(213, 245, 227);">
                 <button class="menu-toggle btn btn-secondary disabled;" style="background-color: rgb(115, 198, 182);border: #f4f4f4;">☰</button>
                 <div class="d-flex justify-content-end" >
-                    <i class="home-toggle btn btn-secondary __icon  fas fa-home" onclick="window.location.href='Nurse.html';"></i>
+                    <i class="home-toggle btn btn-secondary __icon  fas fa-home" onclick="window.location.href='nurse.html';"></i>
                     <i class="notification-toggle btn btn-secondary  __icon fas fa-bell" ></i>
                     <i class="guide-toggle btn btn-secondary __icon fas fa-map" ></i>  
                     <i class="account-toggle btn btn-secondary __icon fas fa-user"></i>
@@ -226,19 +233,27 @@
     <div>Thông báo 3</div>
 </div>
 <div id ='account-div'>
-    <div style="font-size:30px;"><i class="fa fa-sign-out" style="font-size:30px;color: black;" ></i>Sign out</div>
+    <button onclick="SignOut()" style="font-size:30px;"><i class="fa fa-sign-out" style="font-size:30px;color: black;" ></i>Sign out</button>
 </div>
 <div id ='nav1'>
     <ul class="d-grid gap-2" >
     <button onclick="func1()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem thông tin cá nhân</button>
     <button onclick="func2()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Sửa thông tin cá nhân</button>
-    <button onclick="func3()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem phòng bệnh</button>
+    <button onclick="func3()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Quản lí phòng bệnh</button>
     </ul>
 </div>
 <section id="section">
     <img src="bg_nurse.jpg" style="height: 100%;width: 100%;"></img>
-                
+         
+    
 </section>
+<script>
+    function SignOut(){
+        sessionStorage.removeItem("jwt")
+        sessionStorage.removeItem("id")
+        window.onload()
+    }
+</script>
 <script src="file.js"></script>
 </body>
 </html>

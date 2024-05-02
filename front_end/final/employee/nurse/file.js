@@ -29,91 +29,81 @@ document.querySelector('.account-toggle').onclick = function() {
         tmp.style.display = 'none';
     }
 };
-function func1() {
-    var tmp1 = document.querySelector('#notification-div');
-    var tmp2 = document.querySelector('#account-div');
-    tmp1.style.display='none';
-    tmp2.style.display='none';
-
+function func1(){
     document.getElementById('section').innerHTML = `
-    <h1>Thông tin cá nhân</h1>   
-    <form class="form-inline">    
-    <div id="nhanvienInfo"></div>
+    <h1>Thông tin cá nhân</h1>     
+    <form class="form-inline">
+    <div id="benhnhanInfo"></div>
+    <label for="id">Mã số</label>
+    <div id="id" class="form-control"></div>
+    <label for="name">Họ và tên:</label>
+    <div id="name" class="form-control"></div>
+    <label for="gender">Giới tính:</label>
+    <div id="gender" class="form-control"></div>
+    <label for="phone">Số điện thoại:</label>
+    <div id="phone" class="form-control"></div> 
+    <label for="age">Tuổi:</label>
+    <div id="age" class="form-control"></div>
+    <label for="address">Địa chỉ:</label>
+    <div id="address" class="form-control"></div>
+
+    <label for="address">Thời gian làm việc từ:</label>
+    <div id="workFrom" class="form-control"></div>
+    <label for="address">Chức năng:</label>
+    <div id="part" class="form-control"></div>
+    <label for="address">Chức vụ:</label>
+    <div id="position" class="form-control"></div>
+
+    <label >Bằng cấp:</label><br><br>     
+    <div id="pivot" id="pivot1" style="margin-left:50px;"></div>
     </form>
     `
-        //Tao du lieu tam
-        const nhanviens = [
-            { id: 1, name: 'AAA', gender: 'Nam', phone: 'A', age: 'A', address: 'A',role:'doctor',part:'medicalemployee',workForm:'3/2/2022',Position:'a',Certificate:{department:'a',time:'3/2/2022',major:'a'} },
-            
-        ];
-        
-        function _Role(nhanvien)
-        {
-            if (nhanvien.role=="doctor")
-                return "Bác sĩ";
-            if (nhanvien.role=="nurse")
-                return "Y tá";
-            if (nhanvien.role=="functionalemployee")
-                return "Nhân viên y tế";
-        }
-        function _Part(nhanvien)
-        {
-            if (nhanvien.part=="medicalemployee")
-                return "Nhân viên y tế";
-            if (nhanvien.role=="financialemployee")
-                return "Nhân viên tài chính";
-            if (nhanvien.role=="pharmacymanager")
-                return "Nhân viên quản lý thuốc";
-        }
-        // Function to display nhanvien information
-        function displaynhanvienInfo() {
-            const nhanvienInfo = document.getElementById('nhanvienInfo');
-            nhanvienInfo.innerHTML = '';
-
-            nhanviens.forEach(nhanvien => {
-                //if (nhanvien.role == 'doctor')
-                {
-                    const nhanvienElement = document.createElement('div');
-                nhanvienElement.innerHTML = `
-                        <label for="id">Mã nhân viên</label>
-                        <div class="form-control">${nhanvien.id}</div>
-                        <label for="name">Họ và tên:</label>
-                        <div class="form-control">${nhanvien.name}</div>
-                        <label for="gender">Giới tính:</label>
-                        <div class="form-control">${nhanvien.gender}</div>
-                        <label for="phone">Số điện thoại:</label>
-                        <div class="form-control">${nhanvien.phone}</div>
-                        <label for="age">Tuổi:</label>
-                        <div class="form-control">${nhanvien.age}</div>
-                        <label for="address">Địa chỉ:</label>
-                        <div class="form-control">${nhanvien.address}</div>
-                        <label for="role">Vai trò:</label>
-                        <div class="form-control">${_Role(nhanvien)}</div>
-                        <label for="part">Bộ phận:</label>
-                        <div class="form-control">${_Part(nhanvien)}</div>
-                        <label for="workFrom">Ngày bắt đầu làm việc:</label>
-                        <div class="form-control">${nhanvien.workForm}</div>
-                        <label for="Position">Chức vụ:</label>
-                        <div class="form-control">${nhanvien.Position}</div>
-                        <label for="Certificate">Danh sách chứng chỉ:</label><br>
-                        <div style="margin-left: 50px;">   
-                            <label for="Certificate.department">Đơn vị cấp chứng chỉ:</label>
-                            <div class="form-control">${nhanvien.Certificate.department}</div>
-                            <label for="Certificate.time">Thời gian cấp chứng chỉ:</label>
-                            <div class="form-control">${nhanvien.Certificate.time}</div>
-                            <label for="Certificate.major">Chuyên ngành:</label>
-                            <div class="form-control">${nhanvien.Certificate.major}</div>
-                        </div>   
-                        <br><br><br>      
-                `;
-                nhanvienInfo.appendChild(nhanvienElement);}
-            });
-        }
-
-        displaynhanvienInfo();
-
+        var token= sessionStorage.getItem('jwt')
+        var userId=sessionStorage.getItem('id')
+        try{
+        fetch('http://localhost:8080/profile/employee/nurse/getprofile/'+userId,{
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+token
+            }
+        })
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+            document.getElementById('id').innerText=data.id;
+            console.log(data.id)
+            document.getElementById('name').innerText=data.name;
+            document.getElementById('phone').innerText=data.phone;
+            document.getElementById('gender').innerText=data.gender;
+            document.getElementById( 'age').innerText=data.age;
+            document.getElementById('address').innerHTML=data.address.street+"-"+
+            data.address.town+"-"+data.address.province+"-"+data.address.town
+            document.getElementById( 'workFrom').innerText=data.workFrom;
+            document.getElementById( 'part').innerText=data.part;
+            document.getElementById( 'position').innerText=data.position;
+            const Certificate= data.certificateList;
+    
+            const tableBody = document.querySelector("#section #pivot");
+            Certificate.forEach(record=>{
+                const row = document.createElement("div");
+                row.innerHTML = `
+                <label>Cơ sở tốt nghiệp:</label>
+                    <div id="sicktime" type="date" class="form-control" name="medicalrecord.time" >${record.department}</div>
+                    <label>Chuyên ngành:</label>
+                    <div id="disease"type="text" class="form-control" name="medicalrecord.name" >${record.major}</div>
+                    <label>Thời gian tốt nghiệp</label>
+                    <div id="treatmented" type="text" class="form-control" name="medicalrecord.treatment" >${record.time}</div>
+                    <br><br><br>
+        `;
+        tableBody.appendChild(row);
+            }) 
+        })
+    }catch(error){
+        alert('Lỗi kết nối đến server: ' + error);
+    }
 }
-
 function func2(){
     var tmp1 = document.querySelector('#notification-div');
     var tmp2 = document.querySelector('#account-div');
@@ -175,15 +165,126 @@ function func2(){
             displaynhanvienInfo();
 }
 function func3(){
-    var tmp1 = document.querySelector('#notification-div');
-    var tmp2 = document.querySelector('#account-div');
-    tmp1.style.display='none';
-    tmp2.style.display='none';
-
     document.getElementById('section').innerHTML = `
-    <h1 >Xem phòng bệnh</h1>  
-    <form>
-    <div id="medicaldetailInfo"></div>
-    </form>
+    <h1 id="pivot">Quản lí phòng khám</h1>
     `;
+    const userId=sessionStorage.getItem("id")
+    const token= sessionStorage.getItem("jwt")
+    try{
+        fetch('http://localhost:8080/hospitaladmission/details/'+userId,{
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+token
+            }
+        })
+        .then(function(response){
+            return response.json()
+        })
+        .then(function(data){
+            console.log(data)
+            const pivot=document.getElementById("pivot")
+            data.forEach(element => {
+                var child= document.createElement("form")
+                child.classList.add("form-inline")
+                child.innerHTML=`
+                <label for="id">Mã hồ sơ</label>
+                <div class="form-control">${element.id}</div>
+                <label for="id">Hồ sơ</label>
+                <div class="form-control">${element.detail}</div>
+                <label for="id">Ngày nhập viện</label>
+                <div class="form-control">${element.startDate}</div>
+                <label for="id">Ngày xuất viện</label>
+                <div class="form-control">${element.endDate}</div>
+                <label for="id">Toa</label>
+                <div class="form-control">${element.prescription}</div>
+                <label for="id">Hoàn tất?</label>
+                <div class="form-control">${element.done}</div>
+                <label for="id">Số phòng</label>
+                <div class="form-control">${element.room}</div>
+                <label for="id">Thông tin bác sĩ</label>
+                <label for="id">Mã bác sĩ</label>
+                <div class="form-control">${element.doctorInfo.id}</div>
+                <label for="id">Số điện thoại</label>
+                <div class="form-control">${element.doctorInfo.phone}</div>
+                <label for="id">Họ và tên</label>
+                <div class="form-control">${element.doctorInfo.name}</div>
+                <label for="id">Tuổi</label>
+                <div class="form-control">${element.doctorInfo.age}</div>
+                <label for="id">Giới tính</label>
+                <div class="form-control">${element.doctorInfo.gender}</div>
+                <label for="id">Chuyên ngành</label>
+                <div class="form-control">${element.doctorInfo.major}</div>
+                <label for="id">Chức vụ</label>
+                <div class="form-control">${element.doctorInfo.position}</div>
+                <label id="patientStates">Tình trạng nhập viện</label>
+                <label>Hồ sơ khám bệnh</label>
+                <label for="id">Mã hồ sơ</label>
+                <div class="form-control">${element.medicalDetail.id}</div>
+                <label for="id">Chuyên ngành</label>
+                <div class="form-control">${element.medicalDetail.major}</div>
+                <label for="id">Chuẩn đoán</label>
+                <div class="form-control">${element.medicalDetail.nameofDisease}</div>
+                <label for="id">Trạng thái</label>
+                <div class="form-control">${element.medicalDetail.inProgress}</div>
+                <label for="id">Toa thuốc</label>
+                <div class="form-control">${element.medicalDetail.prescription}</div>
+                <label id="medicalSchedules">Đặt lịch khám</label>
+                <label>Ngày khám</label>
+                <div class="form-control">${element.medicalDetail.date}</div>
+                <label for="id">Trạng thái bệnh nhân</label>
+                <div class="form-control">${element.medicalDetail.patientState}</div>
+                <label> Hồ sơ bệnh nhân</label>
+                <label for="id">Mã bệnh nhân</label>
+                <div class="form-control">${element.patientInfo.id}</div>
+                <label for="id">Số điện thoại</label>
+                <div class="form-control">${element.patientInfo.phone}</div>
+                <label for="id">Họ và Tên</label>
+                <div class="form-control">${element.patientInfo.name}</div>
+                <label for="id">Tuổi</label>
+                <div class="form-control">${element.patientInfo.age}</div>
+                <label for="id">Giới tính</label>
+                <div class="form-control">${element.patientInfo.gender}</div>
+                <label id="medicalRecords">Lịch sử khám chữa bệnh</label>
+                `
+                pivot.appendChild(child)
+                element.patientInfo.medicalRecords.forEach(e=>{
+                    var medicalRecords=document.getElementById("medicalRecords")
+                    var newMedicalRecords=document.createElement("div")
+                    newMedicalRecords.innerHTML=`
+                    <label for="id">Tên bệnh</label>
+                <div class="form-control">${e.name}</div>
+                <label for="id">Thời gian chữa bệnh</label>
+                <div class="form-control">${e.time}</div>
+                <label for="id">Đã điều trị?</label>
+                <div class="form-control">${e.treatment}</div>
+                    `
+                    medicalRecords.appendChild(newMedicalRecords)
+                })
+                element.patientStates.forEach(e=>{
+                    var patientStates=document.getElementById("patientStates")
+                    var newPatientStates=document.createElement("div")
+                    newPatientStates.innerHTML=`
+                    <label for="id">Tình trạng:</label>
+                <div class="form-control">${e.detail}</div>
+                <label for="id">Thời gian nhập viện</label>
+                <div class="form-control">${e.date}</div>
+                    `
+                    patientStates.appendChild(newPatientStates)
+                })
+                // element.medicalDetail.medicalSchedules(e=>{
+                //     var medicalSchedules=document.getElementById("medicalSchedules")
+                //     var newMedicalSchedules=document.createElement("div")
+                //     newMedicalSchedules.innerHTML=`
+                //     `
+                //     medicalSchedules.appendChild(newMedicalSchedules)
+                // })
+                
+            }); 
+        })
+    }
+    catch(error)
+    {
+        console.log("Lỗi:"+error)
+    }
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up for patient</title>
+    <title>Web</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -18,8 +18,10 @@
     <link rel="stylesheet" href="style.css">
     <style>
         body {
+            color:rgb(14, 98, 81);
+            font-weight: 600;
             background-color: rgb(234,250,241);
-            font-family: Arial, sans-serif;
+            font-family: Raleway, sans-serif;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -99,34 +101,221 @@
                 margin: 0;
             }
         }
+        form{
+        font-size: 20px;
+        align-items: center;
+        max-width: 800px;
+        margin-left:25%;
+        padding-top:50px;
+        padding-left: 7%;
+        padding-right: 10%;
+        box-shadow: 0px 0px 10px rgba(208, 236, 231);
+        background-color: rgb(163, 228, 215);
+        }
+        input, label, select{
+            margin: 5px;
+        }
+        h1{
+        margin-top: 50px;
+        margin-bottom: 50px;
+        margin-left:25%;
+        padding-left: 10px;
+        font-size: 40px;
+        font-weight: 550;
+        }
 
        
     </style>
 </head>
 <body>
 <section>
-    <div class="container" >
-        <div class="screen" >
-                <form class="login">
-                    <div class="login__field">
-                        <i class="login__icon fas fa-user"></i>
-                        <input type="text" class="login__input" placeholder="User name ">
-                    </div>
-                    <div class="login__field">
-                        <i class="login__icon fas fa-lock"></i>
-                        <input type="password" class="login__input" placeholder="Password">
-                    </div>
-                    <button class="button login__submit">
-                        <span class="button__text">Signup</span>
-                        <i class="button__icon fas fa-chevron-right"></i>
-                    </button>		
-                    <button formaction="signup.html" class="button login__submit">                    
-                        <i class="button__icon fas fa-chevron-left"></i>
-                        <span class="button__text" style="margin-left: 160px;margin-right: 20px;">Back</span>
-                    </button>		
-                </form>
+    <h1 > Đăng ký thông tin bệnh nhân</h1>
+    <form>
+        <label for="username">Tên tài khoản:</label>
+        <input id="username" type="text" class="form-control" name="username" >
+        <label for="password">Password:</label>
+        <input id="password" type="password" class="form-control" name="password" >
+        <label for="name">Họ và tên:</label>
+        <input id="name" type="text" class="form-control" name="name" >
+        <label for="gender">Giới tính:</label>
+        <input id="gender" type="text" class="form-control" name="gender" >
+        <label for="phone">Số điện thoại:</label>
+        <input id="phone" type="text" class="form-control" name="phone" >
+        <label for="age">Tuổi:</label>
+        <input id="age" type="number" class="form-control" name="age" >
+        <label for="address">Địa chỉ:</label><br>
+        <div style="margin-left: 30px;">
+            <label for="address.nation">Quốc gia:</label>
+            <input id="nation" type="text" class="form-control" name="address.nation" >
+            <label for="address.province">Tỉnh:</label>
+            <input id="province" type="text" class="form-control" name="address.province" >
+            <label for="address.town">Thị Trấn:</label>
+            <input id="town" type="text" class="form-control" name="address.town" >
+            <label for="address.street">Đường:</label>
+            <input id="street" type="text" class="form-control" name="address.street" >
         </div>
-    </div>
+        <label for="medicalrecordList">Lịch sử bệnh án:</label><br>
+        <div id="medicalRecords">
+        <div class="medical-record">
+            <label for="medicalrecord.time">Thời gian bị bệnh:</label>
+            <input type="date" class="form-control" name="medicalrecord.time" >
+            <label for="medicalrecord.name">Tên bệnh:</label>
+            <input type="text" class="form-control" name="medicalrecord.name" >
+            <label for="medicalrecord.treatment">Tiến độ điều trị:</label> <br>
+            <input type="radio" class="form-check-input mt-0" name="medicalrecord.treatment0" value="True" style="margin-left: 50px;">Đã điều trị        
+            <input type="radio" class="form-check-input mt-0" name="medicalrecord.treatment0" value="False" style="margin-left: 50px;">Chưa điều trị       
+            <br><br>
+        </div>
+       
+        </div>
+        <button type="button" id="addMedicalRecord">+</button>
+        <br><br>
+        <button id="signup" class="button login__submit" style="margin-left: 100px; max-width: 250px;">
+            <span class="button__text">Signup</span>
+            <i class="button__icon fas fa-chevron-right"></i>
+        </button>	
+        <button formaction="signup.html" class="button login__submit" style="margin-left: 100px; max-width: 250px;">                    
+            <i class="button__icon fas fa-chevron-left"></i>
+            <span class="button__text" style="margin-left: 160px;margin-right: 20px;">Back</span>
+        </button>	
+    </form>	
 </section>
+
+
+<script>
+    const addMedicalRecordButton = document.getElementById("addMedicalRecord");
+        const medicalRecordsContainer = document.getElementById("medicalRecords");
+        var i=0
+        addMedicalRecordButton.addEventListener("click", () => {
+            i=i+1
+            const newMedicalRecord = document.createElement("div");
+            newMedicalRecord.classList.add("medical-record");
+            newMedicalRecord.innerHTML = `
+                <label for="medicalrecord.time">Thời gian bị bệnh:</label>
+                <input type="date" class="form-control" name="medicalrecord.time">
+                <label for="medicalrecord.name">Tên bệnh:</label>
+                <input type="text" class="form-control" name="medicalrecord.name">
+                <label for="medicalrecord.treatment">Tiến độ điều trị:</label>
+                <input type="radio" class="form-check-input mt-0" name="medicalrecord.treatment${i}"  value="True">Đã điều trị
+                <input type="radio" class="form-check-input mt-0" name="medicalrecord.treatment${i}" value="False">Chưa điều trị
+                <br><br>
+            `;
+            medicalRecordsContainer.appendChild(newMedicalRecord);
+        });
+
+
+document.querySelector('#signup').addEventListener('click', function(event){
+    event.preventDefault();
+    signup();
+})
+async function signup()
+{
+    const username = document.getElementById('username').value
+    const password =document.getElementById('password').value
+    const name = document.getElementById('name').value;
+    const gender = document.getElementById('gender').value;
+    const phone = document.getElementById('phone').value;
+    const age = document.getElementById('age').value;
+    const nation = document.getElementById('nation').value;
+    const province = document.getElementById('province').value;
+    const town = document.getElementById('town').value;
+    const street = document.getElementById('street').value;
+    const patientData = {
+        userAccount: {
+            username,
+            password,
+        },
+        patient: {
+            name,
+            age: parseInt(age),
+            gender,
+            phone,
+            address: {
+                nation,
+                province,
+                town,
+                street,
+            },
+            medicalRecords: [], // Thêm hồ sơ bệnh án vào đây
+        },
+    };
+
+    // Lặp qua các hồ sơ bệnh án và thêm vào patientData.patient.medicalRecords
+    var j=0
+    const medicalRecordElements = document.querySelectorAll('.medical-record');
+    medicalRecordElements.forEach(recordElement => {
+        const time = recordElement.querySelector("[name='medicalrecord.time']").value;
+        const recordName = recordElement.querySelector("[name='medicalrecord.name']").value;
+        const treatment = recordElement.querySelector(`[name='medicalrecord.treatment${j}']:checked`).value === "True";
+        j=j+1
+
+        patientData.patient.medicalRecords.push({
+            name: recordName,
+            time,
+            treatment,
+        });
+    });
+    console.log(patientData)
+    try {
+  const response = await fetch('http://localhost:8080/account/patient/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(patientData),
+  });
+
+    const data = await response.json(); // Chuyển đổi phản hồi thành JSON
+    console.log(data); // In dữ liệu JSON ra console
+
+    // Kiểm tra thông điệp trả về từ máy chủ
+    if (data.message === "success") {
+      // Đăng ký thành công, tiếp tục với đăng nhập
+      const loginResponse = await fetch('http://localhost:8080/account/patient/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ "username": username, "password": password })
+      });
+
+      if (loginResponse.ok) {
+        const loginData = await loginResponse.json(); // Chuyển đổi phản hồi thành JSON
+        sessionStorage.setItem('jwt', loginData.token); // Lưu token vào sessionStorage
+
+        // Lấy ID người dùng và chuyển hướng
+        const userIdResponse = await fetch('http://localhost:8080/account/getuserid/' + username, {
+          method: 'GET',
+          headers: {
+            "Content-Type": 'application/json',
+            "Authorization": `Bearer ${loginData.token}`
+          }
+        });
+
+        if (userIdResponse.ok) {
+          const userIdData = await userIdResponse.json();
+          sessionStorage.setItem('id', userIdData.userId);
+          window.location.href = '../patient/Patient.html';
+        } else {
+          // Xử lý lỗi khi không thể lấy ID người dùng
+          console.error('Failed to retrieve user ID');
+        }
+      } else {
+        // Xử lý lỗi khi đăng nhập không thành công
+        console.error('Login failed');
+      }
+    } else if (data.message === "Username da ton tai") {
+      // Xử lý trường hợp tên người dùng đã tồn tại
+      alert('Tên người dùng đã tồn tại, vui lòng chọn tên khác.');
+    }else if (data.message === "Mat khau khong hop le") {
+      // Xử lý trường hợp tên người dùng đã tồn tại
+      alert('Mật khẩu không hợp lệ, vui lòng chọn tên khác.');
+    }
+} catch (error) {
+  // Xử lý lỗi kết nối đến server
+  alert('Lỗi kết nối đến server: ' + error);
+}
+}
+</script>
 </body>
 </html>

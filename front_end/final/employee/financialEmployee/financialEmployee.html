@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<script>
-  window.onload = function() {
-    if (!sessionStorage.getItem('jwt')) {
-      window.location.href = '../login/login_signup.html'; // Nếu không có token, chuyển hướng người dùng về trang đăng nhập
+    <script>
+        window.onload = function() {
+          if (!sessionStorage.getItem('jwt')) {
+            window.location.href = '../../login/login_signup.html  '; // Nếu không có token, chuyển hướng người dùng về trang đăng nhập
+          }
+          if (localStorage.getItem('buttonClicked') === 'true') {
+        // Thực hiện hành động nếu nút đã được nhấn
+        console.log('Nút đã được nhấn.');
     }
-  }
-</script>
-
+        }
+      </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web</title>
@@ -130,7 +133,7 @@
         padding:0.5rem;
     }
     #account-div {
-        background-color: #F2F3F4 ;
+        background-color: #F2F3F4  ;
         padding:1px;
         margin:1px;
         width: 300px;
@@ -203,7 +206,8 @@
     h1{
         margin-left:22%;
         padding-left: 160px;
-        font-size: 40px;
+        font-size:40px;
+
     }
     .__icon{
         font-size: 30px;
@@ -219,7 +223,7 @@
             <div class="container-fluid" style="background-color: rgb(213, 245, 227);">
                 <button class="menu-toggle btn btn-secondary disabled;" style="background-color: rgb(115, 198, 182);border: #f4f4f4;">☰</button>
                 <div class="d-flex justify-content-end" >
-                    <i class="home-toggle btn btn-secondary __icon  fas fa-home" onclick="window.location.href='Patient.html';"></i>
+                    <i class="home-toggle btn btn-secondary __icon  fas fa-home" onclick="window.location.href='Doctor.html';"></i>
                     <i class="notification-toggle btn btn-secondary  __icon fas fa-bell" ></i>
                     <i class="guide-toggle btn btn-secondary __icon fas fa-map" ></i>  
                     <i class="account-toggle btn btn-secondary __icon fas fa-user"></i>
@@ -236,19 +240,21 @@
 <div id ='account-div'>
     <button onclick="SignOut()" style="font-size:30px;"><i class="fa fa-sign-out" style="font-size:30px;color: black;" ></i>Sign out</button>
 </div>
-<nav id ='nav1'>
+<div id ='nav1'>
     <ul class="d-grid gap-2" >
     <button onclick="func1()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem thông tin cá nhân</button>
-    <!-- <button onclick="func2()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Sửa thông tin cá nhân</button> -->
-    <button onclick="func3()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem hồ sơ khám bệnh</button>
-    <button onclick="func4()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Đặt lịch khám</button>
-    </ul>
-</nav>
+    <button onclick="func2()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Hóa đơn chưa được trả</button>
+    <button onclick="func3()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Trả viện phí</button>
+    <!-- <button onclick="func4()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem lịch khám bệnh</button>
+    <button onclick="func5()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Tạo hồ sơ bệnh án</button>    
+ -->
+</ul>
+</div>
 <section id="section">
-    <img src="bg_patient.jpg" style="height: 100%;width: 100%;"></img>  
+    
 </section>
 <script>
-    function SignOut(){
+   function SignOut(){
         sessionStorage.removeItem("jwt")
         sessionStorage.removeItem("id")
         window.onload()
