@@ -16,6 +16,7 @@ public abstract class Person {
     protected String gender;
     protected int age;
     protected Address address;
+    protected String email;
 
 
     public abstract String getId();
