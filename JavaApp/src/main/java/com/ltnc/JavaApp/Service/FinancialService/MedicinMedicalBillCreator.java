@@ -16,7 +16,7 @@ public class MedicinMedicalBillCreator implements IMedicalBillCreator{
     public MedicalBill createBill(Map<String,Object> data,Patient patient) {
         MedicalBill medicalBill = new MedicalBill();
         medicalBill.setId(UUID.randomUUID().toString());
-        medicalBill.setPatient(patient);
+        medicalBill.setPatient(patient.getId());
         medicalBill.setType("Hoá đơn thuốc");
         medicalBill.setMedicalFee(0);
         medicalBill.setPrescription((List<Map<String, Object>>) data.get("medicine"));

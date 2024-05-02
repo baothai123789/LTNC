@@ -20,9 +20,9 @@ public class MedicalDetailMedicalBillCreator implements IMedicalBillCreator{
         MedicalBill medicalBill=new MedicalBill();
         medicalBill.setId(UUID.randomUUID().toString());
         medicalBill.setMedicalDetailId(((MedicalDetail)data.get("medicalDetail")).getId());
-        medicalBill.setPatient(patient);
+        medicalBill.setPatient(patient.getId());
         medicalBill.setType("Hoá đơn khám bệnh");
-        medicalBill.setPatient(patient);
+        medicalBill.setPatient(patient.getId());
         medicalBill.setMedicalFee(300000);
         medicalBill.setTotalPay(medicalBill.getMedicalFee());
         medicalBill.setPaid(false);

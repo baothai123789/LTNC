@@ -3,6 +3,7 @@ package com.ltnc.JavaApp.Service.FinancialService;
 import com.ltnc.JavaApp.Model.Employee;
 import com.ltnc.JavaApp.Model.MedicalBill;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
+import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 public class FinacialBillDTOMapper {
     @Resource
     EmployeeProfileManageService employeeProfileManageService;
+    @Resource
+    PatientProfileManageService patientProfileManageService;
     public FinacialBillDTO map(MedicalBill medicalBill,String type){
         return FinacialBillDTO.builder()
                 .id(medicalBill.getId())
@@ -21,7 +24,7 @@ public class FinacialBillDTOMapper {
                 .totalPay(medicalBill.getTotalPay())
                 .contactInfoDTO(new ContactInfoDTO(
                         type.equalsIgnoreCase("patient")?
-                        medicalBill.getPatient()
+                        patientProfileManageService.getProfile(medicalBill.getPatient())
                                 :employeeProfileManageService.getEmployeeProfile(medicalBill.getFinancialEmployeeId(),"financialemployee"))
                 ).build();
     }

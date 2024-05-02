@@ -17,8 +17,7 @@ import java.util.concurrent.SubmissionPublisher;
 public class MedicalBill {
     @Id
     private String id;
-    @DBRef
-    private Patient patient;
+    private String patient;
     private String type;
     private List<Map<String,Object>> prescription;
     private String medicalDetailId;

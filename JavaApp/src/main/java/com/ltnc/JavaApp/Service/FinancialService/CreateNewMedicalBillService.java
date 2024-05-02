@@ -42,7 +42,7 @@ public class CreateNewMedicalBillService {
         MyApp.LOGGER.info(medicalBill.getHastopay());
         MyApp.LOGGER.info(medicalBill.getType());
         FinancialEmployee financialEmployee = findFinancialEmployeeService.findEmployee().orElseThrow(()->new NullPointerException("cannot find financial employee"));
-        medicalBillManage.addMedicalBill(medicalBill,financialEmployee);
+        medicalBillManage.addMedicalBill(medicalBill,financialEmployee,patient);
         employeeProfileManageService.UpdateUserProfile(financialEmployee);
         sendNotify(medicalBill,patient,financialEmployee);
 
