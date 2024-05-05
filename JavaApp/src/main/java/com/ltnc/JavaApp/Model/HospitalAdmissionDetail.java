@@ -18,8 +18,7 @@ import java.util.List;
 public class HospitalAdmissionDetail {
     @Id
     private String id;
-    @DBRef
-    private MedicalDetail medicalDetail;
+    private String medicalDetailId;
     private String doctorId;
     private String patientId;
     private List<PatientState> patientStates=new ArrayList<>();

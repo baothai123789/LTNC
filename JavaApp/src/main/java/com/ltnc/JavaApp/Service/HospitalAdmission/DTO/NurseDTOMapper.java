@@ -1,9 +1,10 @@
 package com.ltnc.JavaApp.Service.HospitalAdmission.DTO;
 
 import com.ltnc.JavaApp.Model.Nurse;
+import org.springframework.stereotype.Service;
 
 
-
+@Service
 public class NurseDTOMapper {
 
     public NurseInfoDTO map(Nurse nurse) {

@@ -65,4 +65,9 @@ public class UserAccountService implements UserDetailsService,IUserManageService
             throw new NullPointerException(e.getMessage());
         }
     }
+
+    @Override
+    public UserAccount getUserAccount(String username) {
+        return  userAccountRepository.findByUserName(username);
+    }
 }

@@ -18,4 +18,5 @@ public class Notification {
     private String title;
     private String body;
     private LocalDateTime dateTime;
+    private Boolean hasRead=false;
 }

@@ -10,4 +10,5 @@ public interface INotificationManage {
     public void sendNotification(Notification notification,Person person);
     public List<Notification> getNotifications(String username);
     public void createNotifications(NotificationList notifications);
+    public void setRead(String username);
 }

@@ -3,18 +3,21 @@ package com.ltnc.JavaApp.Service.HospitalAdmission.DTO;
 import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.HospitalAdmissionDetail;
 import com.ltnc.JavaApp.Model.Patient;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ltnc.JavaApp.Service.MedicalDetailService.Service.MedicalDetailManageService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 
 @Component
 public class HospitalAdmissionDTOMapper  {
-    @Autowired
+    @Resource
     NurseMedicalDetailDTOMapper nurseMedicalDetailDTOMapper;
+    @Resource
+    MedicalDetailManageService medicalDetailManageService;
 
     public HospitalAdmissionDetailDTO map(HospitalAdmissionDetail hospitalAdmissionDetail, Patient patient, Doctor doctor) {
         return HospitalAdmissionDetailDTO.builder().id(hospitalAdmissionDetail.getId())
-                .medicalDetail(nurseMedicalDetailDTOMapper.map(hospitalAdmissionDetail.getMedicalDetail()))
+                .medicalDetail(nurseMedicalDetailDTOMapper.map(medicalDetailManageService.getMedicalDetail(hospitalAdmissionDetail.getMedicalDetailId())))
                 .patientStates(hospitalAdmissionDetail.getPatientStates())
                 .detail(hospitalAdmissionDetail.getDetail())
                 .room(hospitalAdmissionDetail.getRoom())

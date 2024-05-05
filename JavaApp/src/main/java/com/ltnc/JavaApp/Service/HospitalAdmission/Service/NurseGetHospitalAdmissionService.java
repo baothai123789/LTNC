@@ -12,19 +12,20 @@ import com.ltnc.JavaApp.Service.HospitalAdmission.DTO.HospitalAdmissionDetailDTO
 import com.ltnc.JavaApp.Service.HospitalAdmission.Interface.IGetHospitalAdmissionService;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
 import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class NurseGetHospitalAdmissionService implements IGetHospitalAdmissionService {
-    @Autowired
+    @Resource
     HospitalAdmissionDetailRepository hospitalAdmissionDetailRepository;
-    @Autowired
+    @Resource
     PatientProfileManageService patientProfileManageService;
-    @Autowired
+    @Resource
     EmployeeProfileManageService employeeProfileManageService;
-    @Autowired
+    @Resource
     HospitalAdmissionDTOMapper hospitalAdmissionDTOMapper;
     @Override
     public List<HospitalAdmissionDetailDTO> getHospitalAdmissions(String modelId, boolean done) throws NullPointerException {
