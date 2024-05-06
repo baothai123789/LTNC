@@ -123,9 +123,20 @@ function func2(){
             }
         })
         .then(function(response){
+            if(response.ok){
             return response.json()
+            }
+            else{
+                document.getElementById("inform").innerHTML=`<p>Không có hóa đơn nào</p>`
+            }
         })
         .then(function(data){
+            if(data.length===0)
+                {
+                    console.log("hello")
+                    document.getElementById("inform").innerHTML=`<p>Không có hóa đơn nào</p>`
+                }
+                console.log("hello1")
             const pivot= document.getElementById('medicalRecords');
             data.forEach(element => {
                 var pivot2=document.createElement("form")

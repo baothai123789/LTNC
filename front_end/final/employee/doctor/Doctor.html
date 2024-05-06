@@ -89,18 +89,7 @@
         max-width: 8%;
         padding:0.5rem;
     }
-    #notification-div {
-        background-color: #F2F3F4 ;
-        padding:1px;
-        margin:1px;
-        width: 300px;
-        height: 500px;
-        float: right;   
-        top:60px;
-        right: 60px;
-        position: absolute;
-        
-    }
+    
     .notification-toggle {
         display:block;
         cursor: pointer;
@@ -130,14 +119,14 @@
     }
     #account-div {
         background-color: #F2F3F4  ;
-        padding:1px;
+        /* padding:1px;
         margin:1px;
         width: 300px;
-        height: 500px;
+        height: 500px; */
         float: right;   
         top:60px;
         right: 0px;
-        position: absolute;
+        position: fixed;
         
     }
     .account-toggle {
@@ -152,7 +141,7 @@
     @media (max-width: 600px) {
         #nav1 {
             height: auto;
-            position: relative;
+            position: fixed;
         }
         #nav1 ul {
             display: flex;
@@ -211,6 +200,55 @@
         margin-left:40px;
 
     }
+     /* notification */
+
+/* @keyframes blink {
+0% { opacity: 1; }
+50% { opacity: 0.5; }
+100% { opacity: 1; }
+} */
+.notification-toggle {
+    display:block;
+        cursor: pointer;
+        color: white;
+        text-align:center;
+        font-size: 25px;
+        max-width: 20%;
+        padding:0.5rem;
+    /* animation: blink 1s infinite; */
+}
+#notification-div {
+    background-color: #F2F3F4 ;
+    padding:1px;
+    margin:1px;
+    width: 300px;
+    height: 500px;
+    float: right;   
+    top:60px;
+    right: 60px;
+    position: fixed;
+    overflow-y:auto;
+}
+.notification-item {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    .notification-item-child{
+        color:rgb(14, 98, 81);
+        font-weight: 600;
+        font-size: 100%;
+        text-align:justify;
+        font-size: 1rem;
+    }
+    .notification-time {
+        font-style: italic;
+        color: #888;    
+        text-align:justify;
+        font-size: 0.75rem;
+    }
 </style>
 </head>
 <body>
@@ -227,14 +265,16 @@
             </div>
        </nav>
      </header>
-<div id ='notification-div'>
-    <div>Thông báo ở đây</div>
-    <div>Thông báo 1</div>
-    <div>Thông báo 2</div>
-    <div>Thông báo 3</div>
-</div>
-<div id ='account-div'>
-    <button onclick="SignOut()" style="font-size:30px;"><i class="fa fa-sign-out" style="font-size:30px;color: black;" ></i>Sign out</button>
+     <!-- thông báo -->
+     <div id='notification-div' class="container">
+        <h3 id="Notification" class="text-center text-primary mb-4">Thông Báo</h3>
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<div >
+    <button id ='account-div' onclick="SignOut()" style="font-size:30px;"><i class="fa fa-sign-out" style="font-size:30px;color: black;" ></i>Sign out</button>
 </div>
 <div id ='nav1'>
     <ul class="d-grid gap-2" >
@@ -242,7 +282,10 @@
     <button onclick="func2()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Nhập viện</button>
     <button onclick="func3()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem hồ sơ khám bệnh</button>
     <button onclick="func4()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem lịch khám bệnh</button>
-    <button onclick="func5()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Tạo hồ sơ bệnh án</button>    
+    <button onclick="func5()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Tạo hồ sơ bệnh án</button>
+    <button onclick="func6()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Cập nhật tình trạng nhập viện của bệnh nhân</button>
+    <!-- <button onclick="func6()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Lịch khám bệnh</button>     -->
+</ul>    
 </ul>
 </div>
 <section id="section">
@@ -250,9 +293,69 @@
     
 </section>
 <script>
+    const username = sessionStorage.getItem('userName')
+const token = sessionStorage.getItem('jwt')
+fetch('http://localhost:8080/notify/getnotify/'+username,{
+    method:"GET",
+    headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer "+token
+    }
+})
+.then(response=>{
+    return response.json()
+})
+.then(data=>{
+    const parent= document.getElementById('Notification')
+    var j=0;
+    var reversedData= data.slice().reverse()
+    reversedData.forEach(element => {
+        j++
+        if(element.hasRead===false){
+        var newNotification = document.createElement("div")
+        newNotification.innerHTML=`
+        <div class="notification-item">
+        <h5>Thông Báo ${j}</h5>
+        <p class="notification-item-child">${element.title}</p>
+    <p class="notification-item-child"> ${element.body}</p>
+    <p class="notification-time">Thời gian: ${element.dateTime}</p>
+    <p> chưa xem <p>
+    </div>
+        `
+        parent.appendChild(newNotification)
+}
+else{
+    var newNotification = document.createElement("div")
+        newNotification.innerHTML=`
+        <div class="notification-item">
+        <h5>Thông Báo ${j}</h5>
+        <p class="notification-item-child">${element.title}</p>
+    <p class="notification-item-child"> ${element.body}</p>
+    <p class="notification-time">Thời gian: ${element.dateTime}</p>
+    </div>
+        `
+        parent.appendChild(newNotification)
+}
+    }); 
+})
+
+// đọc tin nhan
+    document.getElementById("noti-toggle").addEventListener("click",event=>{
+        console.log("hello")
+        event.preventDefault()
+        fetch('http://localhost:8080/notify/setread/'+username,{
+            method:"PUT",
+            headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+token
+            }
+        })
+    })
+
    function SignOut(){
         sessionStorage.removeItem("jwt")
         sessionStorage.removeItem("id")
+        sessionStorage.removeItem("userName")
         window.onload()
     }
 </script>

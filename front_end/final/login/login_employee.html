@@ -44,7 +44,8 @@
                           <option selected>Chọn ai trò</option>
                           <option value="doctor">Bác sĩ</option>
                           <option value="nurse">Y tá</option>
-                          <option value="financialemployee">Nhân viên chức năng</option>
+                          <option value="financialemployee">Nhân viên tài chính</option>
+                          <option value="pharmacyemployee">Nhân viên quản lí thuốc</option>
                       </select> 
                   </div>
                     <button id="login"class="button login__submit">
@@ -98,6 +99,7 @@ async function login() {
       })
       .then(function(data){
         sessionStorage.setItem('id',data.userId)
+        sessionStorage.setItem('userName',data.username)
         if(role=='doctor'){
       window.location.href = '../employee/doctor/Doctor.html';
       }
@@ -108,12 +110,17 @@ async function login() {
         window.location.href = '../employee/financialEmployee/financialEmployee.html';
       }
       })
+      if(role=='pharmacyemployee'){
+        window.location.href = '../employee/pharmacyemployee/pharmacyemployee.html';
+      }
+
     } 
     else {
-      alert('Đăng nhập thất bại: ' + data.message);
+      alert('Đăng nhập thất bại: tài khoản hoặc mật khẩu không đúng ');
+      console.log(data.message)
     }
     }catch (error) {
-        alert('Lỗi kết nối đến server: ' + error);
+    alert('Lỗi kết nối đến server: ' + error);
   }
 }
 </script>

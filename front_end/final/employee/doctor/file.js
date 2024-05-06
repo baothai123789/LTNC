@@ -232,14 +232,9 @@ function func2(){
         }); 
 }
 function func3(){
-    var tmp1 = document.querySelector('#notification-div');
-    var tmp2 = document.querySelector('#account-div');
-    tmp1.style.display='none';
-    tmp2.style.display='none';
-
     document.getElementById('section').innerHTML = `
     <h1>Hồ sơ khám chữa bệnh</h1>
-    <div id="medicalRecords"></div>
+    <div id="medicalRecords"> Đang tải vui lòng đợi trong giây lát</div>
     `
     var userId= sessionStorage.getItem("id")
     var token= sessionStorage.getItem("jwt")
@@ -252,10 +247,21 @@ function func3(){
             }
         })
         .then(function(response){
+            if(response.ok)
             return response.json()
+            else{
+                document.getElementById("medicalRecords").innerHTML=`
+                Không có hồ sơ khám bệnh trong dữ liệu`
+            }
         })
         .then(function(data){
             const pivot= document.getElementById('medicalRecords');
+            if(data.length===0){
+                document.getElementById("medicalRecords").innerHTML=`
+                Không có hồ sơ khám bệnh trong dữ liệu`
+            }
+            else{
+                document.getElementById("medicalRecords").innerHTML=``       
             data.forEach(element => {
                 var newMedicalRecord=document.createElement("form")
                 newMedicalRecord.classList.add("form-inline")
@@ -293,7 +299,7 @@ function func3(){
                 })
                 var patient=document.createElement("div")
                 patient.innerHTML=`
-                <label>Thông tin bệnh nhân:</label>
+                <label>Thông tin bệnh nhân:</label><br>
                 <label>Mã số bệnh nhân</label>
                     <div  type="text" class="form-control" name="medicalrecord.treatment" >${element.patientInfo.id}</div>
                 <label>Số điện thoại</label>
@@ -322,10 +328,11 @@ function func3(){
                 })
                 newMedicalRecord.appendChild(patient)
                 pivot.appendChild(newMedicalRecord)
+                
                 var newline= document.createElement("br")
                 pivot.appendChild(newline)
             });
-            
+        }
         })
     }
     catch(error){
@@ -333,16 +340,72 @@ function func3(){
     }
 }
 function func4(){
-    var tmp1 = document.querySelector('#notification-div');
-    var tmp2 = document.querySelector('#account-div');
-    tmp1.style.display='none';
-    tmp2.style.display='none';
-
     document.getElementById('section').innerHTML=`
-    <h1>Lịch khám bệnh</h1>       
-    <form class="form-inline">
-    </form>
-    `;   
+    <h1>Lịch khám bệnh</h1>
+    <div id="schedule"></div>       
+    `;  
+    var userId= sessionStorage.getItem("id")
+    var token= sessionStorage.getItem("jwt")
+    try{
+        fetch('http://localhost:8080/schedule/doctor/getschedule/'+userId,{
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+token
+            }
+        })
+        .then(function(response){
+            console.log(response)
+            return response.json()
+        })
+        .then(function(data){
+            console.log(data)
+            const pivot= document.getElementById('schedule');
+            pivot.innerHTML=`Không có lịch ở thời điểm hiện tại`
+            data.forEach(element => {
+                pivot.innerHTML=``
+                var newMedicalRecord=document.createElement("form")
+                newMedicalRecord.classList.add("form-inline")
+                newMedicalRecord.innerHTML=`    
+                    <label>Mã hồ sơ</label>
+                    <div  type="text" class="form-control" name="medicalrecord.name" >${element.id}</div>
+                    <label>Thời gian</label>
+                    <div  type="text" class="form-control" name="medicalrecord.treatment" >${element.time} giờ, ${element.date}</div>
+                    <label>Thông tin bệnh nhân</label><br>
+                    <label> Mã bệnh nhân </label>
+                    <div  type="text" class="form-control" name="medicalrecord.name" >${element.patientInfo.id}</div>
+                    <label>Họ và tên </label>
+                    <div  type="text" class="form-control" name="medicalrecord.name" >${element.patientInfo.name}</div>
+                    <label> Số điện thoại </label>
+                    <div  type="text" class="form-control" name="medicalrecord.name" >${element.patientInfo.phone}</div>
+                    <label> Giới tính </label>
+                    <div  type="text" class="form-control" name="medicalrecord.name" >${element.patientInfo.gender}</div>
+                    <label> Tuổi </label>
+                    <div  type="text" class="form-control" name="medicalrecord.name" >${element.patientInfo.age}</div>
+                    <label>Lịch sử bệnh</label>
+                    `
+                element.patientInfo.medicalRecords.forEach(e=>{
+                    var scheduleDiv = document.createElement("div");
+                    scheduleDiv.innerHTML=`
+                    <label>Thời gian</label>
+                    <div  type="text" class="form-control" name="medicalrecord.treatment" >${e.time}</div>
+                    <label>Tên bệnh</label>
+                    <div  type="text" class="form-control" name="medicalrecord.treatment" >${e.name}</div>
+                    <label>Đã chữa trị?</label>
+                    <div  type="text" class="form-control" name="medicalrecord.treatment" >${e.done?"Có" : "Không"}</div>
+                    <br>
+                    `
+                    newMedicalRecord.appendChild(scheduleDiv);
+                })
+                pivot.appendChild(newMedicalRecord)
+                var newline= document.createElement("br")
+                pivot.appendChild(newline)
+            });
+        })
+    }
+    catch(error){
+        alert("Lỗi"+error)
+    }  
 }
 function func5()
 {
@@ -445,4 +508,42 @@ function func5()
             }
         }); 
 }
-
+function func6(){
+    document.getElementById('section').innerHTML = `
+    <h2 style="text-align:center">Cập nhật tình trạng nhập viện của bệnh nhân</h2>     
+    <form class="form-inline">
+    <div>
+    <label>Nhập mã hồ sơ nhập viện</label>
+    <input id="hospitaladmissionId" type="text" class="form-control">
+    <label>Nhập thời gian</label>
+    <input id="hospitaladmissionDate" type="date" class="form-control">
+    <label>Nhập tình trạng hiện tại của bệnh nhân</label>
+    <input id="hospitaladmissionState" type="text" class="form-control">
+    <button id="update" class="button" type="submit">Cập nhật</button>
+    </div>
+    </form>
+        `
+    document.getElementById("update").onclick=function(event){
+        event.preventDefault()
+        const token=sessionStorage.getItem("jwt")
+        const hospitaladmissionId=document.getElementById("hospitaladmissionId").value
+        const hospitaladmissionDate=document.getElementById("hospitaladmissionDate").value
+        const hospitaladmissionState=document.getElementById("hospitaladmissionState").value
+        fetch('http://localhost:8080/hospitaladmission/updatepatientstate/'+hospitaladmissionId,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+token
+            },
+            body:JSON.stringify({date:hospitaladmissionDate,detail:hospitaladmissionState})
+        })
+        .then(response=>{
+            if(response.ok){
+                alert("Cập nhật thành công")
+            }
+            else{
+                alert("Hồ sơ không tồn tại")
+            }
+        })
+    }
+}

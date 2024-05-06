@@ -105,68 +105,48 @@ function func1(){
     }
 }
 function func2(){
-    var tmp1 = document.querySelector('#notification-div');
-    var tmp2 = document.querySelector('#account-div');
-    tmp1.style.display='none';
-    tmp2.style.display='none';
-
     document.getElementById('section').innerHTML = `
-    <h1>Chỉnh sửa thông tin</h1>     
+    <h2 style="text-align:center">Cập nhật tình trạng nhập viện của bệnh nhân</h2>     
     <form class="form-inline">
-    <div id="nhanvienInfo"></div>
+    <div>
+    <label>Nhập mã hồ sơ nhập viện</label>
+    <input id="hospitaladmissionId" type="text" class="form-control">
+    <label>Nhập thời gian</label>
+    <input id="hospitaladmissionDate" type="date" class="form-control">
+    <label>Nhập tình trạng hiện tại của bệnh nhân</label>
+    <input id="hospitaladmissionState" type="text" class="form-control">
+    <button id="update" class="button" type="submit">Cập nhật</button>
+    </div>
     </form>
         `
-        var nhanvien = 
-            { id: 1, name: 'AAA', gender: 'Nam', phone: 'A', age: 15, address: 'A',role:'doctor',part:'medicalemployee',workForm:"2022-03-04",Position:'a',Certificate:{department:'a',time:'3/2/2022',major:'a'} };
-
-        // Function to display nhanvien information
-        function displaynhanvienInfo() {
-            const nhanvienInfo = document.getElementById('nhanvienInfo');
-            nhanvienInfo.innerHTML = '';
-
-            const nhanvienElement = document.createElement('div');
-                nhanvienElement.innerHTML = `
-                        <label for="name">Họ và tên:</label>
-                        <input type="text" class="form-control" name="name" value=${nhanvien.name}>
-                        <label for="gender">Giới tính:</label>
-                        <input type="text" class="form-control" name="gender" value=${nhanvien.gender}>
-                        <label for="phone">Số điện thoại:</label>
-                        <input type="text" class="form-control" name="phone" value=${nhanvien.phone}>
-                        <label for="age">Tuổi:</label>
-                        <input type="number" class="form-control" name="age" value=${nhanvien.age}>
-                        <label for="address">Địa chỉ:</label>
-                        <input type="text" class="form-control" name="address" value=${nhanvien.address}>
-                        <label for="role">Vai trò:</label>
-                        <select class="form-select" name="role">
-                            <option selected>...</option>
-                            <option value="doctor">Bác sĩ</option>
-                            <option value="nurse">Y tá</option>
-                            <option value="functionalemployee">Nhân viên chức năng</option>
-                        </select>                        
-                        <label for="part">Bộ phận:</label>
-                        <select class="form-select" name="part">
-                            <option selected>...</option>
-                            <option value="medicalemployee">Nhân viên y tế</option>
-                            <option value="financialemployee">Nhân viên tài chính</option>
-                            <option value="pharmacymanager">Nhân viên quản lý thuốc</option>
-                            
-                        </select>
-                        
-                        <label for="workFrom">Ngày bắt đầu làm việc:</label>
-                        <input type="date" class="form-control" name="workFrom" value=${nhanvien.workForm}>
-                        <label for="Position">Chức vụ:</label>
-                        <input type="text" class="form-control" name="Position" value=${nhanvien.Position}> 
-                        <br>                     
-                        <button class="button" type="submit">Sửa thông tin</button>  
-                        <br><br>
-                `;
-                nhanvienInfo.appendChild(nhanvienElement);
-        }
-            displaynhanvienInfo();
+    document.getElementById("update").onclick=function(event){
+        event.preventDefault()
+        const token=sessionStorage.getItem("jwt")
+        const hospitaladmissionId=document.getElementById("hospitaladmissionId").value
+        const hospitaladmissionDate=document.getElementById("hospitaladmissionDate").value
+        const hospitaladmissionState=document.getElementById("hospitaladmissionState").value
+        fetch('http://localhost:8080/hospitaladmission/updatepatientstate/'+hospitaladmissionId,{
+            method:"PUT",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":"Bearer "+token
+            },
+            body:JSON.stringify({date:hospitaladmissionDate,detail:hospitaladmissionState})
+        })
+        .then(response=>{
+            if(response.ok){
+                alert("Cập nhật thành công")
+            }
+            else{
+                alert("Hồ sơ không tồn tại")
+            }
+        })
+    }
 }
 function func3(){
     document.getElementById('section').innerHTML = `
-    <h1 id="pivot">Quản lí phòng khám</h1>
+    <h1 id="pivot">Xem hồ sơ nhập viện</h1>
+    <p id="inform">Đang tải dữ liệu vui lòng đợi trong giây lát <p>
     `;
     const userId=sessionStorage.getItem("id")
     const token= sessionStorage.getItem("jwt")
@@ -179,18 +159,31 @@ function func3(){
             }
         })
         .then(function(response){
+            if(response.ok){
             return response.json()
+            }
+            else{
+                document.getElementById("inform").innerHTML=`Bạn hiện tại không quản lí phòng bệnh`
+            }
         })
         .then(function(data){
             console.log(data)
-            const pivot=document.getElementById("pivot")
+            const pivot=document.getElementById("inform")
+            if(data.length===0){
+                document.getElementById("inform").innerHTML=`Bạn hiện tại không quản lí phòng bệnh`
+            }
+            else{
+                document.getElementById("inform").innerHTML=``;
+                var j=0;
             data.forEach(element => {
-                var child= document.createElement("form")
-                child.classList.add("form-inline")
+                j++
+                var child= document.createElement("div")
                 child.innerHTML=`
+                <form >
+                <div ><div>
                 <label for="id">Mã hồ sơ</label>
                 <div class="form-control">${element.id}</div>
-                <label for="id">Hồ sơ</label>
+                <label for="id">Nội dung</label>
                 <div class="form-control">${element.detail}</div>
                 <label for="id">Ngày nhập viện</label>
                 <div class="form-control">${element.startDate}</div>
@@ -202,7 +195,9 @@ function func3(){
                 <div class="form-control">${element.done}</div>
                 <label for="id">Số phòng</label>
                 <div class="form-control">${element.room}</div>
-                <label for="id">Thông tin bác sĩ</label>
+                </div></div>
+
+                <h2 for="id">Thông tin bác sĩ phụ trách</h2>
                 <label for="id">Mã bác sĩ</label>
                 <div class="form-control">${element.doctorInfo.id}</div>
                 <label for="id">Số điện thoại</label>
@@ -217,8 +212,9 @@ function func3(){
                 <div class="form-control">${element.doctorInfo.major}</div>
                 <label for="id">Chức vụ</label>
                 <div class="form-control">${element.doctorInfo.position}</div>
-                <label id="patientStates">Tình trạng nhập viện</label>
-                <label>Hồ sơ khám bệnh</label>
+                <h2 >Tình trạng nhập viện</h2>
+                <div id="patientStates${j}" class="form-control"></div>
+                <h2>Hồ sơ khám bệnh</h2>
                 <label for="id">Mã hồ sơ</label>
                 <div class="form-control">${element.medicalDetail.id}</div>
                 <label for="id">Chuyên ngành</label>
@@ -229,12 +225,13 @@ function func3(){
                 <div class="form-control">${element.medicalDetail.inProgress}</div>
                 <label for="id">Toa thuốc</label>
                 <div class="form-control">${element.medicalDetail.prescription}</div>
-                <label id="medicalSchedules">Đặt lịch khám</label>
+                <label id="medicalSchedules${j}">Lịch khám đã đặt</label>
+                <div id="No${j}" class="form-control">Không</div>
                 <label>Ngày khám</label>
                 <div class="form-control">${element.medicalDetail.date}</div>
                 <label for="id">Trạng thái bệnh nhân</label>
                 <div class="form-control">${element.medicalDetail.patientState}</div>
-                <label> Hồ sơ bệnh nhân</label>
+                <h2> Hồ sơ bệnh nhân</h2>
                 <label for="id">Mã bệnh nhân</label>
                 <div class="form-control">${element.patientInfo.id}</div>
                 <label for="id">Số điện thoại</label>
@@ -245,13 +242,16 @@ function func3(){
                 <div class="form-control">${element.patientInfo.age}</div>
                 <label for="id">Giới tính</label>
                 <div class="form-control">${element.patientInfo.gender}</div>
-                <label id="medicalRecords">Lịch sử khám chữa bệnh</label>
+                <label>Lịch sử khám chữa bệnh</label>
+                <div id="medicalRecords${j}" class="form-control"></div>
+                </form><br>
                 `
                 pivot.appendChild(child)
                 element.patientInfo.medicalRecords.forEach(e=>{
-                    var medicalRecords=document.getElementById("medicalRecords")
+                    var medicalRecords=document.getElementById(`medicalRecords${j}`)
                     var newMedicalRecords=document.createElement("div")
                     newMedicalRecords.innerHTML=`
+                    <h4>Lịch sử khám bệnh</h4>
                     <label for="id">Tên bệnh</label>
                 <div class="form-control">${e.name}</div>
                 <label for="id">Thời gian chữa bệnh</label>
@@ -261,8 +261,9 @@ function func3(){
                     `
                     medicalRecords.appendChild(newMedicalRecords)
                 })
+                if(element.patientStates.length>0){
+                    var patientStates=document.getElementById(`patientStates${j}`)
                 element.patientStates.forEach(e=>{
-                    var patientStates=document.getElementById("patientStates")
                     var newPatientStates=document.createElement("div")
                     newPatientStates.innerHTML=`
                     <label for="id">Tình trạng:</label>
@@ -271,16 +272,20 @@ function func3(){
                 <div class="form-control">${e.date}</div>
                     `
                     patientStates.appendChild(newPatientStates)
+                })  
+            }
+                if(element.medicalDetail.length>0){
+                    document.getElementById(`No${j}`).innerHTML=``
+                element.medicalDetail.medicalSchedules(e=>{
+                    var medicalSchedules=document.getElementById("medicalSchedules")
+                    var newMedicalSchedules=document.createElement("div")
+                    newMedicalSchedules.innerHTML=`
+                    `
+                    medicalSchedules.appendChild(newMedicalSchedules)
                 })
-                // element.medicalDetail.medicalSchedules(e=>{
-                //     var medicalSchedules=document.getElementById("medicalSchedules")
-                //     var newMedicalSchedules=document.createElement("div")
-                //     newMedicalSchedules.innerHTML=`
-                //     `
-                //     medicalSchedules.appendChild(newMedicalSchedules)
-                // })
-                
+            }
             }); 
+        }
         })
     }
     catch(error)

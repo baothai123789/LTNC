@@ -139,7 +139,11 @@
             <label for="name">Họ và tên:</label>
             <input id="name" type="text" class="form-control" name="name" >
             <label for="gender">Giới tính:</label>
-            <input id="gender" type="text" class="form-control" name="gender" >
+            <select id="gender" class="form-select" name="gender">
+                <option  selected>....</option>
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+            </select>    
             <label for="phone">Số điện thoại:</label>
             <input id="phone" type="text" class="form-control" name="phone" >
             <label for="age">Tuổi:</label>
@@ -157,10 +161,11 @@
             </div>
             <label for="role">Vai trò:</label>
             <select id="role" class="form-select" name="role">
-                <option  selected>....</option>
+                <option selected>....</option>
                 <option value="doctor">Bác sĩ</option>
                 <option value="nurse">Y tá</option>
-                <option value="functionalemployee">Nhân viên chức năng</option>
+                <option value="financialemployee">Nhân viên tài chính</option>
+                <option value="pharmacymanager">Nhân viên quản lí thuốc</option>
             </select>                          
             <label for="part">Bộ phận:</label>
             <select class="form-select" name="part">
@@ -171,21 +176,40 @@
             </select>            
             <!-- <label for="workFrom">Ngày bắt đầu làm việc:</label>
             <input type="date" class="form-control" name="workFrom" > -->
-            <label for="Position">Chức vụ:</label>
-            <input type="text" class="form-control" name="Position" >                        
-            <label for="certificateList">Danh sách chứng chỉ:</label><br>
-
+            <label for="Position">Chức vụ</label>
+            <select id="position" class="form-select" name="position">
+                <option  selected>....</option>
+                <option value="Thực tập">Thực tập</option>
+                <option value="Nhân viên">Nhân viên</option>
+                <option value="Phó khoa">Phó khoa</option>
+                <option value="Trưởng khoa">Trưởng khoa</option>
+            </select>   
+            <!-- Khoa -->
+            <label for="major">Khoa</label>
+            <select id="major" class="form-select" name="position">
+                <option  selected>....</option>
+                <option value="ngoai tong hop">Ngoại tổng hợp</option>
+                <option value="da khoa">Đa khoa</option>
+                <option value="khoa noi">Khoa nội</option>
+                <option value="khoa phu san">Khoa phụ sản</option>
+                <option value="khoa nhi">Khoa nhi</option>
+                <option value="khoa truyen nhiem">Khoa truyền nhiễm</option>
+            </select>  
+            <label>Thời gian bắt đầu công tác</label>
+            <input id="workFrom" type="date" class="form-control" >                     
+            <label for="certificateList">Bằng cấp</label><br>
         <div id="add-certificate">
-            <div class="certificate" style="margin-left: 30px;">
-                <label for="certificate.department">Đơn vị cấp chứng chỉ:</label>
+            <div class="certificate" >
+                <label>Bằng cấp 1</label><br>
+                <label for="certificate.department">Đơn vị cấp </label>
                 <input type="text" class="form-control" name="certificate.department" >
-                <label for="workFrom">Thời gian cấp chứng chỉ:</label>
+                <label for="workFrom">Thời gian cấp </label>
                 <input type="date" class="form-control" name="certificate.time">
                 <!-- <label for="certificate.time">Thời gian cấp chứng chỉ:</label>
                 <input type="text" class="form-control" name="certificate.time" > -->
-                <label for="certificate.major">Chuyên ngành:</label>
+                <label for="certificate.major">Chuyên ngành</label>
                 <input type="text" class="form-control" name="certificate.major" >
-                <br><br>
+                <br>
             </div>
         </div>
             <button type="button" id="add">+</button>
@@ -204,17 +228,20 @@
 const addButton = document.getElementById("add");
         const add_certificate = document.getElementById("add-certificate");
         addButton.addEventListener("click", () => {
+            var j=2
             const newC = document.createElement("div");
             newC.classList.add("certificate");
             newC.innerHTML = `
-                <label for="certificate.department">Đơn vị cấp chứng chỉ:</label>
+                <p1>Bằng cấp ${j}<p1><br>
+                <label for="certificate.department">Đơn vị cấp</label>
                 <input type="text" class="form-control" name="certificate.department" >
-                <label for="workFrom">Thời gian cấp chứng chỉ:</label>
+                <label for="workFrom">Thời gian cấp</label>
                 <input type="date" class="form-control" name="certificate.time">
-                <label for="certificate.major">Chuyên ngành:</label>
+                <label for="certificate.major">Chuyên ngành</label>
                 <input type="text" class="form-control" name="certificate.major" >
-                <br><br>
+                <br>
             `;
+            j++
             add_certificate.appendChild(newC);
         });
 
@@ -224,6 +251,8 @@ const addButton = document.getElementById("add");
 })
 async function signup()
 {
+    const position =document.getElementById("position").value
+    const workFrom=document.getElementById("workFrom").value
     const username = document.getElementById('username').value
     const password =document.getElementById('password').value
     const name = document.getElementById('name').value;
@@ -235,17 +264,20 @@ async function signup()
     const town = document.getElementById('town').value;
     const street = document.getElementById('street').value;
     const role = document.getElementById('role').value;
+    var major= document.getElementById('major').value;
     const certificateData = {
         userAccount: {
             username,
             password,
-            role,
         },
         employee: {
             name,
             age: parseInt(age),
             gender,
             phone,
+            workFrom,
+            position,
+            major,
             address: {
                 nation,
                 province,
@@ -260,7 +292,7 @@ async function signup()
     const C = document.querySelectorAll('.certificate');
     C.forEach(recordElement => {
         const department = recordElement.querySelector("[name='certificate.department']").value;
-        const major = recordElement.querySelector("[name='certificate.major']").value;
+        var major = recordElement.querySelector("[name='certificate.major']").value;
         const time =recordElement.querySelector("[name='certificate.time']").value;
         certificateData.employee.certificate.push({
             name: department,
@@ -268,17 +300,19 @@ async function signup()
             time,
         });
     });
-    console.log(certificateData)
+    console.log(JSON.stringify(certificateData))
+
     try {
+        console.log(certificateData)
   // Đăng ký nhân viên
   const registerResponse = await fetch('http://localhost:8080/account/employee/register', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(certificateData),
+    body: JSON.stringify(certificateData)
   });
-
+  console.log(registerResponse)
   const registerData = await registerResponse.json(); // Chuyển đổi phản hồi thành JSON
   console.log(registerData); // In dữ liệu JSON ra console
 
@@ -310,6 +344,7 @@ async function signup()
       if (userIdResponse.ok) {
         const userIdData = await userIdResponse.json();
         sessionStorage.setItem('id', userIdData.userId); // Lưu ID nhân viên vào sessionStorage
+        sessionStorage.setItem('userName',userIdData.username)
 
         // Chuyển hướng tùy theo vai trò
         switch (role) {
@@ -323,9 +358,8 @@ async function signup()
             // Chuyển hướng cho nhân viên tài chính
             window.location.href = '../employee/financialEmployee/financialEmployee.html';
             break;
-          default:
-            // Xử lý vai trò không xác định
-            console.error('Unknown role');
+            case 'pharmacymanager':
+            window.location.href = '../employee/pharmacyemployee/pharmacyemployee.html';
         }
       } else {
         // Xử lý lỗi khi không thể lấy ID nhân viên

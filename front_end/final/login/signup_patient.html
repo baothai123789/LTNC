@@ -138,7 +138,11 @@
         <label for="name">Họ và tên:</label>
         <input id="name" type="text" class="form-control" name="name" >
         <label for="gender">Giới tính:</label>
-        <input id="gender" type="text" class="form-control" name="gender" >
+        <select id="gender" class="form-select" name="gender">
+            <option  selected>....</option>
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+        </select>  
         <label for="phone">Số điện thoại:</label>
         <input id="phone" type="text" class="form-control" name="phone" >
         <label for="age">Tuổi:</label>
@@ -295,6 +299,7 @@ async function signup()
         if (userIdResponse.ok) {
           const userIdData = await userIdResponse.json();
           sessionStorage.setItem('id', userIdData.userId);
+          sessionStorage.setItem('userName',username);
           window.location.href = '../patient/Patient.html';
         } else {
           // Xử lý lỗi khi không thể lấy ID người dùng

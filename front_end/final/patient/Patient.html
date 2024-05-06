@@ -23,8 +23,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <link rel="stylesheet.css" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style rel="stylesheet" href="file.css">
+    <style rel="stylesheet" href="style.css">
     
     body {
         color:rgb(14, 98, 81);
@@ -90,27 +91,7 @@
         max-width: 8%;
         padding:0.5rem;
     }
-    #notification-div {
-        background-color: #F2F3F4 ;
-        padding:1px;
-        margin:1px;
-        width: 300px;
-        height: 500px;
-        float: right;   
-        top:60px;
-        right: 60px;
-        position: absolute;
-        
-    }
-    .notification-toggle {
-        display:block;
-        cursor: pointer;
-        color: white;
-        text-align:center;
-        font-size: 25px;
-        max-width: 20%;
-        padding:0.5rem;
-    }
+    
     .home-toggle {
         display:block;
         cursor: pointer;
@@ -131,14 +112,14 @@
     }
     #account-div {
         background-color: #F2F3F4 ;
-        padding:1px;
-        margin:1px;
-        width: 300px;
-        height: 500px;
+        padding-left:0px;
+        margin-left:0px;
+        width: 160px;
+        height: 50px;
         float: right;   
         top:60px;
         right: 0px;
-        position: absolute;
+        position: fixed;
         
     }
     .account-toggle {
@@ -153,7 +134,7 @@
     @media (max-width: 600px) {
         #nav1 {
             height: auto;
-            position: relative;
+            position: fixed;
         }
         #nav1 ul {
             display: flex;
@@ -211,6 +192,92 @@
         margin-left:40px;
 
     }
+    /* notification */
+    #notification-div {
+    background-color: #F2F3F4 ;
+    padding:1px;
+    margin:1px;
+    width: 300px;
+    height: 500px;
+    float: right;   
+    top:60px;
+    right: 60px;
+    position: fixed;
+    overflow-y:auto;
+}
+/* @keyframes blink {
+0% { opacity: 1; }
+50% { opacity: 0.5; }
+100% { opacity: 1; }
+} */
+.notification-toggle {
+    display:block;
+        cursor: pointer;
+        color: white;
+        text-align:center;
+        font-size: 25px;
+        max-width: 20%;
+        padding:0.5rem;
+    /* animation: blink 1s infinite; */
+}
+.notification-item {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+    .notification-item-child{
+        color:rgb(14, 98, 81);
+        font-weight: 600;
+        font-size: 100%;
+        text-align:justify;
+        font-size: 1rem;
+    }
+    .notification-time {
+        font-style: italic;
+        color: #888;    
+        text-align:justify;
+        font-size: 0.75rem;
+    }
+    /* Thêm CSS cho hiệu ứng mở và mờ nền */
+  .modal {
+    display: none; /* Ẩn modal */
+    position: fixed; /* Định vị cố định */
+    z-index: 1; /* Đặt trên cùng */
+    left: 0;
+    top: 0;
+    width: 100%; /* Chiều rộng toàn màn hình */
+    height: 100%; /* Chiều cao toàn màn hình */
+    overflow: auto; /* Kích hoạt thanh cuộn nếu cần */
+    background-color: rgb(0,0,0); /* Màu nền */
+    background-color: rgba(0,0,0,0.4); /* Màu nền mờ */
+  }
+
+
+  /* Định dạng cho form bên trong modal */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% từ trên xuống và tự động ở giữa */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Chiều rộng của modal */
+  }
+
+  /* Nút đóng modal */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -220,26 +287,33 @@
                 <button class="menu-toggle btn btn-secondary disabled;" style="background-color: rgb(115, 198, 182);border: #f4f4f4;">☰</button>
                 <div class="d-flex justify-content-end" >
                     <i class="home-toggle btn btn-secondary __icon  fas fa-home" onclick="window.location.href='Patient.html';"></i>
-                    <i class="notification-toggle btn btn-secondary  __icon fas fa-bell" ></i>
+                    <i id="noti-toggle" class="notification-toggle btn btn-secondary  __icon fas fa-bell" ></i>
                     <i class="guide-toggle btn btn-secondary __icon fas fa-map" ></i>  
                     <i class="account-toggle btn btn-secondary __icon fas fa-user"></i>
                 </div>
             </div>
        </nav>
      </header>
-<div id ='notification-div'>
-    <div>Thông báo ở đây</div>
-    <div>Thông báo 1</div>
-    <div>Thông báo 2</div>
-    <div>Thông báo 3</div>
-</div>
-<div id ='account-div'>
-    <button onclick="SignOut()" style="font-size:30px;"><i class="fa fa-sign-out" style="font-size:30px;color: black;" ></i>Sign out</button>
-</div>
+     <!-- thông báo -->
+     <div id='notification-div' class="container">
+        <h3 id="Notification" class="text-center text-primary mb-4">Thông Báo</h3>
+        <div class="notification-item">
+            <h5>Thông Báo ${j}</h5>
+            <p class="notification-item-child">${element.title}</p>
+        <p class="notification-item-child"> ${element.body}</p>
+        <p class="notification-time">Thời gian: ${element.dateTime}</p>
+        <p> chưa xem <p>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!-- account -->
+    <button id="account-div" onclick="SignOut()" style="font-size:30px;"><i class="fa fa-sign-out" style="font-size:30px;color: black;" ></i>Sign out</button>
 <nav id ='nav1'>
     <ul class="d-grid gap-2" >
     <button onclick="func1()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem thông tin cá nhân</button>
-    <!-- <button onclick="func2()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Sửa thông tin cá nhân</button> -->
+    <button onclick="func2()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Hóa đơn</button>
     <button onclick="func3()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Xem hồ sơ khám bệnh</button>
     <button onclick="func4()" class="btn btn-secondary" type="button" style="font-weight: 600;font-size: 18px;">Đặt lịch khám</button>
     </ul>
@@ -247,10 +321,71 @@
 <section id="section">
     <img src="bg_patient.jpg" style="height: 100%;width: 100%;"></img>  
 </section>
-<script>
+<script>     
+    const username = sessionStorage.getItem('userName')
+const token = sessionStorage.getItem('jwt')
+fetch('http://localhost:8080/notify/getnotify/'+username,{
+    method:"GET",
+    headers:{
+        "Content-Type":"application/json",
+        "Authorization":"Bearer "+token
+    }
+})
+.then(response=>{
+    return response.json()
+})
+.then(data=>{
+    const parent= document.getElementById('Notification')
+    var j=0;
+    var reversedData= data.slice().reverse()
+    reversedData.forEach(element => {
+        j++
+        if(element.hasRead===false){
+        var newNotification = document.createElement("div")
+        newNotification.innerHTML=`
+        <div class="notification-item">
+        <h5>Thông Báo ${j}</h5>
+        <p class="notification-item-child">${element.title}</p>
+    <p class="notification-item-child"> ${element.body}</p>
+    <p class="notification-time">Thời gian: ${element.dateTime}</p>
+    <p> chưa xem <p>
+    </div>
+        `
+        parent.appendChild(newNotification)
+}
+else{
+    var newNotification = document.createElement("div")
+        newNotification.innerHTML=`
+        <div class="notification-item">
+        <h5>Thông Báo ${j}</h5>
+        <p class="notification-item-child">${element.title}</p>
+    <p class="notification-item-child"> ${element.body}</p>
+    <p class="notification-time">Thời gian: ${element.dateTime}</p>
+    </div>
+        `
+        parent.appendChild(newNotification)
+}
+    }); 
+})
+
+// đọc tin nhan
+    document.getElementById("noti-toggle").addEventListener("click",event=>{
+        console.log("hello")
+        event.preventDefault()
+        fetch('http://localhost:8080/notify/setread/'+username,{
+            method:"PUT",
+            headers:{
+            "Content-Type":"application/json",
+            "Authorization":"Bearer "+token
+            }
+        })
+    })
+
+
     function SignOut(){
         sessionStorage.removeItem("jwt")
         sessionStorage.removeItem("id")
+        sessionStorage.removeItem("userName")
         window.onload()
     }
 </script>
