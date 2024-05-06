@@ -2,6 +2,7 @@ package com.ltnc.JavaApp.Service.ScheduleService.Service;
 
 import com.ltnc.JavaApp.Model.Person;
 import com.ltnc.JavaApp.Model.Schedule;
+import com.ltnc.JavaApp.MyApp;
 import com.ltnc.JavaApp.Repository.ScheduleRepository;
 import com.ltnc.JavaApp.Service.NotificationService.NotifyListener;
 import com.ltnc.JavaApp.Service.NotificationService.NotifyObserver;
@@ -20,12 +21,13 @@ import java.util.Map;
 @Service
 public class AddScheduleService<T extends ScheduleModel> implements IAddScheduleService{
 
-    @Autowired
+    @Resource
     private ScheduleRepository scheduleRepository;
     @Resource
     NotifyObserver notifyObserver;
     @Override
     public void addSchedule(ScheduleModel scheduleModel, Schedule newSchedule) throws NullPointerException{
+        MyApp.LOGGER.info("add schedule");
         NotifyListener notifyListener = new ScheduleNotifyListener((Person) scheduleModel);
         notifyObserver.addListener("schedule",notifyListener);
         scheduleModel.addSchedule(newSchedule);

@@ -4,6 +4,7 @@ import com.ltnc.JavaApp.Model.Doctor;
 import com.ltnc.JavaApp.Model.MedicalDetail;
 import com.ltnc.JavaApp.Model.Patient;
 import com.ltnc.JavaApp.Model.Schedule;
+import com.ltnc.JavaApp.MyApp;
 import com.ltnc.JavaApp.Service.FinancialService.CreateMedicalBillAdapter;
 import com.ltnc.JavaApp.Service.NotificationService.NotifyObserver;
 import com.ltnc.JavaApp.Service.ProfileService.Employee.EmployeeProfileManageService;
@@ -46,6 +47,7 @@ public class CreateMedicalDetail {
         List<Schedule> schedules=scheduleMedicalDetailService.createMedicalSchedule(doctor,patient,medicalDetail.getMedicalSchedules());
 
         for(Schedule schedule:schedules){
+            MyApp.LOGGER.info("loop schedule");
             Map<String,Object> detail=new HashMap<>(Map.of(
                     "scheduleId",schedule.getId(),
                     "scheduleDate",schedule.getDate(),

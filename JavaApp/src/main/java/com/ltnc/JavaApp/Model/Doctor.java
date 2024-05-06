@@ -70,4 +70,6 @@ public class Doctor extends Employee implements MedicalDetailModel, ScheduleMode
     public String getPart() {
         return "medicalEmployee";
     }
+
+
 }

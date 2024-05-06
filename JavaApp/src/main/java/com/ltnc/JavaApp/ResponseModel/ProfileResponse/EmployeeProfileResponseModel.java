@@ -21,6 +21,7 @@ public class EmployeeProfileResponseModel {
     private String part;
     private String position;
     private List<Certificate> certificateList;
+    private String major;
 
     public EmployeeProfileResponseModel(Employee patient){
         this.id = patient.getId();
@@ -34,6 +35,7 @@ public class EmployeeProfileResponseModel {
         this.part = patient.getPart();
         this.position=patient.getPosition();
         this.certificateList = patient.getCertificate().stream().toList();
+        this.major = patient.getMajor();
 
     }
 }

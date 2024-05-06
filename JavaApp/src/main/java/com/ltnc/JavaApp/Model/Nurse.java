@@ -75,4 +75,14 @@ public class Nurse extends Employee implements IHospitalAdmissionManager {
     public String getPart() {
         return "medicalEmployee";
     }
+
+    @Override
+    public String getMajor() {
+        return "Y Tá";
+    }
+
+    @Override
+    public void setMajor(String major) {
+    return;
+    }
 }

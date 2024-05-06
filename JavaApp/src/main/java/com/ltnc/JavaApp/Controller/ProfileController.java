@@ -82,6 +82,7 @@ public class ProfileController {
     @PutMapping("/patient/editprofile/{id}")
     public ResponseEntity<Map<String,String>> editPatientProfile(@RequestBody Patient patient,@PathVariable("id") String id){
         try {
+            MyApp.LOGGER.info("hello");
             this.patientProfileManageService.editProfile(id,patient);
         }
         catch (RuntimeException e){

@@ -25,6 +25,16 @@ public class PharmacyManager extends  FunctionalEmployee{
     }
 
     @Override
+    public String getMajor() {
+        return "Dược";
+    }
+
+    @Override
+    public void setMajor(String major) {
+        return;
+    }
+
+    @Override
     public String getRole() {
         return "pharmacymanager";
     }

@@ -28,6 +28,17 @@ public class FinancialEmployee extends FunctionalEmployee {
     public String getPart() {
         return "financialemployee";
     }
+
+    @Override
+    public String getMajor() {
+        return "Tài Chính";
+    }
+
+    @Override
+    public void setMajor(String major) {
+        return;
+    }
+
     @Override
     public String getRole(){return "financialemployee";}
 

@@ -57,6 +57,7 @@ public class UserAccountService implements UserDetailsService,IUserManageService
             Query query = new Query();
             query.addCriteria(Criteria.where("userAccount.$id").is(userAccount.getId()));
             Person person =mongoTemplate.findOne(query,type);
+            MyApp.LOGGER.info(person);
             if(person==null) throw  new NullPointerException("user not found");
             return new HashMap<>(Map.of("role",userAccount.getRole(),"userId",person.getId()));
         }

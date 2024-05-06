@@ -27,6 +27,8 @@ public abstract class Employee extends Person {
    protected LocalDate workFrom;
    protected String position;
    public abstract String getPart();
+   public abstract String getMajor();
+   public abstract void setMajor(String major);
    public abstract void setUserAccount(UserAccount userAccount);
 }
 

@@ -48,4 +48,13 @@ public class PharmacyEquipmentManager extends FunctionalEmployee{
     public String getPart() {
         return "pharmacymanger";
     }
+
+    @Override
+    public String getMajor() {
+        return "Quản Trị Thiết Bị";
+    }
+
+    @Override
+    public void setMajor(String major) {
+    }
 }
