@@ -7,6 +7,7 @@ import com.ltnc.JavaApp.Service.ProfileService.Patient.PatientProfileManageServi
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.DoctorScheduleDTOMapper;
 import com.ltnc.JavaApp.Service.ScheduleService.DTO.ScheduleDTO;
 import com.ltnc.JavaApp.Service.ScheduleService.Interface.IGetScheduleService;
+import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +17,11 @@ import java.util.List;
 
 @Service
 public class DoctorGetScheduleService implements IGetScheduleService {
-    @Autowired
+    @Resource
     EmployeeProfileManageService employeeProfileManageService;
-    @Autowired
+    @Resource
     PatientProfileManageService patientProfileManageService;
-    @Autowired
+    @Resource
     DoctorScheduleDTOMapper doctorInfoScheduleDTOMapper;
     @Override
     public List<ScheduleDTO> getSchedules(String modelId) throws NullPointerException {
