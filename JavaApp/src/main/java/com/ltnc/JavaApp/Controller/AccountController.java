@@ -82,7 +82,7 @@ public class AccountController {
         }
         catch (UnvalidAccountException e){
             MyApp.LOGGER.info(e);
-            return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);
+            return new ResponseEntity<>(new HashMap<>(Map.of("message",e.getMessage())),HttpStatus.NOT_ACCEPTABLE);
         }
         employeeProfileManageService.createEmployeeProfile(employee,userAccount.getRole());
         return new ResponseEntity<>(new HashMap<>(Map.of("message","success")),HttpStatus.CREATED);

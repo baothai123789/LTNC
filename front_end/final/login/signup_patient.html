@@ -123,8 +123,29 @@
         font-size: 40px;
         font-weight: 550;
         }
+        #addMedicalRecord {
+        display: inline-block;
+        margin-top: 10px;
+        margin-left:50%;
+        padding: 10px;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-radius: 30%;
+        border-color: #f4f4f4;
+        background-color: rgb(26, 188, 156);
+        transition-property: background-color, color;
+        transition-duration: 500ms, 200ms;
+        transition-timing-function: cubic-bezier(.789, .159, .25, 1), cubic-bezier(.789, .159, .25, 1);
+        color: white;
+        font-size: 16px;
+        width: auto;
+        line-height: 26px;
+        font-weight: 600;
+        text-align: center;
+    }
 
-       
     </style>
 </head>
 <body>
@@ -166,8 +187,8 @@
             <label for="medicalrecord.name">Tên bệnh:</label>
             <input type="text" class="form-control" name="medicalrecord.name" >
             <label for="medicalrecord.treatment">Tiến độ điều trị:</label> <br>
-            <input type="radio" class="form-check-input mt-0" name="medicalrecord.treatment0" value="True" style="margin-left: 50px;">Đã điều trị        
-            <input type="radio" class="form-check-input mt-0" name="medicalrecord.treatment0" value="False" style="margin-left: 50px;">Chưa điều trị       
+            <input type="radio" class="form-check-input mt-0" name="medicalrecord.treatment0" value=True style="margin-left: 50px;">Đã điều trị        
+            <input type="radio" class="form-check-input mt-0" name="medicalrecord.treatment0" value=False style="margin-left: 50px;">Chưa điều trị       
             <br><br>
         </div>
        

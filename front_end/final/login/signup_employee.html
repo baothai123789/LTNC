@@ -123,8 +123,29 @@
         font-size: 40px;
         font-weight: 550;
         }
+        #add{
+        display: inline-block;
+        margin-top: 10px;
+        margin-left:50%;
+        padding: 10px;  
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+        border-radius: 30%;
+        border-color: #f4f4f4;
+        background-color: rgb(26, 188, 156);
+        transition-property: background-color, color;
+        transition-duration: 500ms, 200ms;
+        transition-timing-function: cubic-bezier(.789, .159, .25, 1), cubic-bezier(.789, .159, .25, 1);
+        color: white;
+        font-size: 16px;
+        width: auto;
+        line-height: 26px;
+        font-weight: 600;
+        text-align: center;
+    }
 
-       
     </style>
 </head>
 <body>
@@ -212,7 +233,7 @@
                 <br>
             </div>
         </div>
-            <button type="button" id="add">+</button>
+            <button class="button" type="button" id="add">+</button>
        
         <button id="signup" class="button login__submit" style="margin-left: 100px; max-width: 250px;">
             <span class="button__text">Signup</span>

@@ -37,29 +37,40 @@ function func1(){
     <label for="id">Mã số</label>
     <div id="id" class="form-control"></div>
     <label for="name">Họ và tên:</label>
-    <div id="name" class="form-control"></div>
+    <input id="name" class="form-control">
     <label for="gender">Giới tính:</label>
-    <div id="gender" class="form-control"></div>
+    <input id="gender" class="form-control">
     <label for="phone">Số điện thoại:</label>
-    <div id="phone" class="form-control"></div> 
+    <input id="phone" class="form-control">
     <label for="age">Tuổi:</label>
-    <div id="age" class="form-control"></div>
-    <label for="address">Địa chỉ:</label>
-    <div id="address" class="form-control"></div>
+    <input id="age" class="form-control">
+    <label>Địa chỉ:</label>
+    <div class="form-control">
+    <p>Đường/Ấp/Khu phố</p>
+    <input id="street" class="form-control" >
+    <p>Huyện/Thị xã/Thành Phố</p>
+    <input id="town" class="form-control">
+    <p>Tỉnh/Thành phố</p>
+    <input id="province" class="form-control">
+    <p>Quốc gia</p>
+    <input id="nation" class="form-control">
+    </div>   
 
     <label for="address">Thời gian làm việc từ:</label>
-    <div id="workFrom" class="form-control"></div>
-    <label for="address">Chức năng:</label>
-    <div id="part" class="form-control"></div>
+    <input id="workFrom" class="form-control" type="date">
+    <label for="address">Bộ phận</label>
+    <input id="part" class="form-control">
     <label for="address">Chức vụ:</label>
-    <div id="position" class="form-control"></div>
+    <input id="position" class="form-control">
 
     <label >Bằng cấp:</label><br><br>     
     <div id="pivot" id="pivot1" style="margin-left:50px;"></div>
+    <button id="submit" class="button" type="">Chỉnh sửa</button>
     </form>
     `
         var token= sessionStorage.getItem('jwt')
         var userId=sessionStorage.getItem('id')
+        var PutData
         console.log(token)
         console.log(userId)
         try{
@@ -74,19 +85,21 @@ function func1(){
             return response.json();
         })
         .then(data=>{
-            document.getElementById('id').innerText=data.id;
-            console.log(data.id)
-            document.getElementById('name').innerText=data.name;
-            document.getElementById('phone').innerText=data.phone;
-            document.getElementById('gender').innerText=data.gender;
-            document.getElementById( 'age').innerText=data.age;
-            document.getElementById('address').innerHTML=data.address.street+"-"+
-            data.address.town+"-"+data.address.province+"-"+data.address.town
-            document.getElementById( 'workFrom').innerText=data.workFrom;
-            document.getElementById( 'part').innerText=data.part;
-            document.getElementById( 'position').innerText=data.position;
+            document.getElementById('id').innerHTML=data.id;
+            document.getElementById('name').value=data.name;
+            document.getElementById('phone').value=data.phone;
+            document.getElementById('gender').value=data.gender;
+            document.getElementById( 'age').value=data.age;
+            document.getElementById('street').value=data.address.street
+            document.getElementById('town').value=data.address.town
+            document.getElementById('province').value=data.address.province
+            document.getElementById('nation').value=data.address.nation
+            document.getElementById( 'workFrom').value=data.workFrom;
+            document.getElementById( 'part').value=data.part;
+            document.getElementById( 'position').value=data.position;
             const Certificate= data.certificateList;
-    
+            PutData=data
+            delete(PutData.id)
             const tableBody = document.querySelector("#section #pivot");
             Certificate.forEach(record=>{
                 const row = document.createElement("div");
@@ -105,6 +118,49 @@ function func1(){
     }catch(error){
         alert('Lỗi kết nối đến server: ' + error);
     }
+    // ....................................................
+    document.getElementById("submit").addEventListener("click", event => {
+        event.preventDefault(); // Prevent the default form submission behavior
+        // Gather the form data
+        PutData.name=document.getElementById('name').value
+        PutData.phone=document.getElementById('phone').value
+        PutData.gender=document.getElementById('gender').value
+        PutData.age=document.getElementById( 'age').value
+        PutData.address.street=document.getElementById('street').value
+        PutData.address.town=document.getElementById('town').value
+        PutData.address.province=document.getElementById('province').value
+        PutData.address.nation=document.getElementById('nation').value
+        PutData.workFrom=document.getElementById('workFrom').value
+        PutData.part=document.getElementById('part').value
+        PutData.position=document.getElementById('position').value
+        console.log(PutData)
+    // .....................................................................
+        // Define the PUT request
+        fetch('http://localhost:8080/profile/employee/editprofile/' + userId, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify(PutData) // Convert the JavaScript object to a JSON string
+        })
+        .then(function(response) {
+            if(response.ok) {
+                console.log(response)
+                return response.json();
+            } else {
+                alert('Cập nhật thất bại');
+            }
+        })
+        .then(function(data) {
+            alert('Cập nhật thành công');
+            // Handle success - maybe update the UI to show the changes
+        })
+        .catch(function(error) {
+            console.error('Lỗi cập nhật', error);
+            // Handle errors here, such as displaying a message to the user
+        });
+    });
 }
 function func2(){
     document.getElementById('section').innerHTML = `
@@ -180,7 +236,7 @@ function func2(){
 }
 function func3(){
     document.getElementById('section').innerHTML=`
-    <h1>Trả viện phí</h1>
+    <h1 >Trả viện phí</h1>
     <form class="form-inline">
         <label for="bill" >Nhập mã hóa đơn</label>
         <input id="BillId" type="text" class="form-control" name="bill">

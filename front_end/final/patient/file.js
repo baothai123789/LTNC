@@ -377,7 +377,7 @@ function func4() {
             return response.json();
         } else {
             // Xử lý trường hợp phản hồi không thành công
-            throw new Error('Network response was not ok.');
+            throw new Error('Đặt lịch không thành công.');
         }
     })
     .then(data => {
@@ -401,12 +401,21 @@ function func4() {
             <div type="text" class="form-control">${element.doctorInfo.major}</div>
             <label>Chức vụ</label>
             <div type="text" class="form-control">${element.doctorInfo.position}</div>
+            <label>Chọn giờ khám</label>
+            <div id="appoint" class="appointment">
+            </div>
             `
             add_doctor.appendChild(newDoctor)
             element.doctorScheduleDTOs.forEach(e => {
-  let newE = document.createElement('div');
-  newE.innerHTML = `<button type="button" onclick="func('${e.startTime}','${element.doctorInfo.id}')"> ${e.startTime}-${e.endTime}</button>`;
-  add_doctor.appendChild(newE);
+                const _time=document.getElementById('appoint')
+                let newE = document.createElement('div');
+                newE.innerHTML = `
+                <div>
+                <button class="button_2" type="button" onclick="func('${e.startTime}','${element.doctorInfo.id}')"> ${e.startTime}h - ${e.endTime}h</button>
+                </div>
+                `;
+                _time.appendChild(newE);
+                add_doctor.appendChild(_time);
 });
 });
     })
@@ -447,3 +456,16 @@ function func(startTime,doctorId) {
     console.error('Có lỗi xảy ra khi tạo lịch:', error);
   });
 }
+function TF(str)
+        {
+            if (str=="true")
+                return "Có";
+            if (nhanvien.role=="false")
+                return "Không";
+        }
+function NULL(str)
+    {
+        if (str=="NULL")
+            return "Không";
+        return str;
+    }

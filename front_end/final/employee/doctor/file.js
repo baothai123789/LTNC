@@ -37,29 +37,40 @@ function func1(){
     <label for="id">Mã số</label>
     <div id="id" class="form-control"></div>
     <label for="name">Họ và tên:</label>
-    <div id="name" class="form-control"></div>
+    <input id="name" class="form-control">
     <label for="gender">Giới tính:</label>
-    <div id="gender" class="form-control"></div>
+    <input id="gender" class="form-control">
     <label for="phone">Số điện thoại:</label>
-    <div id="phone" class="form-control"></div> 
+    <input id="phone" class="form-control">
     <label for="age">Tuổi:</label>
-    <div id="age" class="form-control"></div>
-    <label for="address">Địa chỉ:</label>
-    <div id="address" class="form-control"></div>
+    <input id="age" class="form-control">
+    <label>Địa chỉ:</label>
+    <div class="form-control">
+    <p>Đường/Ấp/Khu phố</p>
+    <input id="street" class="form-control" >
+    <p>Huyện/Thị xã/Thành Phố</p>
+    <input id="town" class="form-control">
+    <p>Tỉnh/Thành phố</p>
+    <input id="province" class="form-control">
+    <p>Quốc gia</p>
+    <input id="nation" class="form-control">
+    </div>   
 
     <label for="address">Thời gian làm việc từ:</label>
-    <div id="workFrom" class="form-control"></div>
-    <label for="address">Chức năng:</label>
-    <div id="part" class="form-control"></div>
+    <input id="workFrom" class="form-control" type="date">
+    <label for="address">Bộ phận</label>
+    <input id="part" class="form-control">
     <label for="address">Chức vụ:</label>
-    <div id="position" class="form-control"></div>
+    <input id="position" class="form-control">
 
     <label >Bằng cấp:</label><br><br>     
     <div id="pivot" id="pivot1" style="margin-left:50px;"></div>
+    <button id="submit" class="button" type="">Chỉnh sửa</button>
     </form>
     `
         var token= sessionStorage.getItem('jwt')
         var userId=sessionStorage.getItem('id')
+        var PutData
         console.log(token)
         console.log(userId)
         try{
@@ -74,19 +85,21 @@ function func1(){
             return response.json();
         })
         .then(data=>{
-            document.getElementById('id').innerText=data.id;
-            console.log(data.id)
-            document.getElementById('name').innerText=data.name;
-            document.getElementById('phone').innerText=data.phone;
-            document.getElementById('gender').innerText=data.gender;
-            document.getElementById( 'age').innerText=data.age;
-            document.getElementById('address').innerHTML=data.address.street+"-"+
-            data.address.town+"-"+data.address.province+"-"+data.address.town
-            document.getElementById( 'workFrom').innerText=data.workFrom;
-            document.getElementById( 'part').innerText=data.part;
-            document.getElementById( 'position').innerText=data.position;
+            document.getElementById('id').innerHTML=data.id;
+            document.getElementById('name').value=data.name;
+            document.getElementById('phone').value=data.phone;
+            document.getElementById('gender').value=data.gender;
+            document.getElementById( 'age').value=data.age;
+            document.getElementById('street').value=data.address.street
+            document.getElementById('town').value=data.address.town
+            document.getElementById('province').value=data.address.province
+            document.getElementById('nation').value=data.address.nation
+            document.getElementById( 'workFrom').value=data.workFrom;
+            document.getElementById( 'part').value=data.part;
+            document.getElementById( 'position').value=data.position;
             const Certificate= data.certificateList;
-    
+            PutData=data
+            delete(PutData.id)
             const tableBody = document.querySelector("#section #pivot");
             Certificate.forEach(record=>{
                 const row = document.createElement("div");
@@ -105,7 +118,51 @@ function func1(){
     }catch(error){
         alert('Lỗi kết nối đến server: ' + error);
     }
+    // ....................................................
+    document.getElementById("submit").addEventListener("click", event => {
+        event.preventDefault(); // Prevent the default form submission behavior
+        // Gather the form data
+        PutData.name=document.getElementById('name').value
+        PutData.phone=document.getElementById('phone').value
+        PutData.gender=document.getElementById('gender').value
+        PutData.age=document.getElementById( 'age').value
+        PutData.address.street=document.getElementById('street').value
+        PutData.address.town=document.getElementById('town').value
+        PutData.address.province=document.getElementById('province').value
+        PutData.address.nation=document.getElementById('nation').value
+        PutData.workFrom=document.getElementById('workFrom').value
+        PutData.part=document.getElementById('part').value
+        PutData.position=document.getElementById('position').value
+        console.log(PutData)
+    // .....................................................................
+        // Define the PUT request
+        fetch('http://localhost:8080/profile/employee/editprofile/' + userId, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify(PutData) // Convert the JavaScript object to a JSON string
+        })
+        .then(function(response) {
+            if(response.ok) {
+                console.log(response)
+                return response.json();
+            } else {
+                alert('Cập nhật thất bại');
+            }
+        })
+        .then(function(data) {
+            alert('Cập nhật thành công');
+            // Handle success - maybe update the UI to show the changes
+        })
+        .catch(function(error) {
+            console.error('Lỗi cập nhật', error);
+            // Handle errors here, such as displaying a message to the user
+        });
+    });
 }
+
 function func2(){
     document.getElementById('section').innerHTML = `
     <h1>Tạo hồ sơ nhập viện</h1>
@@ -114,12 +171,14 @@ function func2(){
         <input id="id" type="text" class="form-control" name="DoctorId">
         <label >Nhập mã bệnh nhân</label>
         <input id="PatientId" type="text" class="form-control" name="date">
-        <label >Nhập mã bác sĩ</label>
-        <input id="doctorId" type="text" class="form-control" name="datem">
         <label >Nhập tình trạng</label>
         <input id="detail" type="text" class="form-control" name="date1">
-        <label >Nhập trạng thái kết thúc</label>
-        <input id="done" type="text" class="form-control" name="date2">
+        <label for="done">Đã khỏi</label><br>
+        <input type="radio" name="done" class="form-check-input mt-0" value="true" />Có 
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;  
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+        <input type="radio" name="done" class="form-check-input mt-0" value="false" />Không
+        <br>
         <label >Nhập số phòng cấp cứu</label>
         <input id="room" type="text" class="form-control" name="date3">
         <label for="certificate.department">Nhập thời gian nhập viện</label>
@@ -151,17 +210,22 @@ function func2(){
     const submit = document.getElementById("submit");
         submit.addEventListener("click", (event) => {
             event.preventDefault()
-            const id= document.getElementById("id").value
+            const medicalDetailId= document.getElementById("id").value
         const patientId= document.getElementById("PatientId").value
         var detail = document.getElementById("detail").value
-        const done = document.getElementById("done").value
         const room = document.getElementById("room").value
         const startDate= document.getElementById("startDate").value
-        const doctorId=document.getElementById("doctorId").value
+        const doctorId=sessionStorage.getItem('id')
+        var radios = document.getElementsByName('done');
+let done;
+for (const radio of radios) {
+    if (radio.checked) {
+        done = radio.value;
+        break;
+    }
+}
         const data={
-            medicalDetail:{
-                id
-    },
+            medicalDetailId,
     patientId,
     doctorId,
     patientStates:[],
@@ -207,7 +271,7 @@ function func2(){
                     if (parent) {
                         let nurse = document.createElement("div");
                         nurse.innerHTML = `
-                            <label>Thông tin y tá quản lí</label>
+                            <label>Thông tin y tá quản lí</label><br>
                             <label>Mã y tá</label>
                             <div class="form-control">${data.id}</div>
                             <label>Họ và tên</label>
@@ -218,6 +282,7 @@ function func2(){
                             <div class="form-control">${data.age}</div>
                             <label>Giới tính</label>
                             <div class="form-control">${data.gender}</div>
+                            <br><br>
                         `;
                         parent.appendChild(nurse);
                     }  
@@ -414,16 +479,24 @@ function func5()
     <form class="form-inline">
         <label >Nhập mã bệnh nhân</label>
         <input id="patientId" type="text" class="form-control" name="date">
-        <label >Nhập mã bác sĩ</label>
-        <input id="doctorId" type="text" class="form-control" name="datem">
         <label >Nhập khoa</label>
-        <input id="major" type="text" class="form-control" name="date1">
+        <select id="major" class="form-select" name="position">
+                <option  selected>....</option>
+                <option value="ngoai tong hop">Ngoại tổng hợp</option>
+                <option value="da khoa">Đa khoa</option>
+                <option value="khoa noi">Khoa nội</option>
+                <option value="khoa phu san">Khoa phụ sản</option>
+                <option value="khoa nhi">Khoa nhi</option>
+                <option value="khoa truyen nhiem">Khoa truyền nhiễm</option>
+            </select> 
         <label >Nhập tên bệnh</label>
         <input id="nameofDisease" type="text" class="form-control" name="date2">   
         <label >Nhập tình trạng bệnh nhân</label>
         <input id="patientState" type="text" class="form-control" name="date2">  
-        <label >Nhập trạng thái chữa trị</label>
-        <input id="inProgress" type="text" class="form-control" name="date2">  
+        <label for="inProgress">Đang chữa trị?</label> <br>
+            <input type="radio" class="form-check-input mt-0" name="inProgress" value=true style="margin-left: 50px;">Có       
+            <input type="radio" class="form-check-input mt-0" name="inProgress" value=false style="margin-left: 50px;">Không   
+            <br>
         <label for="certificate.department">Nhập thời gian nhập viện</label>
         <input id="date" type="date" class="form-control" name="certificate.department" >
         <label id="medicalSchedules">Nhập lịch trình bệnh án</label>
@@ -433,8 +506,10 @@ function func5()
         <div id="parent"></div>
         </div>`
         const addButton = document.getElementById("add");
+        var j=0;
         const medicalSchedules = document.getElementById("medicalSchedules");
         addButton.addEventListener("click", (event) => {
+            j++
             event.preventDefault()
             const newC = document.createElement("div");
             newC.classList.add("schedule");
@@ -443,8 +518,9 @@ function func5()
                 <input type="datetime-local" class="form-control" name="time">
                 <label for="disease">Nhập nôi dung khám</label>
                 <input type="text" class="form-control" name="detail">
-                <label for="disease">Nhập trạng thái hoàn thành</label>
-                <input type="text" class="form-control" name="done">
+                <label for="done${j}">Đã khỏi bệnh?</label> <br>
+               <input type="radio" class="form-check-input mt-0" name="done${j}" value=true style="margin-left: 50px;">Có       
+               <input type="radio" class="form-check-input mt-0" name="done${j}" value=false style="margin-left: 50px;">Không   
                 <br><br>
             `;
             medicalSchedules.appendChild(newC);
@@ -454,12 +530,19 @@ function func5()
         submit.addEventListener("click", (event) => {
             event.preventDefault()
         const patientId= document.getElementById("patientId").value
-        const doctorId=document.getElementById("doctorId").value
+        const doctorId=sessionStorage.getItem("id")
         const major=document.getElementById("major").value
         const nameofDisease=document.getElementById("nameofDisease").value
         const PatientState=document.getElementById("patientState").value
-        const inProgress=document.getElementById("inProgress").value
         const date=document.getElementById("date").value
+        var radios = document.getElementsByName('inProgress');
+        let inProgress;
+        for (const radio of radios) {
+        if (radio.checked) {
+        inProgress = radio.value;
+        break;
+    }
+}
         const data={
             detail:{
                 doctorId,patientId,major,nameofDisease,PatientState,inProgress,date,
@@ -470,10 +553,19 @@ function func5()
     }
     }
         const C= document.querySelectorAll(".schedule")
+        var i=0
         C.forEach(element=>{
+            i++
         const time = element.querySelector("[name='time']").value+":00";
         const detail = element.querySelector("[name='detail']").value;
-        const done = element.querySelector("[name='done']").value;
+        var radios = document.getElementsByName(`done${i}`);
+        let done;
+        for (const radio of radios) {
+        if (radio.checked) {
+        done = radio.value;
+        break;
+    }
+}
         data.detail.medicalSchedules.push({
             time, detail,done
         })
@@ -499,7 +591,7 @@ function func5()
                         return response.json()
                     }
                     else {
-                        alert("Đăng kí nhập viện thất bại")
+                        alert("Đăng kí hồ sơ thất bại")
                     }
                 })   
             }
@@ -510,7 +602,7 @@ function func5()
 }
 function func6(){
     document.getElementById('section').innerHTML = `
-    <h2 style="text-align:center">Cập nhật tình trạng nhập viện của bệnh nhân</h2>     
+    <h1 >Cập nhật tình trạng nhập viện của bệnh nhân</h1>     
     <form class="form-inline">
     <div>
     <label>Nhập mã hồ sơ nhập viện</label>

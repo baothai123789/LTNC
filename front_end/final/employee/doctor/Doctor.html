@@ -1,13 +1,13 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-    <script>
-        window.onload = function() {
-          if (!sessionStorage.getItem('jwt')) {
-            window.location.href = '../../login/login_signup.html'; // Nếu không có token, chuyển hướng người dùng về trang đăng nhập
-          }
-        }
-      </script>
+<script>
+  window.onload = function() {
+    if (!sessionStorage.getItem('jwt')) {
+      window.location.href = '../../login/login_signup.html'; // Nếu không có token, chuyển hướng người dùng về trang đăng nhập
+    }
+  }
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web</title>
@@ -21,15 +21,18 @@
       href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style rel="stylesheet" href="file.css">
     
+    <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/> -->
+    <link rel="stylesheet.css" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+    <style rel="stylesheet" href="style.css">
     body {
         color:rgb(14, 98, 81);
         font-weight: 600;
         box-sizing: border-box;
-    
+        background-image: url('bg_doctor.jpg');    
     }
     header {
         background-color:  #f4f4f4;
@@ -90,39 +93,32 @@
         padding:0.5rem;
     }
     
-    .notification-toggle {
-        display:block;
-        cursor: pointer;
-        color: white;
-        text-align:center;
-        font-size: 25px;
-        max-width: 20%;
-        padding:0.5rem;
-    }
     .home-toggle {
         display:block;
         cursor: pointer;
         color: white;
         text-align:center;
-        font-size: 25px;
+        font-size: 30px;
         max-width: 20%;
         padding:0.5rem;
+        margin-left:40px;
     }
     .guide-toggle {
         display:block;
         cursor: pointer;
         color: white;
         text-align:center;
-        font-size: 25px;
+        font-size: 30px;
         max-width: 20%;
         padding:0.5rem;
+        margin-left:40px;
     }
     #account-div {
-        background-color: #F2F3F4  ;
-        /* padding:1px;
-        margin:1px;
-        width: 300px;
-        height: 500px; */
+        background-color: #F2F3F4 ;
+        padding-left:0px;
+        margin-left:0px;
+        width: 160px;
+        height: 50px;
         float: right;   
         top:60px;
         right: 0px;
@@ -134,9 +130,10 @@
         cursor: pointer;
         color: white;
         text-align:center;
-        font-size: 25px;
+        font-size: 30px;
         max-width: 20%;
         padding:0.5rem;
+        margin-left:40px;
     }
     @media (max-width: 600px) {
         #nav1 {
@@ -170,16 +167,19 @@
         font-weight: 600;
         text-align: center;
     }
+
     .button:hover {
         background-color: white;
         color: #6b6b6b;
     }
+    
     form{
         font-size: 20px;
         align-items: center;
-        max-width: 700px;
-        margin-left:22%;
+        width: 700px;
+        /* margin-left:22%; */
         padding-top:50px;
+        padding-bottom: 50px;
         padding-left: 7%;
         padding-right: 10%;
         box-shadow: 0px 0px 10px rgba(208, 236, 231);
@@ -189,35 +189,20 @@
         margin: 5px;
     }
     h1{
-        margin-left:22%;
-        padding-left: 160px;
+        /* margin-left:22%; */
+        /* padding-left: 160px; */
+        text-align: center;
         font-size:40px;
-
+        color:black
     }
     .__icon{
-        font-size: 30px;
-        color:white;
-        margin-left:40px;
+            font-size: 30px;
+            color:white;
+            margin-left:40px;
 
     }
-     /* notification */
-
-/* @keyframes blink {
-0% { opacity: 1; }
-50% { opacity: 0.5; }
-100% { opacity: 1; }
-} */
-.notification-toggle {
-    display:block;
-        cursor: pointer;
-        color: white;
-        text-align:center;
-        font-size: 25px;
-        max-width: 20%;
-        padding:0.5rem;
-    /* animation: blink 1s infinite; */
-}
-#notification-div {
+    /* notification */
+    #notification-div {
     background-color: #F2F3F4 ;
     padding:1px;
     margin:1px;
@@ -229,7 +214,23 @@
     position: fixed;
     overflow-y:auto;
 }
-.notification-item {
+/* @keyframes blink {
+0% { opacity: 1; }
+50% { opacity: 0.5; }
+100% { opacity: 1; }
+} */
+    .notification-toggle {
+        display:block;
+        cursor: pointer;
+        color: white;
+        text-align:center;
+        font-size: 30px;
+        max-width: 20%;
+        padding:0.5rem;
+        margin-left:40px;
+    }
+    
+    .notification-item {
         padding: 10px;
         margin-bottom: 10px;
         border: 1px solid #ccc;
@@ -249,6 +250,29 @@
         text-align:justify;
         font-size: 0.75rem;
     }
+
+  .button_2 {
+        padding: 10px;
+        margin: 10px;
+        margin-left: 100px;
+        border-color: #f4f4f4;
+        background-color: #45B39D ;
+        color: white;
+        font-size: 16px;
+        width: 100px;
+        line-height: 26px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+  .appointment{    
+    width:100%;
+  overflow:auto;    
+  }
+  .appointment div {
+    width:40%;
+    float:left;
+  }
 </style>
 </head>
 <body>
@@ -257,10 +281,10 @@
             <div class="container-fluid" style="background-color: rgb(213, 245, 227);">
                 <button class="menu-toggle btn btn-secondary disabled;" style="background-color: rgb(115, 198, 182);border: #f4f4f4;">☰</button>
                 <div class="d-flex justify-content-end" >
-                    <i class="home-toggle btn btn-secondary __icon  fas fa-home" onclick="window.location.href='Doctor.html';"></i>
-                    <i class="notification-toggle btn btn-secondary  __icon fas fa-bell" ></i>
-                    <i class="guide-toggle btn btn-secondary __icon fas fa-map" ></i>  
-                    <i class="account-toggle btn btn-secondary __icon fas fa-user"></i>
+                    <i class="home-toggle btn btn-secondary   fas fa-home" onclick="window.location.href='Doctor.html';"></i>
+                    <i id="noti-toggle" class="notification-toggle btn btn-secondary  fas fa-bell"></i>
+                    <i class="guide-toggle btn btn-secondary  fas fa-map" ></i>  
+                    <i class="account-toggle btn btn-secondary  fas fa-user"></i>
                 </div>
             </div>
        </nav>
@@ -288,8 +312,8 @@
 </ul>    
 </ul>
 </div>
-<section id="section">
-    <img src="bg_doctor.jpg" style="height: 100%;width: 100%;"></img>
+<section id="section" style="display: grid; justify-content:center; max-height: 10000vh;">
+    <img src="bg_doctor.jpg" style="height: 200%;width: 100%;"></img>
     
 </section>
 <script>
@@ -319,7 +343,7 @@ fetch('http://localhost:8080/notify/getnotify/'+username,{
         <p class="notification-item-child">${element.title}</p>
     <p class="notification-item-child"> ${element.body}</p>
     <p class="notification-time">Thời gian: ${element.dateTime}</p>
-    <p> chưa xem <p>
+    <i class="fas fa-bell" style="font-size: 20px;margin-left:80%;color:#1E3050;"></i>
     </div>
         `
         parent.appendChild(newNotification)
@@ -332,6 +356,7 @@ else{
         <p class="notification-item-child">${element.title}</p>
     <p class="notification-item-child"> ${element.body}</p>
     <p class="notification-time">Thời gian: ${element.dateTime}</p>
+    <i class="far fa-bell" style="font-size: 20px;margin-left:80%;color:#1E3050;"></i>
     </div>
         `
         parent.appendChild(newNotification)

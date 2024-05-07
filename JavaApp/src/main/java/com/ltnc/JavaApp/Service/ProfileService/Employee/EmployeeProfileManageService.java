@@ -30,7 +30,10 @@ public class EmployeeProfileManageService implements IEmployeeProfileMangeServic
 
     @Override
     public void editEmployeeProfile(String modelId, Employee employee, String type) {
-
+        IEditUserService service = editUserServices.stream().filter(
+                createService->createService.getType().equalsIgnoreCase(type)
+        ).findFirst().orElseThrow(NullPointerException::new);
+        service.editUser(modelId,employee);
     }
 
     @Override

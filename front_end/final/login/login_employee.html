@@ -68,10 +68,9 @@
 
 async function login() {
   const username = document.getElementById('username').value;
-  console.log(username)
+  
   const password = document.getElementById('password').value;
   const role     = document.getElementById('role').value;
-  console.log(role)
 
   try {
     const response = await fetch('http://localhost:8080/account/employee/login', {
@@ -86,6 +85,7 @@ async function login() {
 
     if (response.ok) {
       sessionStorage.setItem('jwt', data.token);
+      sessionStorage.setItem('userName',username)
       fetch('http://localhost:8080/account/getuserid/'+username,{
         method:'GET',
         headers:{
@@ -99,7 +99,7 @@ async function login() {
       })
       .then(function(data){
         sessionStorage.setItem('id',data.userId)
-        sessionStorage.setItem('userName',data.username)
+        
         if(role=='doctor'){
       window.location.href = '../employee/doctor/Doctor.html';
       }

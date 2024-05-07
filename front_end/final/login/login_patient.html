@@ -73,6 +73,7 @@ async function login() {
     const data = await response.json();
     if (response.ok) {
       sessionStorage.setItem('jwt', data.token);
+      sessionStorage.setItem('userName',username)
       fetch('http://localhost:8080/account/getuserid/'+username,{
         method:'GET',
         headers:{
@@ -85,7 +86,6 @@ async function login() {
       })
       .then(function(data){
         sessionStorage.setItem('id',data.userId)
-        sessionStorage.setItem('userName',username)
         window.location.href = '../patient/Patient.html'; 
       })
     } 
