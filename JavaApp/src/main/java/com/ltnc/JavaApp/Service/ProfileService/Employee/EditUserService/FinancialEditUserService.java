@@ -24,6 +24,7 @@ public class FinancialEditUserService extends AbstractEditUserService<FinancialE
         );
         financialEmployee.setUserAccount(financialEmployee_db.getUserAccount());
         financialEmployee.setAmountofBillPaid(financialEmployee_db.getAmountofBillPaid());
+        financialEmployee.setCertificate(financialEmployee_db.getCertificate());
         ((FinancialEmployeeRepository)this.modelRepository).save(financialEmployee);
     }
 }

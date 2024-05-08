@@ -27,6 +27,7 @@ public class DoctorEditUserService extends AbstractEditUserService<Doctor>{
                 doctor::addMedicalDetail
         );
         doctor.setUserAccount(doctor_db.getUserAccount());
+        doctor.setCertificate(doctor_db.getCertificate());
         ((DoctorRepository) this.modelRepository).save(doctor);
     }
 }

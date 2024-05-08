@@ -22,6 +22,7 @@ public class NurseEditUserService extends AbstractEditUserService<Nurse>{
                 nurse::addHospitalAdmissionDetail
         );
         nurse.setUserAccount(nurse_db.getUserAccount());
+        nurse.setCertificate(nurse_db.getCertificate());
         ((NurseRepository)this.modelRepository).save(nurse);
     }
 }

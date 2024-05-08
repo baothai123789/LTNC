@@ -20,6 +20,7 @@ public class PharmacyManagerEdiUserService extends AbstractEditUserService<Pharm
         PharmacyManager pharmacyManager_db=((PharmacyManagerRepository) this.modelRepository).findById(userId)
                 .orElseThrow(()->new NullPointerException("user not found"));
         PharmacyManager pharmacyManager = (PharmacyManager) employee;
+        pharmacyManager.setCertificate(pharmacyManager_db.getCertificate());
         pharmacyManager.setUserAccount(pharmacyManager_db.getUserAccount());
         ((PharmacyManagerRepository)this.modelRepository).save(pharmacyManager);
     }
